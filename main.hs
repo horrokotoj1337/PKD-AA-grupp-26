@@ -1,9 +1,10 @@
+type Board = [(Square, (Int, Int))]
 
-data Board = Empty | Piece
+data Square = Empty | Colour Piece
 
-data Piece = Colour Pawn | Colour Knight | Colour Bishop | Colour Rook | Colour Queen | Colour King
+data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
-type Colour = Black | White
+data Colour  = Black  | White 
 
 
 main = undefined
