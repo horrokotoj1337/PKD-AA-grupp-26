@@ -1,12 +1,9 @@
 type Board = [Square]
 
-data Square = Empty | Colour Piece
+data Square = Empty | Black Piece | White Piece
    deriving (Show)
 
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
-   deriving (Show)
-
-data Colour = Black | White
    deriving (Show)
 
 
