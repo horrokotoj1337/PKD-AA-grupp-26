@@ -1,15 +1,44 @@
+
+import Data.Char
+
 type Board = [Square]
 
 data Square = Empty | White Piece | Black Piece
 
    deriving (Show)
 
+--data Colour = White | Black
+  -- deriving (Show)
+
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Show)
 
 main = undefined
 
-move b i u c = undefined
+{- move b i o
+   moves a piece from the Square corresponding to i to the square corresponding to o on the board..
+   RETURNS: a board where the piece on i has been moved to o.
+   EXAMPLE: move newBoard "b1" "c1" = [White Rook, White Knight, White Bishop, White Queen, White King, White Bishop, White Knight, White Rook, Empty, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Rook, Black Knight, Black Bishop, Black Queen, Black King, Black Bishop, Black Knight, Black Rook]
+
+-}
+move :: Board -> String -> String -> Board
+move b i o = newBoard
+
+{- convert b i
+   converts an input i to the Square that is on the position correspnding to i on the board b
+   PRE: b or i cannot be empty
+   RETURNS: The Square on position i on b
+   EXAMPLE: convert newBoard "a1" = White Rook
+-}
+convert :: Board -> String -> Square
+convert b (x:y:xs) | (toUpper x) == 'A' = b !! ((digitToInt y) - 1)
+                   | (toUpper x) == 'B' = b !! (8 + (digitToInt y) - 1)
+                   | (toUpper x) == 'C' = b !! (16 + (digitToInt y) - 1)
+                   | (toUpper x) == 'D' = b !! (24 + (digitToInt y) - 1)
+                   | (toUpper x) == 'E' = b !! (32 + (digitToInt y) - 1)
+                   | (toUpper x) == 'F' = b !! (40 + (digitToInt y) - 1)
+                   | (toUpper x) == 'G' = b !! (48 + (digitToInt y) - 1)
+                   | (toUpper x) == 'H' = b !! (56 + (digitToInt y) - 1)
 
 validMove = undefined
 
