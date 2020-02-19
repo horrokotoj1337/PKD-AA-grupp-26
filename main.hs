@@ -9,6 +9,8 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
 main = undefined
 
+move b i u c = undefined
+
 validMove = undefined
 
 makeMove = undefined
