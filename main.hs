@@ -26,9 +26,10 @@ move b i o = newBoard
 
 {- convert b i
    converts an input i to the Square that is on the position correspnding to i on the board b
-   PRE: b or i cannot be empty
+   PRE: b or i cannot be empty and i needs to be on the form "a1" to "h8" which corresponds to positions on a chess board.
    RETURNS: The Square on position i on b
    EXAMPLE: convert newBoard "a1" = White Rook
+            convert newBoard "hej" = error
 -}
 convert :: Board -> String -> Square
 convert b (x:y:xs) | (toUpper x) == 'A' = b !! ((digitToInt y) - 1)
