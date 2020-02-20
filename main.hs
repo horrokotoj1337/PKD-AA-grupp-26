@@ -14,6 +14,7 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Show)
 
 main = undefined
+<<<<<<< HEAD
 
 {- move b i o
    moves a piece from the Square corresponding to i to the square corresponding to o on the board.. -- Moves a chess piece from one square to another. 
@@ -26,6 +27,8 @@ move b i o = let
               removed
                 = (take (position b i) b) ++ [Empty] ++ (drop ((position b i) + 1) b)
              in (take (position b o) removed) ++ ((convert b i) : (drop ((position b o) + 1) removed))
+=======
+>>>>>>> 2a9741ffdaffd3b11b1c42c97485b8414723463e
 
 {- position b i
    converts an inpit i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
@@ -58,6 +61,7 @@ position b (x:y:xs) | (toUpper x) == 'A' = ((digitToInt y) - 1)
 convert :: Board -> String -> Square
 convert b i = b !! (position b i)
 
+<<<<<<< HEAD
 {- validMove b i o -- arguments might change
    Checks if a move is valid or not.
    PRE: 
@@ -72,6 +76,14 @@ validMove = undefined
 makeMove = undefined -- is this done by 'move'?
 
 board = undefined
+=======
+testBoard :: Board -> Board
+testBoard [] = [White Knight, Black Rook, Empty, Empty, White King]
+testBoard _ = [Empty]
+
+newBoard = [White Rook, White Knight, White Bishop, White Queen, White King, White Bishop, White Knight, White Rook, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Rook, Black Knight, Black Bishop, Black Queen, Black King, Black Bishop, Black Knight, Black Rook]
+
+>>>>>>> 2a9741ffdaffd3b11b1c42c97485b8414723463e
 
 {- newBoard -- This is a function, should be treated as one.
    Creates a new chessboard
