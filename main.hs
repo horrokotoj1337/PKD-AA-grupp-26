@@ -24,8 +24,8 @@ main = undefined
 move :: Board -> String -> String -> Board
 move b i o = let
               removed
-                = (take (position b i) b) ++ [Empty] ++ (drop ((position b i) + 1) b)
-             in (take (position b o) removed) ++ ((convert b i) : (drop ((position b o) + 1) removed))
+                = (take (position i) b) ++ [Empty] ++ (drop ((position i) + 1) b)
+             in (take (position o) removed) ++ ((convert b i) : (drop ((position o) + 1) removed))
 
 
 {- position b i
@@ -35,16 +35,15 @@ move b i o = let
    EXAMPLES: position newboard "a1" = 0
 -}
 
-position :: Board -> String -> Int -- Board is not used here, is it needed as an argument?
--- should maybe write: position b (x:y:[]), then we could do something with all other invalid inputs
-position b (x:y:xs) | (toUpper x) == 'A' = ((digitToInt y) - 1)
-                    | (toUpper x) == 'B' = (8 + (digitToInt y) - 1)
-                    | (toUpper x) == 'C' = (16 + (digitToInt y) - 1)
-                    | (toUpper x) == 'D' = (24 + (digitToInt y) - 1)
-                    | (toUpper x) == 'E' = (32 + (digitToInt y) - 1)
-                    | (toUpper x) == 'F' = (40 + (digitToInt y) - 1)
-                    | (toUpper x) == 'G' = (48 + (digitToInt y) - 1)
-                    | (toUpper x) == 'H' = (56 + (digitToInt y) - 1)
+position :: String -> Int
+position (x:y:[]) | (toUpper x) == 'A' = ((digitToInt y) - 1)
+                  | (toUpper x) == 'B' = (8 + (digitToInt y) - 1)
+                  | (toUpper x) == 'C' = (16 + (digitToInt y) - 1)
+                  | (toUpper x) == 'D' = (24 + (digitToInt y) - 1)
+                  | (toUpper x) == 'E' = (32 + (digitToInt y) - 1)
+                  | (toUpper x) == 'F' = (40 + (digitToInt y) - 1)
+                  | (toUpper x) == 'G' = (48 + (digitToInt y) - 1)
+                  | (toUpper x) == 'H' = (56 + (digitToInt y) - 1)
 
 {- convert b i
    converts an input i to the Square that is on the position correspnding to i on the board b using the function position -- Finds which piece is on a square on a
@@ -57,7 +56,7 @@ position b (x:y:xs) | (toUpper x) == 'A' = ((digitToInt y) - 1)
 -}
 
 convert :: Board -> String -> Square
-convert b i = b !! (position b i)
+convert b i = b !! (position i)
 
 
 {- validMove b i o -- arguments might change
