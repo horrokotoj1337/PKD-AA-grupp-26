@@ -22,24 +22,38 @@ main = undefined
 
 -}
 move :: Board -> String -> String -> Board
-move b i o = newBoard
+move b i o = let
+              removed
+                = (take (position b i) b) ++ [Empty] ++ (drop ((position b i) + 1) b)
+             in (take (position b o) removed) ++ ((convert b i) : (drop ((position b o) + 1) removed))
+
+{- position b i
+   converts an inpit i to the postition corresponding to i on the board b.
+   PRE: b or i cannot be empty and i needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
+   RETURNS: The postition av i in b
+   EXAMPLE: position newboard "a1" = 0
+-}
+
+position :: Board -> String -> Int
+position b (x:y:xs) | (toUpper x) == 'A' = ((digitToInt y) - 1)
+                    | (toUpper x) == 'B' = (8 + (digitToInt y) - 1)
+                    | (toUpper x) == 'C' = (16 + (digitToInt y) - 1)
+                    | (toUpper x) == 'D' = (24 + (digitToInt y) - 1)
+                    | (toUpper x) == 'E' = (32 + (digitToInt y) - 1)
+                    | (toUpper x) == 'F' = (40 + (digitToInt y) - 1)
+                    | (toUpper x) == 'G' = (48 + (digitToInt y) - 1)
+                    | (toUpper x) == 'H' = (56 + (digitToInt y) - 1)
 
 {- convert b i
-   converts an input i to the Square that is on the position correspnding to i on the board b
-   PRE: b or i cannot be empty and i needs to be on the form "a1" to "h8" which corresponds to positions on a chess board.
+   converts an input i to the Square that is on the position correspnding to i on the board b using the function position
+   PRE: b or i cannot be empty and i needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
    RETURNS: The Square on position i on b
    EXAMPLE: convert newBoard "a1" = White Rook
             convert newBoard "hej" = error
 -}
+
 convert :: Board -> String -> Square
-convert b (x:y:xs) | (toUpper x) == 'A' = b !! ((digitToInt y) - 1)
-                   | (toUpper x) == 'B' = b !! (8 + (digitToInt y) - 1)
-                   | (toUpper x) == 'C' = b !! (16 + (digitToInt y) - 1)
-                   | (toUpper x) == 'D' = b !! (24 + (digitToInt y) - 1)
-                   | (toUpper x) == 'E' = b !! (32 + (digitToInt y) - 1)
-                   | (toUpper x) == 'F' = b !! (40 + (digitToInt y) - 1)
-                   | (toUpper x) == 'G' = b !! (48 + (digitToInt y) - 1)
-                   | (toUpper x) == 'H' = b !! (56 + (digitToInt y) - 1)
+convert b i = b !! (position b i)
 
 validMove = undefined
 
