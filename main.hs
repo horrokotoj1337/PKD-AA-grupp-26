@@ -20,7 +20,6 @@ main = undefined
    moves a piece from the Square corresponding to i to the square corresponding to o on the board.. -- Moves a chess piece from one square to another. 
    RETURNS: a board where the piece on 'i' has been moved to 'o'.
    EXAMPLES: move newBoard "b1" "c1" = [White Rook, White Knight, White Bishop, White Queen, White King, White Bishop, White Knight, White Rook, Empty, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Rook, Black Knight, Black Bishop, Black Queen, Black King, Black Bishop, Black Knight, Black Rook]
-
 -}
 move :: Board -> String -> String -> Board
 move b i o = let
@@ -29,9 +28,8 @@ move b i o = let
              in (take (position b o) removed) ++ ((convert b i) : (drop ((position b o) + 1) removed))
 
 
-
 {- position b i
-   converts an inpit i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
+   converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
    PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
    RETURNS: The postition of i in b -- The position of 'i' on a chessboard
    EXAMPLES: position newboard "a1" = 0
