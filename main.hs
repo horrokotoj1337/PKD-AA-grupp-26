@@ -25,9 +25,24 @@ main = undefined
 move :: Board -> String -> String -> Board
 move b i o = let
               removed
-                = (take (position i) b) ++ [Empty] ++ (drop ((position i) + 1) b)
-             in (take (position o) removed) ++ ((convert b i) : (drop ((position o) + 1) removed))
+                = (take (position (convert i)) b) ++ [Empty] ++ (drop ((position (convert i)) + 1) b)
+             in (take (position (convert o)) removed) ++ ((onSquare b i) : (drop ((position (convert o)) + 1) b))
 
+{- convert i
+   converts an input String into a pair of Int
+   Returns: (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y
+   Examples: convert "a1" = (1, 1)
+-}
+                                                                 
+convert :: String -> (Int, Int)
+convert (x:y:[]) | (toUpper x) == 'A' = (1, (digitToInt y))
+                 | (toUpper x) == 'B' = (2, (digitToInt y))
+                 | (toUpper x) == 'C' = (3, (digitToInt y))
+                 | (toUpper x) == 'D' = (4, (digitToInt y))
+                 | (toUpper x) == 'E' = (5, (digitToInt y))
+                 | (toUpper x) == 'F' = (6, (digitToInt y))
+                 | (toUpper x) == 'G' = (7, (digitToInt y))
+                 | (toUpper x) == 'H' = (8, (digitToInt y))
 
 {- position b i
    converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
@@ -36,17 +51,10 @@ move b i o = let
    EXAMPLES: position newboard "a1" = 0
 -}
 
-position :: String -> Int
-position (x:y:[]) | (toUpper x) == 'A' = ((digitToInt y) - 1)
-                  | (toUpper x) == 'B' = (8 + (digitToInt y) - 1)
-                  | (toUpper x) == 'C' = (16 + (digitToInt y) - 1)
-                  | (toUpper x) == 'D' = (24 + (digitToInt y) - 1)
-                  | (toUpper x) == 'E' = (32 + (digitToInt y) - 1)
-                  | (toUpper x) == 'F' = (40 + (digitToInt y) - 1)
-                  | (toUpper x) == 'G' = (48 + (digitToInt y) - 1)
-                  | (toUpper x) == 'H' = (56 + (digitToInt y) - 1)
+position :: (Int, Int) -> Int
+position (x, y) = 8 * (x - 1) + y - 1
 
-{- convert b i
+{- onSquare b i
    converts an input i to the Square that is on the position correspnding to i on the board b using the function position -- Finds which piece is on a square on a
                                                                                                                              chessboard
    PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
@@ -56,8 +64,8 @@ position (x:y:[]) | (toUpper x) == 'A' = ((digitToInt y) - 1)
             example of when position is empty
 -}
 
-convert :: Board -> String -> Square
-convert b i = b !! (position i)
+onSquare :: Board -> String -> Square
+onSquare b i = b !! (position (convert i))
 
 
 {- validMove b i o -- arguments might change
