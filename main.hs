@@ -17,7 +17,8 @@ main = undefined
 
 
 {- move b i o
-   moves a piece from the Square corresponding to i to the square corresponding to o on the board.. -- Moves a chess piece from one square to another. 
+   moves a piece from the Square corresponding to i to the square corresponding to o on the board.. -- Moves a chess piece from one square to another.
+   PRE: move need to be valid
    RETURNS: a board where the piece on 'i' has been moved to 'o'.
    EXAMPLES: move newBoard "b1" "c1" = [White Rook, White Knight, White Bishop, White Queen, White King, White Bishop, White Knight, White Rook, Empty, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Rook, Black Knight, Black Bishop, Black Queen, Black King, Black Bishop, Black Knight, Black Rook]
 -}
