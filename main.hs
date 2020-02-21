@@ -5,13 +5,13 @@ type Board = [Square]
 
 data Square = Empty | White Piece | Black Piece
 
-   deriving (Show)
+   deriving (Eq, Show)
 
 --data Colour = White | Black
   -- deriving (Show)
 
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
-   deriving (Show)
+   deriving (Eq, Show)
 
 main = undefined
 
