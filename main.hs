@@ -26,7 +26,7 @@ move :: Board -> String -> String -> Board
 move b i o = let
               removed
                 = (take (position (convert i)) b) ++ [Empty] ++ (drop ((position (convert i)) + 1) b)
-             in (take (position (convert o)) removed) ++ ((onSquare b i) : (drop ((position (convert o)) + 1) b))
+             in (take (position (convert o)) removed) ++ ((onSquare b (convert i)) : (drop ((position (convert o)) + 1) b))
 
 {- convert i
    converts an input String into a pair of Int
@@ -64,8 +64,8 @@ position (x, y) = 8 * (x - 1) + y - 1
             example of when position is empty
 -}
 
-onSquare :: Board -> String -> Square
-onSquare b i = b !! (position (convert i))
+onSquare :: Board -> (Int, Int) -> Square
+onSquare b (x, y) = b !! (position (x, y))
 
 
 {- validMove b i o -- arguments might change
