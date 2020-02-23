@@ -23,7 +23,8 @@ validMoveQueen = undefined
    PRE: 
    RETURNS: True if 'square' can make the nove from 'startPos' to 'endPos' on the Board 'board', else False
    SIDE-EFFECTS: 
-   EXAMPLES: 
+   EXAMPLES:
+DOES NOT WORK WHEN TRYING TO MOVE A ROOK TO A PLACE WHERE YOU CAN MOVE IT
  -}
 
 
@@ -63,8 +64,8 @@ validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple
 -- checks if last square is valid to move to or not
 --validMoveRookAux b ic 0 ab cd sq = if ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False) then True else False
 -- OTHER WAY TO WRITE LINE ABOVE ^^^^^^ validMoveRookAux:
-validMoveRookAux b ic 0 ab cd sq = ((intToSquare ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
-validMoveRookAux b ic n ab cd sq | ((intToSquare ab) /= Empty) = False
+validMoveRookAux b ic 0 ab cd sq = ((onSquare b ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
+validMoveRookAux b ic n ab cd sq | ((onSquare b ab) /= Empty) = False
                                  | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
                                  | otherwise = validMoveRookAux b ic (n-1) (ab-ic) cd sq
 
