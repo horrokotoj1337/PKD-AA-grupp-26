@@ -12,6 +12,12 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
 -- Helper function to validMove
 
+validMoveQueen :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveQueen = undefined
+
+
+
+
 {- validMoveRook board startPos endPos square
    checks whether or not a rook can make a move in chess.
    PRE: 
@@ -22,14 +28,26 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
 
 validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveRook board (a, b) (c, d) | isSameColour (tupleToSquare (a, b)) (tupleToSquare (c, d)) = False
+validMoveRook board (a, b) (c, d) | isSameColour (tupleToSquare board (a, b)) (tupleToSquare board (c, d)) = False
                                   | (a,b) == (c,d) = False
                                   -- 1 and 8 to check all squares on that line
-                                  | a == c = validMoveRookAux board 8 (b-d) (position (a,b)) (position (c,d)) (tupleToSquare (a, b))
+                                  | a == c = validMoveRookAux board 8 (b-d) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
                                   -- 1 and 8 to check horizontal/vertical line
-                                  | b == d = validMoveRookAux board 1 (a-d) (position (a,b)) (position (c,d)) (tupleToSquare (a, b)) 
+                                  | b == d = validMoveRookAux board 1 (a-c) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
+                                  ----- board 1 (a-c) instead of (a-d)
                                   | otherwise = False
 
+{-
+validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (a, b)) (onSquare board (c, d)) = False
+                                  | (a,b) == (c,d) = False
+                                  -- 1 and 8 to check all squares on that line
+                                  | a == c = validMoveRookAux board 8 (b-d) (a,b) (c,d) (onSquare board (a, b))
+                                  -- 1 and 8 to check horizontal/vertical line
+                                  | b == d = validMoveRookAux board 1 (a-c) (a,b) (c,d) (onSquare board (a, b))
+                                  ----- board 1 (a-c) instead of (a-d)
+                                  | otherwise = False
+-}
 -- 1 and 8 to check all squares on that line -- 1 and 8 to check horizontal/vertical line ----- ABOVE ^^^^^^^^
 
 
@@ -45,7 +63,7 @@ validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple
 -- checks if last square is valid to move to or not
 --validMoveRookAux b ic 0 ab cd sq = if ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False) then True else False
 -- OTHER WAY TO WRITE LINE ABOVE ^^^^^^ validMoveRookAux:
-validMoveRookAux b ic 0 ab cd sq = ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False)
+validMoveRookAux b ic 0 ab cd sq = ((intToSquare ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
 validMoveRookAux b ic n ab cd sq | ((intToSquare ab) /= Empty) = False
                                  | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
                                  | otherwise = validMoveRookAux b ic (n-1) (ab-ic) cd sq
@@ -80,8 +98,8 @@ convertIntToSquare :: Board -> Int -> Square
 convertIntToSquare = undefined
 
 -- To get what Square is on a (Int, Int) tuple. Could make a call to intToSquare with position (Int,Int)
-tupleToSquare :: (Int, Int) -> Square
-tupleToSquare = undefined
+tupleToSquare :: Board -> (Int, Int) -> Square
+tupleToSquare b intTuple = onSquare b (position intTuple) 
 
 -- To get what Square is on a Int idex
 intToSquare :: Int -> Square
@@ -110,8 +128,14 @@ position (x, y) = 8 * (x - 1) + y - 1
             convert newBoard "hej" = error
             example of when position is empty
 -}
-onSquare :: Board -> String -> Square
-onSquare b i = b !! (position (convert i))
+--onSquare :: Board -> String -> Square
+--onSquare b i = b !! (position (convert i))
+
+--onSquare :: Board -> (Int, Int) -> Square
+--onSquare b (x, y) = b !! (position (x, y))
+
+onSquare :: Board -> Int -> Square
+onSquare b n = b !! n
 
 
 {- convert i
@@ -129,3 +153,7 @@ convert (x:y:[]) | (toUpper x) == 'A' = (1, (digitToInt y))
                  | (toUpper x) == 'G' = (7, (digitToInt y))
                  | (toUpper x) == 'H' = (8, (digitToInt y))
 
+
+
+newBoard :: [Square]
+newBoard = [White Rook, White Knight, White Bishop, White Queen, White King, White Bishop, White Knight, White Rook, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Pawn, Black Rook, Black Knight, Black Bishop, Black Queen, Black King, Black Bishop, Black Knight, Black Rook]
