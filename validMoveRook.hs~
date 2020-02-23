@@ -1,5 +1,5 @@
 
---import Data.Char
+import Data.Char
 
 type Board = [Square]
 
@@ -20,17 +20,17 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    EXAMPLES: 
  -}
 
-validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Square -> Bool
--- validMoveRook _ _ _ (White _) = 
--- validMoveRook _ _ _ (Black _) =
--- validMoveRook _ _ _ Empty == False -- this should not need to be since this exception should be taken care of in validMove
--- validMoveRook _ _ endPos (White _)   = if endPos returns a White Piece then False
--- validMoveRook _ _ endPos (Black _)   = if endPos returns a Black Piece then False
-validMoveRook board (a, b) (c, d) square | (a,b) == (c,d) = False
-                                         | a == c = validMoveRookAux board 8 (b-d) (convertTupleToIndex (a,b)) (convertTupleToIndex (c,d)) square
-                                         | b == d = validMoveRookAux board 1 (a-d) (convertTupleToIndex (a,b)) (convertTupleToIndex (c,d)) square
-                                         | otherwise = False
 
+validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveRook board (a, b) (c, d) | isSameColour (tupleToSquare (a, b)) (tupleToSquare (c, d)) = False
+                                  | (a,b) == (c,d) = False
+                                  -- 1 and 8 to check all squares on that line
+                                  | a == c = validMoveRookAux board 8 (b-d) (position (a,b)) (position (c,d)) (tupleToSquare (a, b))
+                                  -- 1 and 8 to check horizontal/vertical line
+                                  | b == d = validMoveRookAux board 1 (a-d) (position (a,b)) (position (c,d)) (tupleToSquare (a, b)) 
+                                  | otherwise = False
+
+-- 1 and 8 to check all squares on that line -- 1 and 8 to check horizontal/vertical line ----- ABOVE ^^^^^^^^
 
 
 {- validMoveRookAux b indexchange n indexOfab indexOfcd square
@@ -40,9 +40,21 @@ validMoveRook board (a, b) (c, d) square | (a,b) == (c,d) = False
    SIDE-EFFECTS: 
    EXAMPLES: 
 -}
+-- VARIANT: n
 validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple might be best if changed to their index in Board.
-validMoveRookAux b ic 0 ab cd square = if (isSameColour (convertIntToSquare b cd) square) then False else True
-validMoveRookAux b ic n ab cd square | n>0 = True
+-- checks if last square is valid to move to or not
+--validMoveRookAux b ic 0 ab cd sq = if ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False) then True else False
+-- OTHER WAY TO WRITE LINE ABOVE ^^^^^^ validMoveRookAux:
+validMoveRookAux b ic 0 ab cd sq = ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False)
+validMoveRookAux b ic n ab cd sq | ((intToSquare ab) /= Empty) = False
+                                 | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
+                                 | otherwise = validMoveRookAux b ic (n-1) (ab-ic) cd sq
+
+
+
+
+
+
 
 
 -- checks if the square on an index is the same colour as the square in the argument. If first Square is same Colour then True else False (False if Empty or enemy)
@@ -67,6 +79,53 @@ isSameColour sq1 sq2             = False
 convertIntToSquare :: Board -> Int -> Square
 convertIntToSquare = undefined
 
--- takes a (Int,Int) tuple and makes it into a boardIndex
-convertTupleToIndex :: (Int, Int) -> Int
-convertTupleToIndex = undefined
+-- To get what Square is on a (Int, Int) tuple. Could make a call to intToSquare with position (Int,Int)
+tupleToSquare :: (Int, Int) -> Square
+tupleToSquare = undefined
+
+-- To get what Square is on a Int idex
+intToSquare :: Int -> Square
+intToSquare = undefined
+
+
+------------ NEEDS TO BE REWRITTEN
+{- position b i
+   converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
+   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
+   RETURNS: The postition of i in b -- The position of 'i' on a chessboard
+   EXAMPLES: position newboard "a1" = 0
+-}
+position :: (Int, Int) -> Int
+position (x, y) = 8 * (x - 1) + y - 1
+
+
+
+
+{- onSquare b i
+   converts an input i to the Square that is on the position correspnding to i on the board b using the function position -- Finds which piece is on a square on a
+                                                                                                                             chessboard
+   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
+   RETURNS: The Square of position i on b
+   EXAMPLES: convert newBoard "a1" = White Rook
+            convert newBoard "hej" = error
+            example of when position is empty
+-}
+onSquare :: Board -> String -> Square
+onSquare b i = b !! (position (convert i))
+
+
+{- convert i
+   converts an input String into a pair of Int
+   Returns: (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y
+   Examples: convert "a1" = (1, 1)
+-}
+convert :: String -> (Int, Int)
+convert (x:y:[]) | (toUpper x) == 'A' = (1, (digitToInt y))
+                 | (toUpper x) == 'B' = (2, (digitToInt y))
+                 | (toUpper x) == 'C' = (3, (digitToInt y))
+                 | (toUpper x) == 'D' = (4, (digitToInt y))
+                 | (toUpper x) == 'E' = (5, (digitToInt y))
+                 | (toUpper x) == 'F' = (6, (digitToInt y))
+                 | (toUpper x) == 'G' = (7, (digitToInt y))
+                 | (toUpper x) == 'H' = (8, (digitToInt y))
+
