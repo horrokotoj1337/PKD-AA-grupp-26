@@ -25,6 +25,7 @@ validMoveQueen = undefined
    SIDE-EFFECTS: 
    EXAMPLES:
 DOES NOT WORK WHEN TRYING TO MOVE A ROOK TO A PLACE WHERE YOU CAN MOVE IT
+SEEMS TO ALWAYS RETURN FALSE
  -}
 
 
@@ -32,9 +33,9 @@ validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveRook board (a, b) (c, d) | isSameColour (tupleToSquare board (a, b)) (tupleToSquare board (c, d)) = False
                                   | (a,b) == (c,d) = False
                                   -- 1 and 8 to check all squares on that line
-                                  | a == c = validMoveRookAux board 1 (b-d) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
+                                  | a == c = validMoveRookAux board 1 (d-b) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
                                   -- 1 and 8 to check horizontal/vertical line
-                                  | b == d = validMoveRookAux board 8 (a-c) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
+                                  | b == d = validMoveRookAux board 8 (c-a) (position (a,b)) (position (c,d)) (tupleToSquare board (a, b))
                                   ----- board 1 (a-c) instead of (a-d)
                                   | otherwise = False
 
@@ -64,10 +65,10 @@ validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple
 -- checks if last square is valid to move to or not
 --validMoveRookAux b ic 0 ab cd sq = if ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False) then True else False
 -- OTHER WAY TO WRITE LINE ABOVE ^^^^^^ validMoveRookAux:
-validMoveRookAux b ic 0 ab cd sq = ((onSquare b cd) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
-validMoveRookAux b ic n ab cd sq | ((onSquare b cd) /= Empty) = False
+validMoveRookAux b ic 0 ab cd sq = ((onSquare b ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
+validMoveRookAux b ic n ab cd sq | abs n > 1 && ((onSquare b (ab+ic)) /= Empty) = False -- change to cd instead of ab? ---- THIS CODE ALWAYS RETURNS FALSE ON FIRST CALL
                                  | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
-                                 | otherwise = validMoveRookAux b ic (n-1) (ab-ic) cd sq
+                                 | otherwise = validMoveRookAux b ic (n+1) (ab-ic) cd sq -- n-1 changed to n+1
 
 
 
