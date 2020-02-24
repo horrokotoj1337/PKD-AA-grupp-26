@@ -10,8 +10,6 @@ import Moves
 -}
 
 validMovePawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
-
-
 validMovePawn board (a, b) (c, d) | (Moves.isSameColour (Moves.onSquare board (Moves.position (a, b))) (Moves.onSquare board (Moves.position (c, d)))) = False
                                   | a == c && ((Moves.onSquare board (Moves.position (c, d))) /= Empty) = False
                                   | (Moves.isSameColour (Moves.onSquare board (Moves.position (a, b))) (White Pawn)) = validMoveWhitePawn board (a, b) (c, d)
