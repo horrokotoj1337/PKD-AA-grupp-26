@@ -1,10 +1,5 @@
 module Moves
   where
-{-  ( move
-  , convert
-  , position
-  , onSquare
-  ) where -}
 
 import Data.Char
 

@@ -1,3 +1,6 @@
+module ValidMovePawn
+  where
+
 import Moves
 
 {- validMovePawn board (a, b) (c, d)

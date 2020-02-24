@@ -1,3 +1,6 @@
+module ValidMoveKnight
+  where
+
 import Moves
 
 {- validMoveKnight board (a, b) (c, d)
