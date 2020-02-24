@@ -12,9 +12,34 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
 -- Helper function to validMove
 
-validMoveQueen :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveQueen = undefined
+-- WE NEED A SQUARE TO PIECE FUNCTION OR SOMETHING IN THOSE LINES..
+validMove :: Board -> (Int, Int) -> (Int, Int) -> Piece -> Bool
+validMove b ab cd Rook   = validMoveRook b ab cd
+validMove b ab cd Knight = validMoveKnight b ab cd
+validMove b ab cd Bishop = validMoveBishop b ab cd
+validMove b ab cd King   = validMoveKing b ab cd
+validMove b ab cd Queen  = validMoveQueen b ab cd
+validMove b ab cd Pawn   = validMovePawn b ab cd
 
+
+-- THIS DOES NOT WORK
+--validMove :: Board -> (Int, Int) -> (Int, Int) -> Square -> Bool
+--validMove b ab cd (_ Rook) = validMoveRook b ab cd
+
+validMoveKnight :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveKnight = undefined
+validMoveKing :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveKing = undefined
+validMovePawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMovePawn = undefined
+
+
+---- DOES THIS NOT MEAN validMove_ DONT CARE WHAT PIECE IT IS AS LONG AS IT MOVES AS A ROOK/BISHOP AND SO ON?..
+validMoveQueen :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveQueen board (a,b) (c,d) = (validMoveRook board (a,b) (c,d) || validMoveBishop board (a,b) (c,d))
+
+validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveBishop = undefined
 
 
 
