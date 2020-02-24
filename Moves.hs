@@ -1,5 +1,13 @@
+module Moves
+  where
+{-  ( move
+  , convert
+  , position
+  , onSquare
+  ) where -}
 
 import Data.Char
+
 
 type Board = [Square]
 
@@ -13,7 +21,7 @@ data Square = Empty | White Piece | Black Piece
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
-main = undefined
+--main = undefined
 
 
 {- move b i o
@@ -26,7 +34,7 @@ move :: Board -> String -> String -> Board
 move b i o = let
               removed
                 = (take (position (convert i)) b) ++ [Empty] ++ (drop ((position (convert i)) + 1) b)
-             in (take (position (convert o)) removed) ++ ((onSquare b (convert i)) : (drop ((position (convert o)) + 1) b))
+             in (take (position (convert o)) removed) ++ ((onSquare b (position (convert i))) : (drop ((position (convert o)) + 1) b))
 
 {- convert i
    converts an input String into a pair of Int
@@ -64,24 +72,22 @@ position (x, y) = 8 * (x - 1) + y - 1
             example of when position is empty
 -}
 
-onSquare :: Board -> (Int, Int) -> Square
-onSquare b (x, y) = b !! (position (x, y))
+onSquare :: Board -> Int -> Square
+onSquare b n = b !! n
 
 
-{- validMove b i o -- arguments might change
-   Checks if a move is valid or not.
-   PRE: 
-   RETURNS: True if the chess piece on 'i' can move to 'o' on the board 'b' by the rules of chess, else False
-   EXAMPLES: validMove newBoard e4 e5 == False
-             validMove newBoard h2 h4 == True -- Pawn on h2 should be able to move 2 steps if it is on its original square. 
-             validMove newBoard h2 h3 == True
+{- isSameColour sq1 sq2
+   Checks if two Squares are of the same colour
+   RETURNS: True if sq1 and sq2 are the same colour. Otherwise False
+   EXAMPLES: isSameColour (Empty) (Empty) == False
+             isSameColour (White Knight) (White King) == True
+             isSameColour (Black Queen) (Black Rook) == True
+             isSameColour (Empty) (Empty) == False
 -}
-
-validMove = undefined
-
-makeMove = undefined -- is this done by 'move'?
-
-board = undefined
+isSameColour :: Square -> Square -> Bool  
+isSameColour (White _) (White _) = True
+isSameColour (Black _) (Black _) = True
+isSameColour sq1 sq2             = False
 
 
 {- newBoard -- This is a function, should be treated as one.
