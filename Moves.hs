@@ -51,7 +51,7 @@ convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKARD" = (9, 9)
             convertAux 'h' = 8
             convertAux 'hk' = 10
 -}
-
+convertAux :: Char -> Int
 convertAux x | (toUpper x) == 'A' = 1
              | (toUpper x) == 'B' = 2
              | (toUpper x) == 'C' = 3
