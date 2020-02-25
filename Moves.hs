@@ -33,19 +33,36 @@ move b i o = let
 
 {- convert i
    converts an input String into a pair of Int
-   Returns: (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y
+   Returns: (9, 9) if i = "Rockard" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y if x, y are positioner on a chess board. Otherwise (10, 10)
    Examples: convert "a1" = (1, 1)
 -}
                                                                  
 convert :: String -> (Int, Int)
-convert (x:y:[]) | (toUpper x) == 'A' = (1, (digitToInt y))
-                 | (toUpper x) == 'B' = (2, (digitToInt y))
-                 | (toUpper x) == 'C' = (3, (digitToInt y))
-                 | (toUpper x) == 'D' = (4, (digitToInt y))
-                 | (toUpper x) == 'E' = (5, (digitToInt y))
-                 | (toUpper x) == 'F' = (6, (digitToInt y))
-                 | (toUpper x) == 'G' = (7, (digitToInt y))
-                 | (toUpper x) == 'H' = (8, (digitToInt y))
+convert (x:y:[]) | ((digitToInt y) < 9) && ((digitToInt y) > 0) = ((convertAux x), (digitToInt y))
+                 | otherwise = (10, 10)
+convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKARD" = (9, 9)
+                 | otherwise = (10, 10)
+
+{- convertAux x
+   Converts a Char between 'a' and 'h' to an Int between 1 and 8
+   Returns: An Int between 1 and 8 if the Char is between 'a' and 'h' otherwise 10
+   Example: convertAux 'a' = 1
+            convertAux 'A' = 1
+            convertAux 'h' = 8
+            convertAux 'hk' = 10
+-}
+
+convertAux x | (toUpper x) == 'A' = 1
+             | (toUpper x) == 'B' = 2
+             | (toUpper x) == 'C' = 3
+             | (toUpper x) == 'D' = 4
+             | (toUpper x) == 'E' = 5
+             | (toUpper x) == 'F' = 6
+             | (toUpper x) == 'G' = 7
+             | (toUpper x) == 'H' = 8
+             | otherwise = 10
+                 
+                 
 
 {- position b i
    converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
