@@ -38,9 +38,9 @@ move b i o = let
 -}
                                                                  
 convert :: String -> (Int, Int)
-convert (x:y:[]) | ((digitToInt y) < 9) && ((digitToInt y) > 0) = ((convertAux x), (digitToInt y))
+convert (x:y:[]) | ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
                  | otherwise = (10, 10)
-convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKARD" = (9, 9)
+convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
                  | otherwise = (10, 10)
 
 {- convertAux x
