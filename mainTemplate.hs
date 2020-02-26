@@ -1,7 +1,7 @@
 import Data.Char
 import Moves
 
-data Contester = String
+type Contester = String
 
 
 {-
@@ -52,15 +52,30 @@ main = do
 -- play can take inspiration from Nim.hs (lab 15). (In Nim.hs it is play that does most of the work.)
 play = undefined
 
-turn :: IO ()
-turn = do
-  putStrLn "Choose piece to move"
+{- turn player board
+   Administers the turn
+   Returns: the next turn for the other player if there is a valid move. The turn for the same player if the move is invalid. Main if the player quits.
+-}
+turn :: Contester -> Moves.Board -> IO ()
+turn player board = do
+  putStrLn (player ++ ", choose piece to move")
   input <- getLine
-  putStrLn "Choose where to move"
-  output <- getLine
-  print (input ++ output)
-  
+  if (map toUpper input) == "FORFEIT" then
+    main
+    else do
+    putStrLn "Choose where to move"
+    output <- getLine
+    print (input ++ output)
+    print board
+    makeMove player board (Moves.convert input) (Moves.convert output)
+    if player == "White player" then
+      turn "Black player" board
+      else
+      main
 
+makeMove :: Contester -> Moves.Board -> (Int, Int) -> (Int, Int) -> IO ()
+makeMove player board (a, b) (c, d) = do
+  print player
 
 {- newBoard -- This is a function, should be treated as one.
    Creates a new chessboard
