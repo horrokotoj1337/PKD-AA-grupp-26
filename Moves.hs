@@ -16,8 +16,6 @@ data Square = Empty | White Piece | Black Piece
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
---main = undefined
-
 
 {- move b int1 int2
    moves a piece from the Square corresponding to int1 to the square corresponding to int2 on the board.
@@ -143,6 +141,93 @@ validMoveBlackPawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBlackPawn board (a, b) (c, d) | a == c && ((b - d == 1) || ((b - d == 2) && b == 7)) = True
                                        | (abs (a - c)) == 1 && b > d && (onSquare board (position (c, d))) /= Empty = True
                                        | otherwise = False
+
+{- validMoveRook board startPos endPos
+   checks whether or not a rook can make a move in chess.
+   PRE: 
+   RETURNS: True if 'square' can make the nove from 'startPos' to 'endPos' on the Board 'board', else False
+   SIDE-EFFECTS: 
+   EXAMPLES:
+DOES NOT WORK WHEN TRYING TO MOVE A ROOK TO A PLACE WHERE YOU CAN MOVE IT
+SEEMS TO ALWAYS RETURN FALSE
+ -}
+
+
+validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d))) = False
+                                  | (a,b) == (c,d) = False
+                                  -- 1 and 8 to check all squares on that line
+                                  | a == c = validMoveRookAux board 1 (d-b) (position (a,b)) (position (c,d)) (onSquare board (position (a, b)))
+                                  -- 1 and 8 to check horizontal/vertical line
+                                  | b == d = validMoveRookAux board 8 (c-a) (position (a,b)) (position (c,d)) (onSquare board (position (a, b)))
+                                  ----- board 1 (a-c) instead of (a-d)
+                                  | otherwise = False
+
+
+{- validMoveRookAux b indexchange n indexOfab indexOfcd square
+   checks if there is anything in the way when a chess piece moves from one square to another. 
+   PRE: 
+   RETRUNS: -- Something about square can move to every square with the indexchange to n on b.
+   SIDE-EFFECTS: 
+   EXAMPLES: 
+-}
+-- VARIANT: n
+validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple might be best if changed to their index in Board.
+-- checks if last square is valid to move to or not
+--validMoveRookAux b ic 0 ab cd sq = if ((intToSquare ab) == Empty) || (isSameColour (intToSquare ab) sq == False) then True else False
+-- OTHER WAY TO WRITE LINE ABOVE ^^^^^^ validMoveRookAux:
+validMoveRookAux b ic 0 ab cd sq = ((onSquare b ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
+validMoveRookAux b ic n ab cd sq | abs n > 1 && ((onSquare b (ab+ic)) /= Empty) = False -- change to cd instead of ab? ---- THIS CODE ALWAYS RETURNS FALSE ON FIRST CALL
+                                 | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
+                                 | otherwise = validMoveRookAux b ic (n+1) (ab-ic) cd sq -- n-1 changed to n+1
+
+{- validMoveKnight board (a, b) (c, d)
+   Checks whether it is valid to move a Knight from (a, b) to (c, d)
+   Pre: (a, b) must be a Knight. (a, b) and (c, d) must be Squares on the board
+   Returns: True if the move is valid, otherwise False
+   Example: validMovePawn Moves.newBoard (1, 2) (1, 3) = False
+            validMovePawn Moves.newBoard (1, 2) (1, 5) = False
+            validMovePawn Moves.newBoard (2, 1) (1, 3) = True
+-}
+
+validMoveKnight :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
+                                    | (abs (a-c)) == 1 && (abs (b-d)) == 2 = True
+                                    | (abs (a-c)) == 2 && (abs (b-d)) == 1 = True
+                                    | otherwise = False
+
+
+{- validMoveBishop board (a, b) (c, d)
+   Checks whether it is a valid to move a Bishop from (a, b) to (c, d)
+   Pre: (a, b) must be a Bishop. (a, b) and (c, d) must be on the board.
+   Returns True if the move is valid, otherwise False
+   Example:
+-}
+validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveBishop = undefined
+
+{- validMoveQueen board (a, b) (c, d)
+   Checks whether it is a valid to move a Queen from (a, b) to (c, d)
+   Pre: (a, b) must be a Queen. (a, b) and (c, d) must be on the board.
+   Returns True if the move is valid, otherwise False
+   Example:
+-}
+validMoveQueen :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveQueen board (a,b) (c,d) = (validMoveRook board (a,b) (c,d) || validMoveBishop board (a,b) (c,d))
+
+{- validMoveKing board (a, b) (c, d)
+   Checks whether it is valid to move a King from (a, b) to (c, d)
+   Pre: (a, b) must be a King. (a, b) and (c, d) must be Squares on the board
+   Returns: True if the move is valid, otherwise False
+   Example: validMoveKing Moves.newBoard (3, 2) (3, 3) = True
+            validMoveKing Moves.newBoard (1, 2) (1, 5) = False
+            validMoveKing [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, Black King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook] (5, 1) (6, 1) = True
+-}
+
+validMoveKing :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveKing board (a, b) (c, d) | (Moves.isSameColour (Moves.onSquare board (Moves.position (a, b))) (Moves.onSquare board (Moves.position (c, d)))) = False
+                                  | ((abs (a-c)) <= 1 || (abs (a-c)) >= 0) && ((abs(b-d)) <= 1 || (abs (b-d) <= 0)) = True
+                                  | otherwise = False
 
 
 

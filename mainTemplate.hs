@@ -1,4 +1,17 @@
--- Template for main
+import Data.Char
+
+
+type Board = [Square]
+
+data Square = Empty | White Piece | Black Piece
+
+   deriving (Eq, Show)
+
+--data Colour = White | Black
+  -- deriving (Show)
+
+data Piece = Pawn | Knight | Bishop | Rook | Queen | King
+   deriving (Eq, Show)
 
 
 {- main
@@ -64,3 +77,71 @@ play = undefined
 
 
 newBoard = undefined
+
+{- convert i
+   converts an input String into a pair of Int
+   Returns: (9, 9) if i = "Rockard" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y if x, y are positioner on a chess board. Otherwise (10, 10)
+   Examples: convert "a1" = (1, 1)
+-}
+                                                                 
+convert :: String -> (Int, Int)
+convert (x:y:[]) | ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
+                 | otherwise = (10, 10)
+convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
+                 | otherwise = (10, 10)
+
+{- convertAux x
+   Converts a Char between 'a' and 'h' to an Int between 1 and 8
+   Returns: An Int between 1 and 8 if the Char is between 'a' and 'h' otherwise 10
+   Example: convertAux 'a' = 1
+            convertAux 'A' = 1
+            convertAux 'h' = 8
+            convertAux 'hk' = 10
+-}
+convertAux :: Char -> Int
+convertAux x | (toUpper x) == 'A' = 1
+             | (toUpper x) == 'B' = 2
+             | (toUpper x) == 'C' = 3
+             | (toUpper x) == 'D' = 4
+             | (toUpper x) == 'E' = 5
+             | (toUpper x) == 'F' = 6
+             | (toUpper x) == 'G' = 7
+             | (toUpper x) == 'H' = 8
+             | otherwise = 10
+
+{- position b i
+   converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
+   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
+   RETURNS: The postition of i in b -- The position of 'i' on a chessboard
+   EXAMPLES: position newboard "a1" = 0
+-}
+
+position :: (Int, Int) -> Int
+position (x, y) = 8 * (x - 1) + y - 1
+
+{- onSquare b i
+   converts an input i to the Square that is on the position correspnding to i on the board b using the function position -- Finds which piece is on a square on a
+                                                                                                                             chessboard
+   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
+   RETURNS: The Square of position i on b
+   EXAMPLES: convert newBoard "a1" = White Rook
+            convert newBoard "hej" = error
+            example of when position is empty
+-}
+
+onSquare :: Board -> Int -> Square
+onSquare b n = b !! n
+
+
+{- isSameColour sq1 sq2
+   Checks if two Squares are of the same colour
+   RETURNS: True if sq1 and sq2 are the same colour. Otherwise False
+   EXAMPLES: isSameColour (Empty) (Empty) == False
+             isSameColour (White Knight) (White King) == True
+             isSameColour (Black Queen) (Black Rook) == True
+             isSameColour (Empty) (Empty) == False
+-}
+isSameColour :: Square -> Square -> Bool  
+isSameColour (White _) (White _) = True
+isSameColour (Black _) (Black _) = True
+isSameColour sq1 sq2             = False
