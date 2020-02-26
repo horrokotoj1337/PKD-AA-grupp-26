@@ -1,6 +1,8 @@
 import Data.Char
 import Moves
 
+data Contester = String
+
 
 {-
 call play (inspiration from Nim.hs) which plays the chess game until it is finished
@@ -40,17 +42,24 @@ also be checked to see if Black piece.
 
 {- main with influence of Nim.hs (Lab 15)
 -}
-{-main :: IO ()
+main :: IO ()
 main = do
   putStrLn "Wellcome to Chess."
+  
 
-  play newBoard
--}
 
 
 -- play can take inspiration from Nim.hs (lab 15). (In Nim.hs it is play that does most of the work.)
 play = undefined
 
+turn :: IO ()
+turn = do
+  putStrLn "Choose piece to move"
+  input <- getLine
+  putStrLn "Choose where to move"
+  output <- getLine
+  print (input ++ output)
+  
 
 
 {- newBoard -- This is a function, should be treated as one.
