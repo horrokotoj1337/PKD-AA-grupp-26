@@ -1,4 +1,5 @@
 import Data.Char
+import Data.List
 import Moves
 
 {- main with influence of Nim.hs (Lab 15)
@@ -16,6 +17,8 @@ main = do
 turn :: Moves.Contester -> Moves.Board -> IO ()
 turn player board = do
   printCurrentBoard board
+  putStrLn "Eliminated pieces"
+  print (eliminatedPieces board)
   putStrLn (player ++ ", choose piece to move")
   input <- getLine
   if (map toUpper input) == "FORFEIT" then
@@ -44,6 +47,11 @@ printCurrentBoard y = do --Add a call to convertPieces
   putStrLn ("G" ++ show (take 8 (drop 48 y)))
   putStrLn ("H" ++ show (take 8 (drop 56 y)))
 
+
+
+
+
+  
 {- makeMove player board input
    makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
    Returns: a board where the move has been made or the same board if the move was invalid
@@ -54,11 +62,23 @@ makeMove player board input = do
   output <- getLine
   if Moves.validMove board player input output then do
     let currentBoard = Moves.move board (Moves.position (Moves.convert input)) (Moves.position (Moves.convert output))
-     in turn (nextPlayer player) currentBoard
-   else do
-     putStrLn "Invalid move, try again"
-     turn player board
+     in checkWinner (nextPlayer player) currentBoard
+  else do
+    putStrLn "Invalid move, try again"
+    turn player board
 
+checkWinner :: Moves.Contester -> Moves.Board -> IO ()
+checkWinner player board = do
+  if elem (White King) (eliminatedPieces board) then do
+    putStrLn "Black player wins!"
+    main
+  else if elem (Black King) (eliminatedPieces board) then do
+    putStrLn "White player wins!"
+    main
+    else
+      turn player board
+
+    
 {- nextPlayer player
    Swithces to the other player
    PRE: player must be "White player" or "Black player"
@@ -70,10 +90,26 @@ nextPlayer :: Moves.Contester -> Contester
 nextPlayer "White player" = "Black player"
 nextPlayer "Black player" = "White player"
 
+{- eliminatedPieces board
+   List all the Pieces that has been eliminated
+   Returns: A Board of the eliminated Pieces
+   Example: eliminatedPieces newBoard = []
+-}
+eliminatedPieces :: Moves.Board -> Moves.Board
+eliminatedPieces board = let noEmpty = filter (/=Empty) board
+                                                  in eliminatedPieces_acc [] noEmpty templateEliminatedPieces
+  where
+    eliminatedPieces_acc acc noEmpty [] = acc
+    eliminatedPieces_acc acc noEmpty ((x, y):xs) | (y - (length (filter (==x) noEmpty))) == 0 = eliminatedPieces_acc acc noEmpty xs
+                                                 | otherwise = eliminatedPieces_acc (x:acc) noEmpty ((x, (y-1)):xs)
+
 {- newBoard -- This is a function, should be treated as one.
    Creates a new chessboard
    Returns A list of Square where the first element in the list corresponds to A1 on a chess board, the 9th element corresponds to B1 on a chess board and thr 64th element corresponds to H8 on a chess board
 -}
---newBoard :: IO [Square]
+newBoard :: Board
 newBoard = [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook]
+
+templateEliminatedPieces :: [(Moves.Square, Int)]
+templateEliminatedPieces = [(White Rook, 2), (White Knight, 2), (White Bishop, 2), (White Queen, 1), (White King, 1), (White Pawn, 8), (Black Rook, 2), (Black Knight, 2), (Black Bishop, 2), (Black Queen, 1), (Black King, 1), (Black Pawn, 8)]
 
