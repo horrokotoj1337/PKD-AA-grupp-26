@@ -207,8 +207,6 @@ validMoveBlackPawn board (a, b) (c, d) | a == c && ((b - d == 1) || ((b - d == 2
 DOES NOT WORK WHEN TRYING TO MOVE A ROOK TO A PLACE WHERE YOU CAN MOVE IT
 SEEMS TO ALWAYS RETURN FALSE
  -}
-
-
 validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d))) = False
                                   -- 1 and 8 to check all squares on that line
@@ -217,7 +215,6 @@ validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b
                                   | b == d = validMoveRookAux board 8 (c-a) (position (a,b)) (position (c,d)) (onSquare board (position (a, b)))
                                   ----- board 1 (a-c) instead of (a-d)
                                   | otherwise = False
-
 
 {- validMoveRookAux b indexchange n indexOfab indexOfcd square
    checks if there is anything in the way when a chess piece moves from one square to another. 
