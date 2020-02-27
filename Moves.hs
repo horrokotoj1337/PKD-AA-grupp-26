@@ -99,13 +99,24 @@ isSameColour (White _) (White _) = True
 isSameColour (Black _) (Black _) = True
 isSameColour sq1 sq2             = False
 
-
+{- isSameColourPlayer player square
+   Checks if a player and a piece on a square are the same colour
+   RETURNS: True if player and square are the same colour. Otherwise False
+   EXAMPLES: isSameColourPlayer "White player" (Empty) == False
+             isSameColourPlayer "White player" (White King) == True
+             isSameColourPlayer "Black player" (Black Rook) == True
+             isSameColourPlayer "White player" (Black rook) == False
+-}
+isSameColourPlayer :: Contester -> Square -> Bool  
+isSameColourPlayer "White player" (White _) = True
+isSameColourPlayer "Black player" (Black _) = True
+isSameColourPlayer player square            = False
 
 {- validMove
    Checks whether a move is valid by using appropriate validMove function for that piece.
    Returns: True if the move is valid. False if the move is not valid.
 -}
-validMove = True
+validMove board = True
 
 {- validMovePawn board (a, b) (c, d)
    Checks whether it is valid to move a Pawn from (a, b) to (c, d)

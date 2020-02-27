@@ -93,18 +93,6 @@ makeMove player board (a, b) (c, d) = do
 nextPlayer :: Contester -> Contester
 nextPlayer "White player" = "Black player"
 nextPlayer "Black player" = "White player"
-{- isSameColourPlayer player square
-   Checks if a player and a piece on a square are the same colour
-   RETURNS: True if player and square are the same colour. Otherwise False
-   EXAMPLES: isSameColourPlayer "White player" (Empty) == False
-             isSameColourPlayer "White player" (White King) == True
-             isSameColourPlayer "Black player" (Black Rook) == True
-             isSameColourPlayer "White player" (Black rook) == False
--}
-isSameColourPlayer :: Contester -> Square -> Bool  
-isSameColourPlayer "White player" (White _) = True
-isSameColourPlayer "Black player" (Black _) = True
-isSameColourPlayer player square            = False
 
 {- newBoard -- This is a function, should be treated as one.
    Creates a new chessboard
