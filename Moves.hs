@@ -6,6 +6,8 @@ import Data.Char
 
 type Board = [Square]
 
+type Contester = String
+
 data Square = Empty | White Piece | Black Piece
 
    deriving (Eq, Show)

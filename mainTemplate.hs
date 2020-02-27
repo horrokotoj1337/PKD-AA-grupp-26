@@ -1,8 +1,6 @@
 import Data.Char
 import Moves
 
-type Contester = String
-
 
 {-
 call play (inspiration from Nim.hs) which plays the chess game until it is finished
@@ -56,7 +54,7 @@ play = undefined
    Administers the turn
    Returns: the next turn for the other player if there is a valid move. The turn for the same player if the move is invalid. Main if the player quits.
 -}
-turn :: Contester -> Moves.Board -> IO ()
+turn :: Moves.Contester -> Moves.Board -> IO ()
 turn player board = do
   print board
   putStrLn (player ++ ", choose piece to move")
@@ -73,7 +71,7 @@ turn player board = do
    makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
    Returns: a board where the move has been made or the same board if the move was invalid
 -}
-makeMove :: Contester -> Moves.Board -> (Int, Int) -> (Int, Int) -> IO ()
+makeMove :: Moves.Contester -> Moves.Board -> (Int, Int) -> (Int, Int) -> IO ()
 makeMove player board (a, b) (c, d) = do
   putStrLn player
   if Moves.validMove == True then do
@@ -90,7 +88,7 @@ makeMove player board (a, b) (c, d) = do
    Examples: nextPlayer "White player" = "Black player"
              nextPlayer "sdjfg" = error
 -}
-nextPlayer :: Contester -> Contester
+nextPlayer :: Moves.Contester -> Contester
 nextPlayer "White player" = "Black player"
 nextPlayer "Black player" = "White player"
 
