@@ -1,5 +1,4 @@
 import Data.Char
-import Data.List
 import Moves
 
 {- main with influence of Nim.hs (Lab 15)
