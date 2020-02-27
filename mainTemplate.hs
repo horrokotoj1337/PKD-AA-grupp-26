@@ -58,6 +58,7 @@ play = undefined
 -}
 turn :: Contester -> Moves.Board -> IO ()
 turn player board = do
+  print board
   putStrLn (player ++ ", choose piece to move")
   input <- getLine
   if (map toUpper input) == "FORFEIT" then
@@ -65,21 +66,50 @@ turn player board = do
     else do
     putStrLn "Choose where to move"
     output <- getLine
-    print (input ++ output)
-    print board
     makeMove player board (Moves.convert input) (Moves.convert output)
-    if player == "White player" then
-      turn "Black player" board
-      else
-      main
+    
 
+{- makeMove player board (a, b) (c, d)
+   makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
+   Returns: a board where the move has been made or the same board if the move was invalid
+-}
 makeMove :: Contester -> Moves.Board -> (Int, Int) -> (Int, Int) -> IO ()
 makeMove player board (a, b) (c, d) = do
-  print player
+  putStrLn player
+  if Moves.validMove == True then do
+    let currentBoard = Moves.move board (Moves.position (a, b)) (Moves.position (c, d))
+     in turn (nextPlayer player) currentBoard
+   else do
+     putStrLn "Invalid move, try again"
+     turn player board
+
+{- nextPlayer player
+   Swithces to the other player
+   PRE: player must be "White player" or "Black player"
+   Returns: "Black player" if player == "White player". "white player" if player == "Black player"
+   Examples: nextPlayer "White player" = "Black player"
+             nextPlayer "sdjfg" = error
+-}
+nextPlayer :: Contester -> Contester
+nextPlayer "White player" = "Black player"
+nextPlayer "Black player" = "White player"
+{- isSameColourPlayer player square
+   Checks if a player and a piece on a square are the same colour
+   RETURNS: True if player and square are the same colour. Otherwise False
+   EXAMPLES: isSameColourPlayer "White player" (Empty) == False
+             isSameColourPlayer "White player" (White King) == True
+             isSameColourPlayer "Black player" (Black Rook) == True
+             isSameColourPlayer "White player" (Black rook) == False
+-}
+isSameColourPlayer :: Contester -> Square -> Bool  
+isSameColourPlayer "White player" (White _) = True
+isSameColourPlayer "Black player" (Black _) = True
+isSameColourPlayer player square            = False
 
 {- newBoard -- This is a function, should be treated as one.
    Creates a new chessboard
    Returns A list of Square where the first element in the list corresponds to A1 on a chess board, the 9th element corresponds to B1 on a chess board and thr 64th element corresponds to H8 on a chess board
 -}
+--newBoard :: IO [Square]
 newBoard = [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook]
 

@@ -99,6 +99,14 @@ isSameColour (White _) (White _) = True
 isSameColour (Black _) (Black _) = True
 isSameColour sq1 sq2             = False
 
+
+
+{- validMove
+   Checks whether a move is valid by using appropriate validMove function for that piece.
+   Returns: True if the move is valid. False if the move is not valid.
+-}
+validMove = True
+
 {- validMovePawn board (a, b) (c, d)
    Checks whether it is valid to move a Pawn from (a, b) to (c, d)
    Pre: (a, b) must be a Pawn. (a, b) and (c, d) must be Squares on the board
