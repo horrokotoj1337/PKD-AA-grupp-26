@@ -61,21 +61,30 @@ turn player board = do
   input <- getLine
   if (map toUpper input) == "FORFEIT" then
     main
+  else if Moves.convert input == (9, 9) then do
+    putStrLn "Rockade not available"
+    turn player board
+  else if Moves.convert input == (10, 10) then do
+    putStrLn "Invalid move, try again"
+    turn player board
+  else if Moves.onSquare board (Moves.position (Moves.convert input)) == Moves.Empty then do
+    putStrLn "You have chosen an empty square, try again"
+    turn player board
     else do
-    putStrLn "Choose where to move"
-    output <- getLine
-    makeMove player board (Moves.convert input) (Moves.convert output)
+    makeMove player board input
+    
     
 
-{- makeMove player board (a, b) (c, d)
+{- makeMove player board input
    makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
    Returns: a board where the move has been made or the same board if the move was invalid
 -}
-makeMove :: Moves.Contester -> Moves.Board -> (Int, Int) -> (Int, Int) -> IO ()
-makeMove player board (a, b) (c, d) = do
-  putStrLn player
-  if Moves.validMove == True then do
-    let currentBoard = Moves.move board (Moves.position (a, b)) (Moves.position (c, d))
+makeMove :: Moves.Contester -> Moves.Board -> Moves.Move -> IO ()
+makeMove player board input = do
+  putStrLn "Choose where to move"
+  output <- getLine
+  if Moves.validMove board player input output then do
+    let currentBoard = Moves.move board (Moves.position (Moves.convert input)) (Moves.position (Moves.convert output))
      in turn (nextPlayer player) currentBoard
    else do
      putStrLn "Invalid move, try again"

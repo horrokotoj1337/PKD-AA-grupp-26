@@ -8,6 +8,8 @@ type Board = [Square]
 
 type Contester = String
 
+type Move = String
+
 data Square = Empty | White Piece | Black Piece
 
    deriving (Eq, Show)
@@ -29,7 +31,7 @@ move :: Board -> Int -> Int -> Board
 move b int1 int2 = let
               removed
                 = (take int1 b) ++ [Empty] ++ (drop (int1 + 1) b)
-             in (take int2 removed) ++ ((onSquare b int1) : (drop (int2 + 1) b))
+             in (take int2 removed) ++ ((onSquare b int1) : (drop (int2 + 1) removed))
 
 {- convert i
    converts an input String into a pair of Int
@@ -38,7 +40,9 @@ move b int1 int2 = let
 -}
                                                                  
 convert :: String -> (Int, Int)
-convert (x:y:[]) | ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
+convert []       = (10, 10)
+convert (x:[])   = (10, 10)
+convert (x:y:[]) | (isNumber y) && ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
                  | otherwise = (10, 10)
 convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
                  | otherwise = (10, 10)
@@ -87,6 +91,15 @@ position (x, y) = 8 * (x - 1) + y - 1
 onSquare :: Board -> Int -> Square
 onSquare b n = b !! n
 
+{-{- pieceOnSquare Square
+   Checks what piece is on the Square
+   PRE: Square can not be Empty
+   Returns: thr Piece that is on the Square
+   Example pieceOnSquare Black Pawn = Pawn
+-}
+pieceOnSquare :: Square -> Piece
+pieceOnSquare square | square == -}
+
 
 {- isSameColour sq1 sq2
    Checks if two Squares are of the same colour
@@ -114,11 +127,33 @@ isSameColourPlayer "White player" (White _) = True
 isSameColourPlayer "Black player" (Black _) = True
 isSameColourPlayer player square            = False
 
-{- validMove
-   Checks whether a move is valid by using appropriate validMove function for that piece.
+{- validMove board player (a, b) (c, d)
+   Checks whether it is valid for player to move the piece on (a, b) to (c, d) on the board
+   PRE: a, b, c or d must be between 1 and 8
    Returns: True if the move is valid. False if the move is not valid.
 -}
-validMove board = True
+validMove :: Board -> Contester -> Move -> Move -> Bool
+validMove board player input output | convert output == (9, 9) || convert output == (10, 10) = False
+                                    
+                                    | isSameColourPlayer player (onSquare board (position (convert input))) == True = validMoveAux board input output
+                                    | otherwise = False
+
+{- validMoveAux board input output
+   Finds the appropriate validMove function for the piece on the input square
+   Returns: The right function -}
+validMoveAux board input output = case onSquare board (position (convert input)) of
+                                    White Pawn   -> validMovePawn board (convert input) (convert output)
+                                    Black Pawn   -> validMovePawn board (convert input) (convert output)
+                                    White Rook   -> validMoveRook board (convert input) (convert output)
+                                    Black Rook   -> validMoveRook board (convert input) (convert output)
+                                    White Knight -> validMoveKnight board (convert input) (convert output)
+                                    Black Knight -> validMoveKnight board (convert input) (convert output)
+                                    White Bishop -> validMoveBishop board (convert input) (convert output)
+                                    Black Bishop -> validMoveBishop board (convert input) (convert output)
+                                    White Queen  -> validMoveQueen board (convert input) (convert output)
+                                    Black Queen  -> validMoveQueen board (convert input) (convert output)
+                                    White King   -> validMoveKing board (convert input) (convert output)
+                                    Black King   -> validMoveKing board (convert input) (convert output)
 
 {- validMovePawn board (a, b) (c, d)
    Checks whether it is valid to move a Pawn from (a, b) to (c, d)
