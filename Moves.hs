@@ -261,7 +261,7 @@ validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a
 validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
                                     | (abs (a-c)) == 1 && (abs (b-d)) == 1 = True
-                                    | (a - c) == (b - d) = validMoveBishopAux board (a, b) (c, d)
+                                    | (abs (a - c)) == (abs (b - d)) = validMoveBishopAux board (a, b) (c, d)
                                     | otherwise = False
 
 {- validMoveBishopAux board (a, b) (a, b)
