@@ -211,7 +211,6 @@ SEEMS TO ALWAYS RETURN FALSE
 
 validMoveRook :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d))) = False
-                                  | (a,b) == (c,d) = False
                                   -- 1 and 8 to check all squares on that line
                                   | a == c = validMoveRookAux board 1 (d-b) (position (a,b)) (position (c,d)) (onSquare board (position (a, b)))
                                   -- 1 and 8 to check horizontal/vertical line
@@ -260,7 +259,20 @@ validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a
    Example:
 -}
 validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveBishop = undefined
+validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
+                                    | (abs (a-c)) == 1 && (abs (b-d)) == 1 = True
+                                    | (a - c) == (b - d) = validMoveBishopAux board (a, b) (c, d)
+                                    | otherwise = False
+
+{- validMoveBishopAux board (a, b) (a, b)
+   Checks in which direction the recusion for validMoveBishop should continue
+   Returnes: validMoveBishope board (a, b) (c, d) where (c, d) is an updated output one step closer to the input.
+-}
+validMoveBishopAux :: Board -> (Int, Int) -> (Int, Int) -> Bool
+validMoveBishopAux board (a, b) (c, d) | a > c && b > d = validMoveBishop board (a, b) ((c+1), (d+1))
+                                       | a > c && b < d = validMoveBishop board (a, b) ((c+1), (d-1))
+                                       | a < c && b < d = validMoveBishop board (a, b) ((c-1), (d-1))
+                                       | a < c && b > d = validMoveBishop board (a, b) ((c-1), (d+1))
 
 {- validMoveQueen board (a, b) (c, d)
    Checks whether it is a valid to move a Queen from (a, b) to (c, d)
