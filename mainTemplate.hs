@@ -5,7 +5,8 @@ import Moves
 -}
 main :: IO ()
 main = do
-  putStrLn "Wellcome to Chess."
+  putStrLn "Welcome to Chess."
+  turn "White player" newBoard
   
 
 {- turn player board
@@ -14,7 +15,7 @@ main = do
 -}
 turn :: Moves.Contester -> Moves.Board -> IO ()
 turn player board = do
-  print board
+  printCurrentBoard board
   putStrLn (player ++ ", choose piece to move")
   input <- getLine
   if (map toUpper input) == "FORFEIT" then
@@ -31,7 +32,17 @@ turn player board = do
     else do
     makeMove player board input
     
-    
+printCurrentBoard :: Board -> IO ()
+printCurrentBoard y = do --Add a call to convertPieces
+  putStrLn ("    1        2        3        4        5        6        7        8")
+  putStrLn ("A" ++ show (take 8 y))
+  putStrLn ("B" ++ show (take 8 (drop 8 y)))
+  putStrLn ("C" ++ show (take 8 (drop 16 y)))
+  putStrLn ("D" ++ show (take 8 (drop 24 y)))
+  putStrLn ("E" ++ show (take 8 (drop 32 y)))
+  putStrLn ("F" ++ show (take 8 (drop 40 y)))
+  putStrLn ("G" ++ show (take 8 (drop 48 y)))
+  putStrLn ("H" ++ show (take 8 (drop 56 y)))
 
 {- makeMove player board input
    makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
