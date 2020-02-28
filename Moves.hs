@@ -4,6 +4,7 @@ module Moves
 import Data.Char
 import Test.HUnit
 
+
 type Board = [Square]
 
 type Contester = String
@@ -358,3 +359,4 @@ testvalidMovePawn4 = TestCase (assertEqual "for Qsort [4]" [4] (validMovePawn te
 
 --runtests = runTestTT tests
 --runtests2 = runTestTT tests2
+
