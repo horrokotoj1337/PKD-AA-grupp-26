@@ -5,11 +5,14 @@ import Moves
 -}
 main :: IO ()
 main = do
-  putStrLn "Welcome to Chess."
+  putStrLn "Welcome to Chess!"
+  putStrLn "To move a piece type the square the piece is standing on."
   putStrLn "Want to play?"
   choice <- getLine
   if (map toUpper choice) == "YES" then
     turn "White player" newBoard
+  else if (map toUpper choice) == "NO" then
+    return ()
   else
     main
 
@@ -17,7 +20,7 @@ main = do
    Administers the turn
    Returns: the next turn for the other player if there is a valid move. The turn for the same player if the move is invalid. Main if the player quits.
 -}
-turn :: Contester -> Moves.Board -> IO ()
+turn :: Contester -> Board -> IO ()
 turn player board = do
   printCurrentBoard (convertBoard board)
   putStrLn "Eliminated pieces"
@@ -26,13 +29,13 @@ turn player board = do
   input <- getLine
   if (map toUpper input) == "FORFEIT" then
     main
-  else if Moves.convert input == (9, 9) then do
+  else if convert input == (9, 9) then do
     putStrLn "Rockade not available"
     turn player board
-  else if Moves.convert input == (10, 10) then do
+  else if convert input == (10, 10) then do
     putStrLn "Invalid move, try again"
     turn player board
-  else if Moves.onSquare board (Moves.position (Moves.convert input)) == Moves.Empty then do
+  else if onSquare board (position (convert input)) == Empty then do
     putStrLn "You have chosen an empty square, try again"
     turn player board
     else do
@@ -80,18 +83,18 @@ convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
    makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
    Returns: a board where the move has been made or the same board if the move was invalid
 -}
-makeMove :: Contester -> Moves.Board -> Moves.Move -> IO ()
+makeMove :: Contester -> Board -> Move -> IO ()
 makeMove player board input = do
   putStrLn "Choose where to move"
   output <- getLine
   if Moves.validMove board player input output then do
-    let currentBoard = Moves.move board (Moves.position (Moves.convert input)) (Moves.position (Moves.convert output))
+    let currentBoard = move board (position (convert input)) (position (convert output))
      in checkWinner (nextPlayer player) currentBoard
   else do
     putStrLn "Invalid move, try again"
     turn player board
 
-checkWinner :: Contester -> Moves.Board -> IO ()
+checkWinner :: Contester -> Board -> IO ()
 checkWinner player board = do
   if elem (White King) (eliminatedPieces board) then do
     putStrLn "Black player wins!"
