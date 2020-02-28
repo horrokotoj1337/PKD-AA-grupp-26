@@ -7,7 +7,8 @@ main :: IO ()
 main = do
   putStrLn "Welcome to Chess!"
   putStrLn "To move a piece type the square the piece is standing on."
-  putStrLn "Want to play?"
+  putStrLn "To forfeit the game at any time, type forfeit."
+  putStrLn "Want to play, yes or no?"
   choice <- getLine
   if (map toUpper choice) == "YES" then
     turn "White player" newBoard
@@ -40,7 +41,10 @@ turn player board = do
     turn player board
     else do
     makeMove player board input
-    
+
+{-
+  Sideeffects: prints the current board
+-}
 printCurrentBoard :: String -> IO ()
 printCurrentBoard y = do
   putStrLn ("  1  2  3  4  5  6  7  8")
