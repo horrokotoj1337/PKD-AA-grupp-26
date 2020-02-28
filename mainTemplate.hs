@@ -6,8 +6,12 @@ import Moves
 main :: IO ()
 main = do
   putStrLn "Welcome to Chess."
-  turn "White player" newBoard
-  
+  putStrLn "Want to play?"
+  choice <- getLine
+  if (map toUpper choice) == "YES" then
+    turn "White player" newBoard
+  else
+    main
 
 {- turn player board
    Administers the turn
