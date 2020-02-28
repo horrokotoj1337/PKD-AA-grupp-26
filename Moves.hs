@@ -12,11 +12,7 @@ type Contester = String
 type Move = String
 
 data Square = Empty | White Piece | Black Piece
-
    deriving (Eq, Show)
-
---data Colour = White | Black
-  -- deriving (Show)
 
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)

@@ -67,9 +67,6 @@ convertPieces (Black King) = " ♚ "
 convertPieces (Black Pawn) = " ♟ "
 convertPieces (Empty) = " ⬚ "
 
-main2 :: IO ()
-main2 = do
-  putStrLn ("A" ++  take 24 (convertBoard newBoard))
 
 
 convertBoard :: Board -> String
