@@ -14,9 +14,6 @@ data Square = Empty | White Piece | Black Piece
 
    deriving (Eq, Show)
 
---data Colour = White | Black
-  -- deriving (Show)
-
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
@@ -235,8 +232,7 @@ validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b
 -- VARIANT: n
 validMoveRookAux :: Board -> Int -> Int -> Int -> Int -> Square -> Bool -- tuple might be best if changed to their index in Board.
 validMoveRookAux b ic 0 ab cd sq = ((onSquare b ab) == Empty) || (isSameColour (onSquare b ab) sq == False) ------ cd not needed
-validMoveRookAux b ic n ab cd sq | (abs n > 1 && n<0) && ((onSquare b (ab-ic)) /= Empty) = False -- change to cd instead of ab? 
-                                 | (abs n > 1 && n>0) && ((onSquare b (ab+ic)) /= Empty) = False
+validMoveRookAux b ic n ab cd sq | abs n > 1 && ((onSquare b (ab+ic)) /= Empty) = False -- change to cd instead of ab? ---- THIS CODE ALWAYS RETURNS FALSE ON FIRST CALL
                                  | n>0       = validMoveRookAux b ic (n-1) (ab+ic) cd sq
                                  | otherwise = validMoveRookAux b ic (n+1) (ab-ic) cd sq -- n-1 changed to n+1
 
