@@ -40,29 +40,34 @@ turn player board = do
     
 printCurrentBoard :: String -> IO ()
 printCurrentBoard y = do
-  putStrLn ("   1  2  3  4  5  6  7  8")
-  putStrLn ("A" ++ show (take 24 y))
-  putStrLn ("B" ++ show (take 24 (drop 24 y)))
-  putStrLn ("C" ++ show (take 24 (drop 48 y)))
-  putStrLn ("D" ++ show (take 24 (drop 72 y)))
-  putStrLn ("E" ++ show (take 24 (drop 96 y)))
-  putStrLn ("F" ++ show (take 24 (drop 120 y)))
-  putStrLn ("G" ++ show (take 24 (drop 144 y)))
-  putStrLn ("H" ++ show (take 24 (drop 168 y)))
+  putStrLn ("  1  2  3  4  5  6  7  8")
+  putStrLn ("A" ++  take 24 y)
+  putStrLn ("B" ++ take 24 (drop 24 y))
+  putStrLn ("C" ++ take 24 (drop 48 y))
+  putStrLn ("D" ++ take 24 (drop 72 y))
+  putStrLn ("E" ++ take 24 (drop 96 y))
+  putStrLn ("F" ++ take 24 (drop 120 y))
+  putStrLn ("G" ++ take 24 (drop 144 y))
+  putStrLn ("H" ++ take 24 (drop 168 y))
 
-convertPieces (White Rook) = " R "
-convertPieces (White Knight) = " N "
-convertPieces (White Bishop) = " B "
-convertPieces (White Queen) = " Q "
-convertPieces (White King) = " K "
-convertPieces (White Pawn) = " P "
-convertPieces (Black Rook) = " r "
-convertPieces (Black Knight) = " n "
-convertPieces (Black Bishop) = " b "
-convertPieces (Black Queen) = " q "
-convertPieces (Black King) = " k "
-convertPieces (Black Pawn) = " p "
-convertPieces (Empty) = " * "
+convertPieces (White Rook) = " ♖ "
+convertPieces (White Knight) = " ♘ "
+convertPieces (White Bishop) = " ♗ "
+convertPieces (White Queen) = " ♕ "
+convertPieces (White King) = " ♔ "
+convertPieces (White Pawn) = " ♙ "
+convertPieces (Black Rook) = " ♜ "
+convertPieces (Black Knight) = " ♞ "
+convertPieces (Black Bishop) = " ♝ "
+convertPieces (Black Queen) = " ♛ "
+convertPieces (Black King) = " ♚ "
+convertPieces (Black Pawn) = " ♟ "
+convertPieces (Empty) = " ⬚ "
+
+main2 :: IO ()
+main2 = do
+  putStrLn ("A" ++  take 24 (convertBoard newBoard))
+
 
 convertBoard :: Board -> String
 convertBoard [] = []
