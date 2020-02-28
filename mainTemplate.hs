@@ -19,7 +19,7 @@ main = do
 -}
 turn :: Moves.Contester -> Moves.Board -> IO ()
 turn player board = do
-  printCurrentBoard board
+  printCurrentBoard (convertBoard board)
   putStrLn "Eliminated pieces"
   print (eliminatedPieces board)
   putStrLn (player ++ ", choose piece to move")
@@ -38,19 +38,35 @@ turn player board = do
     else do
     makeMove player board input
     
-printCurrentBoard :: Board -> IO ()
-printCurrentBoard y = do --Add a call to convertPieces
-  putStrLn ("    1        2        3        4        5        6        7        8")
-  putStrLn ("A" ++ show (take 8 y))
-  putStrLn ("B" ++ show (take 8 (drop 8 y)))
-  putStrLn ("C" ++ show (take 8 (drop 16 y)))
-  putStrLn ("D" ++ show (take 8 (drop 24 y)))
-  putStrLn ("E" ++ show (take 8 (drop 32 y)))
-  putStrLn ("F" ++ show (take 8 (drop 40 y)))
-  putStrLn ("G" ++ show (take 8 (drop 48 y)))
-  putStrLn ("H" ++ show (take 8 (drop 56 y)))
+printCurrentBoard :: String -> IO ()
+printCurrentBoard y = do
+  putStrLn ("   1  2  3  4  5  6  7  8")
+  putStrLn ("A" ++ show (take 24 y))
+  putStrLn ("B" ++ show (take 24 (drop 24 y)))
+  putStrLn ("C" ++ show (take 24 (drop 48 y)))
+  putStrLn ("D" ++ show (take 24 (drop 72 y)))
+  putStrLn ("E" ++ show (take 24 (drop 96 y)))
+  putStrLn ("F" ++ show (take 24 (drop 120 y)))
+  putStrLn ("G" ++ show (take 24 (drop 144 y)))
+  putStrLn ("H" ++ show (take 24 (drop 168 y)))
 
+convertPieces (White Rook) = " R "
+convertPieces (White Knight) = " N "
+convertPieces (White Bishop) = " B "
+convertPieces (White Queen) = " Q "
+convertPieces (White King) = " K "
+convertPieces (White Pawn) = " P "
+convertPieces (Black Rook) = " r "
+convertPieces (Black Knight) = " n "
+convertPieces (Black Bishop) = " b "
+convertPieces (Black Queen) = " q "
+convertPieces (Black King) = " k "
+convertPieces (Black Pawn) = " p "
+convertPieces (Empty) = " * "
 
+convertBoard :: Board -> String
+convertBoard [] = []
+convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
 
 
 
