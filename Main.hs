@@ -24,23 +24,27 @@ main = do
 turn :: Contester -> Board -> IO ()
 turn player board = do
   printCurrentBoard (convertBoard board)
-  putStrLn "Eliminated pieces"
+  putStrLn "Eliminated pieces:"
   putStrLn (convertBoard (eliminatedPieces board))
-  putStrLn (player ++ ", choose piece to move")
+  putStrLn (player ++ ", choose piece to move.")
   input <- getLine
-  if (map toUpper input) == "FORFEIT" then
+  if (map toUpper input) == "FORFEIT" then do
+    putStrLn ((nextPlayer player) ++ " wins!")
     main
   else if convert input == (9, 9) then do
-    putStrLn "Rockade not available"
+    putStrLn "Rockade not available."
     turn player board
   else if convert input == (10, 10) then do
-    putStrLn "Invalid move, try again"
+    putStrLn "Invalid move, try again."
     turn player board
   else if onSquare board (position (convert input)) == Empty then do
-    putStrLn "You have chosen an empty square, try again"
+    putStrLn "You have chosen an empty square, try again."
     turn player board
-    else do
+  else if isSameColourPlayer player (onSquare board (position (convert input))) then do
     makeMove player board input
+    else do
+    putStrLn "You need to choose one of your own pieces, try again."
+    turn player board
 
 {-
   Sideeffects: prints the current board
@@ -85,7 +89,7 @@ convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
    Returns: a board where the move has been made or the same board if the move was invalid
 -}
 makeMove :: Contester -> Board -> Move -> IO ()
-makeMove player board input = do
+makeMove player board input = do 
   putStrLn "Choose where to move"
   output <- getLine
   if Moves.validMove board player input output then do
