@@ -6,7 +6,7 @@ import TestCases
 {- main
    main starts the game
    Sideeffects: prints "Welcome to Chess!", "To move a piece type the square the piece is standing on.", "To forfeit the game at any time, type forfeit." and "Want to play, yes or no?". Then requires an input. "Yes" will trigger turn "White player" newBoard. "No" will rentun (). Any other input will trigger main.
-   Returns: the ability to play the game
+   Returns: turn "White player" newBoard if (map toUpper choice) == "YES", return () if (map toUpper choice) == "NO" else main
 -}
 main :: IO ()
 main = do
@@ -24,8 +24,8 @@ main = do
 
 {- turn player board
    Administers the turn
-   Sideeffects: Prints the current board, "Eliminated pieces:", a list of eliminated pieces and (player ++ ", choose piece to move."). Then requires an input. "Forfeit" will forfeit the game, print ((nextPlayer player) ++ " wins!") and run main. "Castling" will print "Castling not available." and run turn player board.
-   Returns: the ability for player to do his/her turn
+   Sideeffects: Prints the current board, "Eliminated pieces:", a list of eliminated pieces and (player ++ ", choose piece to move."). Then requires an input. Input "Forfeit" will forfeit the game, print ((nextPlayer player) ++ " wins!") and run main. Input "Castling" will print "Castling not available." and run turn player board. Input that is a position outside the board or a string of any other kind will print "Invalid move, try again." and run turn player board. Input that correlate to a position on the board that is empty prints "You have chosen an empty square, try again." and runs turn player board. Input that correlate to a Square of the same colour as player runs makeMove player board input. Input that correlate to a Square of opposite colour as player prints "You need to choose one of your own pieces, try again." and runs  turn player board.
+   Returns: main if (map toUpper input) == "FORFEIT", turn player board if convert input == (9, 9) || convert input == (10, 10) || onSquare board (position (convert input)) == Empty, makeMove player board input if isSameColourPlayer player (onSquare board (position (convert input))) == True else turn player board
 -}
 turn :: Contester -> Board -> IO ()
 turn player board = do
@@ -52,22 +52,23 @@ turn player board = do
     putStrLn "You need to choose one of your own pieces, try again."
     turn player board
 
-{- printCurrentBoard y
-   prints the bord y
+{- printCurrentBoard board
+   prints board
+   Sideeffects: Prints "  1  2  3  4  5  6  7  8", "A" ++  take 24 board, "B" ++ take 24 (drop 24 board), "C" ++ take 24 (drop 48 board), "D" ++ take 24 (drop 72 board), 
    Returns: an IO that prints y in 8 different rows
    Sideeffects: prints the current board
 -}
 printCurrentBoard :: String -> IO ()
-printCurrentBoard y = do
+printCurrentBoard board = do
   putStrLn ("  1  2  3  4  5  6  7  8")
-  putStrLn ("A" ++  take 24 y)
-  putStrLn ("B" ++ take 24 (drop 24 y))
-  putStrLn ("C" ++ take 24 (drop 48 y))
-  putStrLn ("D" ++ take 24 (drop 72 y))
-  putStrLn ("E" ++ take 24 (drop 96 y))
-  putStrLn ("F" ++ take 24 (drop 120 y))
-  putStrLn ("G" ++ take 24 (drop 144 y))
-  putStrLn ("H" ++ take 24 (drop 168 y))
+  putStrLn ("A" ++  take 24 board)
+  putStrLn ("B" ++ take 24 (drop 24 board))
+  putStrLn ("C" ++ take 24 (drop 48 board))
+  putStrLn ("D" ++ take 24 (drop 72 board))
+  putStrLn ("E" ++ take 24 (drop 96 board))
+  putStrLn ("F" ++ take 24 (drop 120 board))
+  putStrLn ("G" ++ take 24 (drop 144 board))
+  putStrLn ("H" ++ take 24 (drop 168 board))
 
 {- convertPieces piece
    converts a Piece into a String with the appropriate chess symbol
@@ -104,7 +105,21 @@ convertBoard :: Board -> String
 convertBoard [] = []
 convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
 
-
+{- eliminatedPieces board
+   List all the Pieces that has been eliminated
+   Returns: A Board of the eliminated Pieces
+   Example: eliminatedPieces newBoard = []
+            eliminatedPieces [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty] = [Black Rook]
+            eliminatedPieces [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty] = [Black Rook,Black Rook]
+            eliminatedPieces [] = [Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black King,Black Queen,Black Bishop,Black Bishop,Black Knight,Black Knight,Black Rook,Black Rook,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White King,White Queen,White Bishop,White Bishop,White Knight,White Knight,White Rook,White Rook]
+-}
+eliminatedPieces :: Board -> Board
+eliminatedPieces board = let noEmpty = filter (/=Empty) board
+                          in eliminatedPieces_acc [] noEmpty templatePieces
+  where
+    eliminatedPieces_acc acc noEmpty [] = acc
+    eliminatedPieces_acc acc noEmpty ((x, y):xs) | (y - (length (filter (==x) noEmpty))) == 0 = eliminatedPieces_acc acc noEmpty xs
+                                                 | otherwise = eliminatedPieces_acc (x:acc) noEmpty ((x, (y-1)):xs)
 
   
 {- makeMove player board input
@@ -149,22 +164,6 @@ checkWinner player board = do
 nextPlayer :: Contester -> Contester
 nextPlayer "White player" = "Black player"
 nextPlayer "Black player" = "White player"
-
-{- eliminatedPieces board
-   List all the Pieces that has been eliminated
-   Returns: A Board of the eliminated Pieces
-   Example: eliminatedPieces newBoard = []
-            eliminatedPieces [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty] = [Black Rook]
-            eliminatedPieces [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty] = [Black Rook,Black Rook]
-            eliminatedPieces [] = [Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black King,Black Queen,Black Bishop,Black Bishop,Black Knight,Black Knight,Black Rook,Black Rook,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White King,White Queen,White Bishop,White Bishop,White Knight,White Knight,White Rook,White Rook]
--}
-eliminatedPieces :: Board -> Board
-eliminatedPieces board = let noEmpty = filter (/=Empty) board
-                          in eliminatedPieces_acc [] noEmpty templatePieces
-  where
-    eliminatedPieces_acc acc noEmpty [] = acc
-    eliminatedPieces_acc acc noEmpty ((x, y):xs) | (y - (length (filter (==x) noEmpty))) == 0 = eliminatedPieces_acc acc noEmpty xs
-                                                 | otherwise = eliminatedPieces_acc (x:acc) noEmpty ((x, (y-1)):xs)
 
 {- newBoard 
    Creates a new chessboard
