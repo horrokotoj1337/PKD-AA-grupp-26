@@ -122,6 +122,7 @@ convertPieces (Empty) = " ⬚ "
    \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820 "
 -}
 convertBoard :: Board -> String
+--VARIANT: length if (x:xs)
 convertBoard [] = []
 convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
 
@@ -134,6 +135,7 @@ convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
             eliminatedPieces [] = [Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black King,Black Queen,Black Bishop,Black Bishop,Black Knight,Black Knight,Black Rook,Black Rook,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White King,White Queen,White Bishop,White Bishop,White Knight,White Knight,White Rook,White Rook]
 -}
 eliminatedPieces :: Board -> Board
+--VARIANT: Lenght of templatePieces
 eliminatedPieces board = let noEmpty = filter (/=Empty) board
                           in eliminatedPieces_acc [] noEmpty templatePieces
   where

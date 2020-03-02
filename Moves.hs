@@ -19,8 +19,7 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
 
 
 {- move board int1 int2 
-   moves a Square from the position corresponding to int1 to the position corresponding to int2 on the board.
-   Sideeffect: the function will execute the move regardless of whether or not it is valid
+   moves a Square from the position corresponding to int1 to the position corresponding to int2 on the board regradless of whether the move is valid or not.
    RETURNS: a board where the Square on 'int1' has replaced 'int2' and 'int1' is now Empty. 
    EXAMPLES: move newBoard 1 2 = [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
              move [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 2 3 = [White Rook,Empty,Empty,White Pawn,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
@@ -34,9 +33,9 @@ move b int1 int2 = let
                 = (take int1 b) ++ [Empty] ++ (drop (int1 + 1) b)
              in (take int2 removed) ++ ((onSquare b int1) : (drop (int2 + 1) removed))
 
-{- convert i
+{- convert input
    converts an input String into a pair of two Int's 
-   Returns: (9, 9) if i = "Rockade" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt of y if x and y are positions on a chess board. Otherwise (10, 10)
+   Returns: (9, 9) if map toUpper input = "CASTLING" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt of y if x and y are positions on a chess board. Otherwise (10, 10)
    Examples: convert "a1" = (1, 1)
              convert "A1" = (1, 1)
              convert "h8" = (8, 8)
@@ -53,8 +52,8 @@ convert x = (10,10)
 
 
 {- convertAux x
-   Converts a Char between 'a' and 'h' to an Int between 1 and 8
-   Returns: An Int between 1 and 8 if the Char is between 'a' and 'h' otherwise 10    -- Char should be replaced with x
+   Converts a x between 'a' and 'h' to an Int between 1 and 8
+   Returns: An Int between 1 and 8 if the Char is between 'a' and 'h' otherwise 10 
    Example: convertAux 'a'  = 1
             convertAux 'A'  = 1
             convertAux 'h'  = 8
