@@ -158,7 +158,7 @@ makeMove player board input = do
   output <- getLine
   if validMove board player input output then do
     let currentBoard = move board (position (convert input)) (position (convert output))
-    in checkWinner (nextPlayer player) currentBoard
+     in checkWinner (nextPlayer player) currentBoard
   else do
     putStrLn "Invalid move, try again"
     turn player board

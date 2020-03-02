@@ -39,7 +39,7 @@ move b int1 int2 = let
    Examples: convert "a1" = (1, 1)
              convert "A1" = (1, 1)
              convert "h8" = (8, 8)
-             convert "rockade" = (9,9)
+             convert "castling" = (9,9)
              convert "i9" = (10,10)
              convert "b6" = (2,6)
 -}
@@ -73,46 +73,43 @@ convertAux x | (toUpper x) == 'A' = 1
                  
                  
 
-{- position b i
-   converts an input i to the postition corresponding to i on the board b. -- Converts a String of a square from a chess board to an Int.
-   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
-   RETURNS: The postition of i in b -- The position of 'i' on a chessboard
-   EXAMPLES: position newboard "a1" = 0
+{- position (a, b)
+   converts an input (a, b) to an Int where if a and b represent Squares on a chess board the Int will represent it's position in a list of 64 elements
+   RETURNS: an Int where if a and b represent Squares on a chess board the Int will represent it's position in a list of 64 elements
+   EXAMPLES: position (1, 1)  = 0
+             position (1, 2)  = 1
+             position (2, 1)  = 8
+             position (8, 8)  = 64
+             position (9, 9)  = 72
+             position (1, 24) = 23
+             position (0, 0)  = -9
 -}
 
 position :: (Int, Int) -> Int
 position (x, y) = 8 * (x - 1) + y - 1
 
-{- onSquare b i
-   converts an input i to the Square that is on the position correspnding to i on the board b using the function position -- Finds which piece is on a square on a
-                                                                                                                             chessboard
-   PRE: 'b' or 'i' cannot be empty and 'i' needs to be on the form "a1" to "h8" which corresponds to positions on a chess board
-   RETURNS: The Square of position i on b
-   EXAMPLES: convert newBoard "a1" = White Rook
-            convert newBoard "hej" = error
-            example of when position is empty
--}
+{- onSquare board int
+   converts an int to the Square on the position correspnding to int on the board
+   PRE: board cannot be empty and int < length board
+   RETURNS: The Square on position int of board
+   EXAMPLES: onSquare newBoard 0 = White Rook
+             onSquare newBoard 63 = Black Rook
+             onSquare newBoard 64 = *** Exception: Prelude.!!: index too large
 
+             
+-}
 onSquare :: Board -> Int -> Square
-onSquare b n = b !! n
-
-{-{- pieceOnSquare Square
-   Checks what piece is on the Square
-   PRE: Square can not be Empty
-   Returns: thr Piece that is on the Square
-   Example pieceOnSquare Black Pawn = Pawn
--}
-pieceOnSquare :: Square -> Piece
-pieceOnSquare square | square == -}
+onSquare boar int = board !! int
 
 
-{- isSameColour sq1 sq2
+{- isSameColour square1 square2
    Checks if two Squares are of the same colour
-   RETURNS: True if sq1 and sq2 are the same colour. Otherwise False
-   EXAMPLES: isSameColour (Empty) (Empty) == False
+   RETURNS: True if square1 and square2 are the same colour. Otherwise False
+   EXAMPLES: isSameColour Empty Empty == False
              isSameColour (White Knight) (White King) == True
              isSameColour (Black Queen) (Black Rook) == True
-             isSameColour (Empty) (Empty) == False
+             isSameColour (White Knight) (Black Knight) == False
+             isSameColour (White Knight) Empty == False
 -}
 isSameColour :: Square -> Square -> Bool  
 isSameColour (White _) (White _) = True
@@ -120,12 +117,13 @@ isSameColour (Black _) (Black _) = True
 isSameColour sq1 sq2             = False
 
 {- isSameColourPlayer player square
-   Checks if a player and a piece on a square are the same colour
+   Checks if a player and a square are the same colour
    RETURNS: True if player and square are the same colour. Otherwise False
    EXAMPLES: isSameColourPlayer "White player" (Empty) == False
              isSameColourPlayer "White player" (White King) == True
              isSameColourPlayer "Black player" (Black Rook) == True
-             isSameColourPlayer "White player" (Black rook) == False
+             isSameColourPlayer "White player" (Black Rook) == False
+             isSameColourPlayer "randomstring" (Black Rook) == False
 -}
 isSameColourPlayer :: Contester -> Square -> Bool  
 isSameColourPlayer "White player" (White _) = True
