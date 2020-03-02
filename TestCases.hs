@@ -1,10 +1,10 @@
-module Moves
+module TestCases
   where
 
 import Data.Char
 import Test.HUnit
 
-
+{-
 type Board = [Square]
 
 type Contester = String
@@ -16,6 +16,11 @@ data Square = Empty | White Piece | Black Piece
 
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
+-}
+
+
+{-
+
 
 
 {- move b int1 int2
@@ -259,6 +264,9 @@ validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a
    Returns True if the move is valid, otherwise False
    Example:
 -}
+
+
+
 validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
                                     | (abs (a-c)) == 1 && (abs (b-d)) == 1 = True
@@ -270,10 +278,12 @@ validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a
    Returnes: validMoveBishope board (a, b) (c, d) where (c, d) is an updated output one step closer to the input.
 -}
 validMoveBishopAux :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveBishopAux board (a, b) (c, d) | a > c && b > d = validMoveBishop board (a, b) ((c+1), (d+1))
-                                       | a > c && b < d = validMoveBishop board (a, b) ((c+1), (d-1))
-                                       | a < c && b < d = validMoveBishop board (a, b) ((c-1), (d-1))
-                                       | a < c && b > d = validMoveBishop board (a, b) ((c-1), (d+1))
+validMoveBishopAux board (a, b) (c, d) | a > c && b > d && (onSquare board (position ((c+1), (d+1)))) == Empty = validMoveBishop board (a, b) ((c+1), (d+1))
+                                       | a > c && b < d && (onSquare board (position ((c+1), (d-1)))) == Empty = validMoveBishop board (a, b) ((c+1), (d-1))
+                                       | a < c && b < d && (onSquare board (position ((c-1), (d-1)))) == Empty = validMoveBishop board (a, b) ((c-1), (d-1))
+                                       | a < c && b > d && (onSquare board (position ((c-1), (d+1)))) == Empty = validMoveBishop board (a, b) ((c-1), (d+1))
+                                       | otherwise = False
+
 
 {- validMoveQueen board (a, b) (c, d)
    Checks whether it is a valid to move a Queen from (a, b) to (c, d)
@@ -302,6 +312,13 @@ validMoveKing board (a, b) (c, d) | (isSameColour (onSquare board (position (a, 
 whiterook = '♖'
 
 
+
+-}
+
+
+
+
+
 -- Testcases:
 testBoard :: [Square]
 testBoard = [Empty, Empty, White Rook, White Pawn, Black Pawn, Empty, Empty, Empty,
@@ -318,6 +335,16 @@ testBishopBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
                   Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
                   Empty, White Pawn, Empty, White Bishop, Empty, Black Pawn, Empty, Empty,
+                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
+                  Empty, Black Pawn, White Pawn, Black Pawn, Black Rook, Black King, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
+
+testQueenBoard :: [Square]
+testQueenBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
+                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
+                  Empty, White Pawn, Empty, Black Queen, Empty, Black Pawn, Empty, Empty,
                   Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
                   Empty, Black Pawn, White Pawn, Black Pawn, Black Rook, Black King, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
@@ -364,6 +391,26 @@ testvalidMoveBishop7 = TestCase (assertEqual "Move through another piece?" False
 testvalidMoveBishop8 = TestCase (assertEqual "Can Bishop move like Rook?" False (validMoveBishop testBishopBoard (4,4) (4,6)))
 
 runBishopTests = runTestTT $ TestList [testvalidMoveBishop1, testvalidMoveBishop2, testvalidMoveBishop3, testvalidMoveBishop4, testvalidMoveBishop5, testvalidMoveBishop6, testvalidMoveBishop7, testvalidMoveBishop8]
+
+
+testvalidMoveQueen1 = TestCase (assertEqual "Move from and to the same square" False (validMoveQueen testQueenBoard (4, 4) (4,4)))
+
+testvalidMoveQueen2 = TestCase (assertEqual "Queen Northeast" False (validMoveQueen testQueenBoard (4,4) (2,6)))
+
+testvalidMoveQueen3 = TestCase (assertEqual "Queen Northwest" True (validMoveQueen testQueenBoard (4,4) (2,2)))
+
+testvalidMoveQueen4 = TestCase (assertEqual "Queen Southwest" False (validMoveQueen testQueenBoard (4,4) (6,2)))
+
+testvalidMoveQueen5 = TestCase (assertEqual "Queen Southeast" False (validMoveQueen testQueenBoard (4,4) (6,6)))
+
+testvalidMoveQueen6 = TestCase (assertEqual "Can another piece move like a Queen?" True (validMoveQueen testQueenBoard (4,6) (6,8)))
+
+testvalidMoveQueen7 = TestCase (assertEqual "Move through another piece?" False (validMoveQueen testQueenBoard (4,4) (1,7)))
+
+testvalidMoveQueen8 = TestCase (assertEqual "Can Queen move like Rook?" True (validMoveQueen testQueenBoard (4,4) (4,2)))
+
+runQueenTests = runTestTT $ TestList [testvalidMoveQueen1, testvalidMoveQueen2, testvalidMoveQueen3, testvalidMoveQueen4, testvalidMoveQueen5, testvalidMoveQueen6, testvalidMoveQueen7, testvalidMoveQueen8]
+
 
 {-
 testvalidMovePawn1  = TestCase (assertEqual "White Pawn move two steps from original square" True (validMovePawn testBoard (1,1) (1,1)))
