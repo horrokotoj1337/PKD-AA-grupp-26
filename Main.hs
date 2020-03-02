@@ -1,5 +1,6 @@
 import Data.Char
 import Moves
+import TestCases
 
 
 {- main
