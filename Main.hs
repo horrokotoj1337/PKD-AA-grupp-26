@@ -54,8 +54,15 @@ turn player board = do
 
 {- printCurrentBoard board
    prints board
-   Sideeffects: Prints "  1  2  3  4  5  6  7  8", "A" ++  take 24 board, "B" ++ take 24 (drop 24 board), "C" ++ take 24 (drop 48 board), "D" ++ take 24 (drop 72 board), 
-   Returns: an IO that prints y in 8 different rows
+   Sideeffects: Prints "  1  2  3  4  5  6  7  8", "A" ++  take 24 board, "B" ++ take 24 (drop 24 board), "C" ++ take 24 (drop 48 board), "D" ++ take 24 (drop 72 board), "E" ++ take 24 (drop 96 board), "F" ++ take 24 (drop 120 board), "G" ++ take 24 (drop 144 board), "H" ++ take 24 (drop 168 board)
+   Returns: "  1  2  3  4  5  6  7  8",
+            "A" ++  take 24 board, "B" ++ take 24 (drop 24 board),
+            "C" ++ take 24 (drop 48 board),
+            "D" ++ take 24 (drop 72 board),
+            "E" ++ take 24 (drop 96 board),
+            "F" ++ take 24 (drop 120 board),
+            "G" ++ take 24 (drop 144 board),
+            "H" ++ take 24 (drop 168 board)
    Sideeffects: prints the current board
 -}
 printCurrentBoard :: String -> IO ()
