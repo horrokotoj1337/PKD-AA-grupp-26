@@ -1,11 +1,10 @@
-module TestCases
+module Moves
   where
 
---import Data.Char
+import Data.Char
 import Test.HUnit
-import Moves
 
-{-
+
 type Board = [Square]
 
 type Contester = String
@@ -17,21 +16,17 @@ data Square = Empty | White Piece | Black Piece
 
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
--}
 
 
-{-
-
-
-
-{- move b int1 int2
-   -- moves a chess piece from one square to another. 
-   moves a piece from the Square corresponding to int1 to the square corresponding to int2 on the board.
-   PRE: move need to be valid          -- not a precondtion?
-   RETURNS: a board where the piece on 'int1' has been moved to 'int2'.  -- + the place 'int1' becomes 'Empty' and the place on 'int2' gets the Square value of wher 'int1' initially was/were. 
+{- move board int1 int2 
+   moves a Square from the position corresponding to int1 to the position corresponding to int2 on the board.
+   Sideeffect: the function will execute the move regardless of whether or not it is valid
+   RETURNS: a board where the Square on 'int1' has replaced 'int2' and 'int1' is now Empty. 
    EXAMPLES: move newBoard 1 2 = [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
-
-++ more examples
+             move [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 2 3 = [White Rook,Empty,Empty,White Pawn,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
+             move [White Rook,Empty,Empty,White Pawn] 1 2 = [White Rook,Empty,Empty,White Pawn]
+             move [White Rook,Empty,Empty,White Pawn] 10 15 = [White Rook,Empty,Empty,White Pawn,Empty,*** Exception: Prelude.!!: index too large
+             move [] 1 2 = [Empty,*** Exception: Prelude.!!: index too large
 -}
 move :: Board -> Int -> Int -> Board
 move b int1 int2 = let
@@ -41,22 +36,20 @@ move b int1 int2 = let
 
 {- convert i
    converts an input String into a pair of two Int's 
-   Returns: (9, 9) if i = "Rockade" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y if x, y are positioner on a chess board. Otherwise (10, 10)   --            x is head of i converted to an int                                          y is seconde element of i
+   Returns: (9, 9) if i = "Rockade" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt of y if x and y are positions on a chess board. Otherwise (10, 10)
    Examples: convert "a1" = (1, 1)
-             convert "h8" == (8, 8)
-             convert "rockade" == (9,9)
-             convert "i9" == (10,10)
-             convert "b6" == (2,6)
+             convert "A1" = (1, 1)
+             convert "h8" = (8, 8)
+             convert "rockade" = (9,9)
+             convert "i9" = (10,10)
+             convert "b6" = (2,6)
 -}
-                                                                 
 convert :: String -> (Int, Int)
-convert []       = (10, 10) -- not needed
-convert (x:[])   = (10, 10) -- not needed if convert x = (10,10) is added to the end -- **
 convert (x:y:[]) | (isNumber y) && ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
                  | otherwise = (10, 10)
 convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
                  | otherwise = (10, 10)
---  **convert x = (10,10)
+convert x = (10,10)
 
 
 {- convertAux x
@@ -192,7 +185,7 @@ validMovePawn board (a, b) (c, d) | (isSameColour (onSquare board (position (a, 
             validMovePawn newBoard (1, 2) (1, 5) = False
 -}
 validMoveWhitePawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveWhitePawn board (a, b) (c, d) | a == c && ((d - b == 1) || ((d - b == 2) && b == 2)) = True
+validMoveWhitePawn board (a, b) (c, d) | a == c && ((d - b == 1) || ((d - b == 2) && b == 2)) && (onSquare board (position (c, (d-1))) == Empty) = True
                                        | (abs (a - c)) == 1 && b < d && (onSquare board (position (c, d))) /= Empty = True
                                        | otherwise = False
                                        
@@ -206,7 +199,7 @@ validMoveWhitePawn board (a, b) (c, d) | a == c && ((d - b == 1) || ((d - b == 2
             validMovePawn newBoard (1, 7) (1, 4) = False
 -}
 validMoveBlackPawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveBlackPawn board (a, b) (c, d) | a == c && ((b - d == 1) || ((b - d == 2) && b == 7)) = True
+validMoveBlackPawn board (a, b) (c, d) | a == c && ((b - d == 1) || ((b - d == 2) && b == 7)) && (onSquare board (position (c, (d+1))) == Empty) = True
                                        | (abs (a - c)) == 1 && b > d && (onSquare board (position (c, d))) /= Empty = True
                                        | otherwise = False
 
@@ -265,9 +258,6 @@ validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a
    Returns True if the move is valid, otherwise False
    Example:
 -}
-
-
-
 validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
                                     | (abs (a-c)) == 1 && (abs (b-d)) == 1 = True
@@ -284,7 +274,6 @@ validMoveBishopAux board (a, b) (c, d) | a > c && b > d && (onSquare board (posi
                                        | a < c && b < d && (onSquare board (position ((c-1), (d-1)))) == Empty = validMoveBishop board (a, b) ((c-1), (d-1))
                                        | a < c && b > d && (onSquare board (position ((c-1), (d+1)))) == Empty = validMoveBishop board (a, b) ((c-1), (d+1))
                                        | otherwise = False
-
 
 {- validMoveQueen board (a, b) (c, d)
    Checks whether it is a valid to move a Queen from (a, b) to (c, d)
@@ -313,15 +302,8 @@ validMoveKing board (a, b) (c, d) | (isSameColour (onSquare board (position (a, 
 whiterook = '♖'
 
 
-
--}
-
-
-
-
-
 -- Testcases:
---testBoard :: [Square]
+testBoard :: [Square]
 testBoard = [Empty, Empty, White Rook, White Pawn, Black Pawn, Empty, Empty, Empty,
              White Knight, White Pawn, Empty, Empty, Black Pawn, Empty, Empty, Empty,
              White Bishop, Empty, White Queen, Empty, Empty, Black Rook, Empty, Empty,
@@ -331,138 +313,38 @@ testBoard = [Empty, Empty, White Rook, White Pawn, Black Pawn, Empty, Empty, Emp
              Empty, Black Queen, Empty, Empty, White Knight, Black Pawn, Black Rook, 
              Empty, Empty, Empty, White Rook, White Bishop, Empty, Empty, Empty]
 
---testBishopBoard :: [Square]
-testBishopBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                  Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
-                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
-                  Empty, White Pawn, Empty, White Bishop, Empty, Black Pawn, Empty, Empty,
-                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                  Empty, Black Pawn, White Pawn, Black Pawn, Black Rook, Black King, Empty, Empty,
-                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
-
---testQueenBoard :: [Square]
-testQueenBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                  Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
-                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
-                  Empty, White Pawn, Empty, Black Queen, Empty, Black Pawn, Empty, Empty,
-                  Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                  Empty, Black Pawn, White Pawn, Black Pawn, Black Rook, Black King, Empty, Empty,
-                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
-
--- Can any of these take a piece?
-testvalidMoveRook1 = TestCase (assertEqual "Move from one square to the same square" False (validMoveRook (testBoard) (1,3) (1,3)))
-
-testvalidMoveRook2 = TestCase (assertEqual "Can Rook move down?" True (Moves.validMoveRook testBoard (1,3) (2,3)))
-
-testvalidMoveRook3 = TestCase (assertEqual "Can Rook move up?" True (Moves.validMoveRook testBoard (8,4) (6,4)))
-
-testvalidMoveRook4 = TestCase (assertEqual "Can you move Empty?" False (Moves.validMoveRook testBoard (2,3) (1,1)))
-
-testvalidMoveRook5 = TestCase (assertEqual "Can Rook move right?" True (Moves.validMoveRook testBoard (3,6) (3,8)))
-
-testvalidMoveRook6 = TestCase (assertEqual "Can Rook move left and take out a piece?" True (Moves.validMoveRook testBoard (3,6) (3,3)))
-
-testvalidMoveRook7 = TestCase (assertEqual "Can Rook move through another piece?" False (Moves.validMoveRook testBoard (1,3) (1,6)))
-
-testvalidMoveRook8 = TestCase (assertEqual "Can other Piece than Rook move like a Rook?" True (Moves.validMoveRook testBoard (2,2) (2,5)))
-
-
-testvalidMoveRook9 = TestCase (assertEqual "Can Rook move diagonal?" False (Moves.validMoveRook testBoard (1,3) (3,5)))
-
-runRookTests = runTestTT $ TestList [testvalidMoveRook1, testvalidMoveRook2, testvalidMoveRook3, testvalidMoveRook4, testvalidMoveRook5, testvalidMoveRook6,
-                                     testvalidMoveRook7, testvalidMoveRook8, testvalidMoveRook9]
-
-
-
-
-
-testvalidMoveBishop1 = TestCase (assertEqual "Move from and to the same square" False (Moves.validMoveBishop testBishopBoard (4, 4) (4,4)))
-
-testvalidMoveBishop2 = TestCase (assertEqual "Bishop Northeast" True (Moves.validMoveBishop testBishopBoard (4,4) (2,6)))
-
-testvalidMoveBishop3 = TestCase (assertEqual "Bishop Northwest" False (Moves.validMoveBishop testBishopBoard (4,4) (2,2)))
-
-testvalidMoveBishop4 = TestCase (assertEqual "Bishop Southwest" True (Moves.validMoveBishop testBishopBoard (4,4) (6,2)))
-
-testvalidMoveBishop5 = TestCase (assertEqual "Bishop Southeast" True (Moves.validMoveBishop testBishopBoard (4,4) (6,6)))
-
-testvalidMoveBishop6 = TestCase (assertEqual "Can another piece move like a Bishop?" True (Moves.validMoveBishop testBishopBoard (4,6) (6,8)))
-
-testvalidMoveBishop7 = TestCase (assertEqual "Move through another piece?" False (Moves.validMoveBishop testBishopBoard (4,4) (1,7)))
-
-testvalidMoveBishop8 = TestCase (assertEqual "Can Bishop move like Rook?" False (Moves.validMoveBishop testBishopBoard (4,4) (4,6)))
-
-runBishopTests = runTestTT $ TestList [testvalidMoveBishop1, testvalidMoveBishop2, testvalidMoveBishop3, testvalidMoveBishop4, testvalidMoveBishop5, testvalidMoveBishop6, testvalidMoveBishop7, testvalidMoveBishop8]
-
-
-testvalidMoveQueen1 = TestCase (assertEqual "Move from and to the same square" False (Moves.validMoveQueen testQueenBoard (4, 4) (4,4)))
-
-testvalidMoveQueen2 = TestCase (assertEqual "Queen Northeast" False (Moves.validMoveQueen testQueenBoard (4,4) (2,6)))
-
-testvalidMoveQueen3 = TestCase (assertEqual "Queen Northwest" True (Moves.validMoveQueen testQueenBoard (4,4) (2,2)))
-
-testvalidMoveQueen4 = TestCase (assertEqual "Queen Southwest" False (Moves.validMoveQueen testQueenBoard (4,4) (6,2)))
-
-testvalidMoveQueen5 = TestCase (assertEqual "Queen Southeast" False (Moves.validMoveQueen testQueenBoard (4,4) (6,6)))
-
-testvalidMoveQueen6 = TestCase (assertEqual "Can another piece move like a Queen?" True (Moves.validMoveQueen testQueenBoard (4,6) (6,8)))
-
-testvalidMoveQueen7 = TestCase (assertEqual "Move through another piece?" False (Moves.validMoveQueen testQueenBoard (4,4) (1,7)))
-
-testvalidMoveQueen8 = TestCase (assertEqual "Can Queen move like Rook?" True (Moves.validMoveQueen testQueenBoard (4,4) (4,2)))
-
-runQueenTests = runTestTT $ TestList [testvalidMoveQueen1, testvalidMoveQueen2, testvalidMoveQueen3, testvalidMoveQueen4, testvalidMoveQueen5, testvalidMoveQueen6, testvalidMoveQueen7, testvalidMoveQueen8]
-
-
-
-
+testvalidMoveRook1 = TestCase (assertEqual "Move from one square to the same square" False (validMoveRook (testBoard) (1,1) (1,1)))
 
 {-
-testvalidMovePawn1  = TestCase (assertEqual "White Pawn move two steps from original square" True (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn2  = TestCase (assertEqual "White Pawn move two steps not from original square" False (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn3  = TestCase (assertEqual "Black Pawn move two steps from original square" True (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn4  = TestCase (assertEqual "Black Pawn move two steps not from original square" False (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn5  = TestCase (assertEqual "Black Pawn take out White Piece" True (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn6  = TestCase (assertEqual "White Pawn take out Black Piece" True (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn7  = TestCase (assertEqual "White Pawn take out White Piece" False (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn8  = TestCase (assertEqual "Pawn move like Rook" False (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn9  = TestCase (assertEqual "Pawn move like Bishop" False (validMovePawn testBoard (1,1) (1,1)))
-
-testvalidMovePawn10 = TestCase (assertEqual "Chess piece that is not a pawn tries to move like a pawn" True/False (validMovePawn testBoard (1,1) (1,1)))
+testvalidMoveRook2 = TestCase (assertEqual "for Qsort []" [] (validMoveRook testBoard (1,1) (1,1)))
 
 
-testvalidKnight1
+testvalidMoveRook3 = TestCase (assertEqual "for Qsort [1,6,5,3,2,4]" [1,2,3,4,5,6] (validMoveRook testBoard (1,1) (1,1)))
 
-testvalidKnight2
 
-testvalidKnight3
+testvalidMoveRook4 = TestCase (assertEqual "for Qsort [4]" [4] (validMoveRook testBoard (1,1) (1,1)))
 
-testvalidKnight4
+
+testvalidMoveBishop1 = TestCase (assertEqual "for Qsort [4]" [4] (validMoveBishop testBoard (1,1) (1,1)))
+
+
+testvalidMoveBishop2 = TestCase (assertEqual "for Qsort [4]" [4] (validMoveBishop testBoard (1,1) (1,1)))
+
+testvalidMoveBishop3 = TestCase (assertEqual "for Qsort [4]" [4] (validMoveBishop testBoard (1,1) (1,1)))
+
+testvalidMoveBishop4 = TestCase (assertEqual "for Qsort [4]" [4] (validMoveBishop testBoard (1,1) (1,1)))
 
 
 
-testvalidQueen1
+testvalidMovePawn1 = TestCase (assertEqual "for Qsort [4]" [4] (validMovePawn testBoard (1,1) (1,1)))
 
-testvalidQueen2
+testvalidMovePawn2 = TestCase (assertEqual "for Qsort [4]" [4] (validMovePawn testBoard (1,1) (1,1)))
 
+testvalidMovePawn3 = TestCase (assertEqual "for Qsort [4]" [4] (validMovePawn testBoard (1,1) (1,1)))
 
-
-testvalidKing1
-
-testvalidKing2
-
-
+testvalidMovePawn4 = TestCase (assertEqual "for Qsort [4]" [4] (validMovePawn testBoard (1,1) (1,1)))
 -}
+
 
 
 --tests = TestList [TestLabel "test1" test1, TestLabel "test2" test2, TestLabel "test3" test3, TestLabel "test4" test4]

@@ -1,6 +1,5 @@
 import Data.Char
 import Moves
-import TestCases
 
 {- main
    main starts the game
