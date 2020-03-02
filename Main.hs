@@ -5,7 +5,7 @@ import TestCases
 
 {- main
    main starts the game
-   Sideeffects: prints "Welcome to Chess!", "To move a piece type the square the piece is standing on.", "To forfeit the game at any time, type forfeit." and "Want to play, yes or no?". Then requires an input. "Yes" will trigger turn "White player" newBoard. "No" will rentun (). Any other input will trigger main.
+   Side effects: prints "Welcome to Chess!", "To move a piece type the square the piece is standing on.", "To forfeit the game at any time, type forfeit." and "Want to play, yes or no?". Then requires an input. "Yes" will trigger turn "White player" newBoard. "No" will rentun (). Any other input will trigger main.
    Returns: turn "White player" newBoard if (map toUpper choice) == "YES", return () if (map toUpper choice) == "NO" else main
 -}
 main :: IO ()
@@ -24,7 +24,7 @@ main = do
 
 {- turn player board
    Administers the turn
-   Sideeffects: Prints the current board, "Eliminated pieces:", a list of eliminated pieces and (player ++ ", choose piece to move."). Then requires an input. Input "Forfeit" will forfeit the game, print ((nextPlayer player) ++ " wins!") and run main. Input "Castling" will print "Castling not available." and run turn player board. Input that is a position outside the board or a string of any other kind will print "Invalid move, try again." and run turn player board. Input that correlate to a position on the board that is empty prints "You have chosen an empty square, try again." and runs turn player board. Input that correlate to a Square of the same colour as player runs makeMove player board input. Input that correlate to a Square of opposite colour as player prints "You need to choose one of your own pieces, try again." and runs  turn player board.
+   Side effects: Prints the current board, "Eliminated pieces:", a list of eliminated pieces and (player ++ ", choose piece to move."). Then requires an input. Input "Forfeit" will forfeit the game, print ((nextPlayer player) ++ " wins!") and run main. Input "Castling" will print "Castling not available." and run turn player board. Input that is a position outside the board or a string of any other kind will print "Invalid move, try again." and run turn player board. Input that correlate to a position on the board that is empty prints "You have chosen an empty square, try again." and runs turn player board. Input that correlate to a Square of the same colour as player runs makeMove player board input. Input that correlate to a Square of opposite colour as player prints "You need to choose one of your own pieces, try again." and runs  turn player board.
    Returns: main if (map toUpper input) == "FORFEIT", turn player board if convert input == (9, 9) || convert input == (10, 10) || onSquare board (position (convert input)) == Empty, makeMove player board input if isSameColourPlayer player (onSquare board (position (convert input))) == True else turn player board
 -}
 turn :: Contester -> Board -> IO ()
@@ -54,16 +54,25 @@ turn player board = do
 
 {- printCurrentBoard board
    prints board
-   Sideeffects: Prints "  1  2  3  4  5  6  7  8", "A" ++  take 24 board, "B" ++ take 24 (drop 24 board), "C" ++ take 24 (drop 48 board), "D" ++ take 24 (drop 72 board), "E" ++ take 24 (drop 96 board), "F" ++ take 24 (drop 120 board), "G" ++ take 24 (drop 144 board), "H" ++ take 24 (drop 168 board)
+   Side effects: Prints "  1  2  3  4  5  6  7  8", "A" ++  take 24 board, "B" ++ take 24 (drop 24 board), "C" ++ take 24 (drop 48 board), "D" ++ take 24 (drop 72 board), "E" ++ take 24 (drop 96 board), "F" ++ take 24 (drop 120 board), "G" ++ take 24 (drop 144 board), "H" ++ take 24 (drop 168 board)
    Returns: "  1  2  3  4  5  6  7  8",
-            "A" ++  take 24 board, "B" ++ take 24 (drop 24 board),
+            "A" ++  take 24 board,
+            "B" ++ take 24 (drop 24 board),
             "C" ++ take 24 (drop 48 board),
             "D" ++ take 24 (drop 72 board),
             "E" ++ take 24 (drop 96 board),
             "F" ++ take 24 (drop 120 board),
             "G" ++ take 24 (drop 144 board),
             "H" ++ take 24 (drop 168 board)
-   Sideeffects: prints the current board
+   Returns: printCurrentBoard (convertBoard newBoard) =   1  2  3  4  5  6  7  8
+                                                        A ♖  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♜ 
+                                                        B ♘  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♞ 
+                                                        C ♗  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♝ 
+                                                        D ♕  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♛ 
+                                                        E ♔  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♚ 
+                                                        F ♗  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♝ 
+                                                        G ♘  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♞ 
+                                                        H ♖  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♜
 -}
 printCurrentBoard :: String -> IO ()
 printCurrentBoard board = do
@@ -106,7 +115,11 @@ convertPieces (Empty) = " ⬚ "
    represents a Board as a String where every Square in board will be converted into it's chess symbol
    Returns: a String where every element is the appropriate chess symbol of every Square in board
    Sideeffect: the function will not print the chess symbols when called on it's own.
-   Example: convertBoard newBoard = " \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820  \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821  \9813  \9817  \11034  \11034  \11034  \11034  \9823  \9819  \9812  \9817  \11034  \11034  \11034  \11034  \9823  \9818  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821  \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820 "
+   Example: convertBoard newBoard = " \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820
+   \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821
+   \9813  \9817  \11034  \11034  \11034  \11034  \9823  \9819  \9812  \9817  \11034  \11034  \11034  \11034  \9823  \9818
+   \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821  \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822
+   \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820 "
 -}
 convertBoard :: Board -> String
 convertBoard [] = []
@@ -130,24 +143,28 @@ eliminatedPieces board = let noEmpty = filter (/=Empty) board
 
   
 {- makeMove player board input
-   makes a move of the piece on the position corresponding to (a, b) to (c, d) if the move is valid
-   Returns: a board where the move has been made or the same board if the move was invalid
+   moves the square on the position corresponding to (a, b) to (c, d) if the move is valid and runs checkWinner (nextPlayer player) currentBoard else runs turn player board
+   Side effects: prints "Choose where to move". Then prompts for an output, if output gives a valid move then
+   let currentBoard = move board (position (convert input)) (position (convert output))
+   in checkWinner (nextPlayer player) currentBoard,
+   else prints "Invalid move, try again" and runs turn player board
+   Returns: checkWinner (nextPlayer player) currentBoard of output gives a valid move, else turn player board
 -}
 makeMove :: Contester -> Board -> Move -> IO ()
 makeMove player board input = do 
   putStrLn "Choose where to move"
   output <- getLine
-  if Moves.validMove board player input output then do
+  if validMove board player input output then do
     let currentBoard = move board (position (convert input)) (position (convert output))
-     in checkWinner (nextPlayer player) currentBoard
+    in checkWinner (nextPlayer player) currentBoard
   else do
     putStrLn "Invalid move, try again"
     turn player board
 
 {- checkWinner player board
    checks for a winner on the board.
+   Side effects: if elem (White King) (eliminatedPieces board) prints "Black player wins!" and runs main, if elem (Black King) (eliminatedPieces board) prints "White player wins!" and runs main else runs turn player board
    Returns: A string with the Winner and then main or turn player board
-   Example: ?
 -}
 checkWinner :: Contester -> Board -> IO ()
 checkWinner player board = do
