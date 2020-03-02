@@ -1,8 +1,10 @@
 import Data.Char
 import Moves
 
+
 {- main
    main starts the game
+   Sideeffects: prints "Welcome to Chess!", "To move a piece type the square the piece is standing on.", "To forfeit the game at any time, type forfeit." and "Want to play, yes or no?". Then requires an input. "Yes" will trigger turn "White player" newBoard. "No" will rentun (). Any other input will trigger main.
    Returns: the ability to play the game
 -}
 main :: IO ()
@@ -21,6 +23,7 @@ main = do
 
 {- turn player board
    Administers the turn
+   Sideeffects: Prints the current board, "Eliminated pieces:", a list of eliminated pieces and (player ++ ", choose piece to move."). Then requires an input. "Forfeit" will forfeit the game, print ((nextPlayer player) ++ " wins!") and run main. "Castling" will print "Castling not available." and run turn player board.
    Returns: the ability for player to do his/her turn
 -}
 turn :: Contester -> Board -> IO ()
@@ -34,7 +37,7 @@ turn player board = do
     putStrLn ((nextPlayer player) ++ " wins!")
     main
   else if convert input == (9, 9) then do
-    putStrLn "Rockade not available."
+    putStrLn "Castling not available."
     turn player board
   else if convert input == (10, 10) then do
     putStrLn "Invalid move, try again."

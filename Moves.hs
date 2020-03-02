@@ -47,7 +47,7 @@ move b int1 int2 = let
 convert :: String -> (Int, Int)
 convert (x:y:[]) | (isNumber y) && ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
                  | otherwise = (10, 10)
-convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
+convert (x:y:ys) | (map toUpper (x:y:ys)) == "CASTLING" = (9, 9)
                  | otherwise = (10, 10)
 convert x = (10,10)
 
