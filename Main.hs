@@ -86,7 +86,7 @@ convertPieces (Black Knight) = " ♞ "
 convertPieces (Black Bishop) = " ♝ "
 convertPieces (Black Queen) = " ♛ "
 convertPieces (Black King) = " ♚ "
-convertPieces (Black Pawn) = " ♝ "
+convertPieces (Black Pawn) = " ♟ "
 convertPieces (Empty) = " ⬚ "
 
 
