@@ -1,7 +1,9 @@
 import Data.Char
 import Moves
 
-{- main with influence of Nim.hs (Lab 15)
+{- main
+   main starts the game
+   Returns: the ability to play the game
 -}
 main :: IO ()
 main = do
@@ -19,7 +21,7 @@ main = do
 
 {- turn player board
    Administers the turn
-   Returns: the next turn for the other player if there is a valid move. The turn for the same player if the move is invalid. Main if the player quits.
+   Returns: the ability for player to do his/her turn
 -}
 turn :: Contester -> Board -> IO ()
 turn player board = do
@@ -46,8 +48,10 @@ turn player board = do
     putStrLn "You need to choose one of your own pieces, try again."
     turn player board
 
-{-
-  Sideeffects: prints the current board
+{- printCurrentBoard y
+   prints the bord y
+   Returns: an IO that prints y in 8 different rows
+   Sideeffects: prints the current board
 -}
 printCurrentBoard :: String -> IO ()
 printCurrentBoard y = do
@@ -61,6 +65,16 @@ printCurrentBoard y = do
   putStrLn ("G" ++ take 24 (drop 144 y))
   putStrLn ("H" ++ take 24 (drop 168 y))
 
+{- convertPieces piece
+   converts a Piece into a String with the appropriate chess symbol
+   Returns: A string containing the appropriate chess symbor för piece
+   Example: convertPieces (White Rook) = " ♖ "
+            convertPieces (Black Rook) = " ♜ "
+            convertPieces (Empty) = " ⬚ "
+            convertPieces "hej" = error
+            convertPieces (Green King) = Errir
+-}
+convertPieces :: Square -> String
 convertPieces (White Rook) = " ♖ "
 convertPieces (White Knight) = " ♘ "
 convertPieces (White Bishop) = " ♗ "
@@ -76,7 +90,12 @@ convertPieces (Black Pawn) = " ♟ "
 convertPieces (Empty) = " ⬚ "
 
 
-
+{- convertBoard board
+   represents a Board as a String where every Square in board will be converted into it's chess symbol
+   Returns: a String where every element is the appropriate chess symbol of every Square in board
+   Sideeffect: the function will not print the chess symbols when called on it's own.
+   Example: convertBoard newBoard = " \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820  \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821  \9813  \9817  \11034  \11034  \11034  \11034  \9823  \9819  \9812  \9817  \11034  \11034  \11034  \11034  \9823  \9818  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821  \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820 "
+-}
 convertBoard :: Board -> String
 convertBoard [] = []
 convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
@@ -99,6 +118,11 @@ makeMove player board input = do
     putStrLn "Invalid move, try again"
     turn player board
 
+{- checkWinner player board
+   checks for a winner on the board.
+   Returns: A string with the Winner and then main or turn player board
+   Example: ?
+-}
 checkWinner :: Contester -> Board -> IO ()
 checkWinner player board = do
   if elem (White King) (eliminatedPieces board) then do
@@ -138,7 +162,7 @@ eliminatedPieces board = let noEmpty = filter (/=Empty) board
     eliminatedPieces_acc acc noEmpty ((x, y):xs) | (y - (length (filter (==x) noEmpty))) == 0 = eliminatedPieces_acc acc noEmpty xs
                                                  | otherwise = eliminatedPieces_acc (x:acc) noEmpty ((x, (y-1)):xs)
 
-{- newBoard -- This is a function, should be treated as one.
+{- newBoard 
    Creates a new chessboard
    Returns A list of Square where the first element in the list corresponds to A1 on a chess board, the 9th element corresponds to B1 on a chess board and thr 64th element corresponds to H8 on a chess board
    Examples: newBoard = [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Queen, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Queen, White King, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black King, White Bishop, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Bishop, White Knight, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Knight, White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Black Rook]

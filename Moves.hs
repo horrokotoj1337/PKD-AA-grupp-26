@@ -18,14 +18,15 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
 
-{- move b int1 int2
-   -- moves a chess piece from one square to another. 
-   moves a piece from the Square corresponding to int1 to the square corresponding to int2 on the board.
-   PRE: move need to be valid          -- not a precondtion?
-   RETURNS: a board where the piece on 'int1' has been moved to 'int2'.  -- + the place 'int1' becomes 'Empty' and the place on 'int2' gets the Square value of wher 'int1' initially was/were. 
+{- move board int1 int2 
+   moves a Square from the position corresponding to int1 to the position corresponding to int2 on the board.
+   Sideeffect: the function will execute the move regardless of whether or not it is valid
+   RETURNS: a board where the Square on 'int1' has replaced 'int2' and 'int1' is now Empty. 
    EXAMPLES: move newBoard 1 2 = [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
-
-++ more examples
+             move [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 2 3 = [White Rook,Empty,Empty,White Pawn,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
+             move [White Rook,Empty,Empty,White Pawn] 1 2 = [White Rook,Empty,Empty,White Pawn]
+             move [White Rook,Empty,Empty,White Pawn] 10 15 = [White Rook,Empty,Empty,White Pawn,Empty,*** Exception: Prelude.!!: index too large
+             move [] 1 2 = [Empty,*** Exception: Prelude.!!: index too large
 -}
 move :: Board -> Int -> Int -> Board
 move b int1 int2 = let
@@ -35,22 +36,20 @@ move b int1 int2 = let
 
 {- convert i
    converts an input String into a pair of two Int's 
-   Returns: (9, 9) if i = "Rockade" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt y if x, y are positioner on a chess board. Otherwise (10, 10)   --            x is head of i converted to an int                                          y is seconde element of i
+   Returns: (9, 9) if i = "Rockade" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt of y if x and y are positions on a chess board. Otherwise (10, 10)
    Examples: convert "a1" = (1, 1)
-             convert "h8" == (8, 8)
-             convert "rockade" == (9,9)
-             convert "i9" == (10,10)
-             convert "b6" == (2,6)
+             convert "A1" = (1, 1)
+             convert "h8" = (8, 8)
+             convert "rockade" = (9,9)
+             convert "i9" = (10,10)
+             convert "b6" = (2,6)
 -}
-                                                                 
 convert :: String -> (Int, Int)
-convert []       = (10, 10) -- not needed
-convert (x:[])   = (10, 10) -- not needed if convert x = (10,10) is added to the end -- **
 convert (x:y:[]) | (isNumber y) && ((digitToInt y) <= 8) && ((digitToInt y) >= 1) = ((convertAux x), (digitToInt y))
                  | otherwise = (10, 10)
 convert (x:y:ys) | (map toUpper (x:y:ys)) == "ROCKADE" = (9, 9)
                  | otherwise = (10, 10)
---  **convert x = (10,10)
+convert x = (10,10)
 
 
 {- convertAux x
