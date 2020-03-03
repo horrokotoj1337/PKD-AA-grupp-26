@@ -94,9 +94,7 @@ position (x, y) = 8 * (x - 1) + y - 1
    RETURNS: The Square on position int of board
    EXAMPLES: onSquare newBoard 0 = White Rook
              onSquare newBoard 63 = Black Rook
-             onSquare newBoard 64 = *** Exception: Prelude.!!: index too large
-
-             
+             onSquare newBoard 64 = *** Exception: Prelude.!!: index too large            
 -}
 onSquare :: Board -> Int -> Square
 onSquare board int = board !! int
@@ -130,9 +128,8 @@ isSameColourPlayer "White player" (White _) = True
 isSameColourPlayer "Black player" (Black _) = True
 isSameColourPlayer player square            = False
 
-{- validMove board player (a, b) (c, d)
+{- validMove board player input output
    Checks whether it is valid for player to move the piece on (a, b) to (c, d) on the board
-   PRE: a, b, c or d must be between 1 and 8
    Returns: True if the move is valid. False if the move is not valid.
 -}
 validMove :: Board -> Contester -> Move -> Move -> Bool
@@ -143,7 +140,19 @@ validMove board player input output | convert output == (9, 9) || convert output
 
 {- validMoveAux board input output
    Finds the appropriate validMove function for the piece on the input square
-   Returns: The right function -}
+   Returns: If onSquare board (position (convert input)) = White Pawn then validMovePawn board (convert input) (convert output),
+if Black Pawn   then validMovePawn board (convert input) (convert output),
+if White Rook   then validMoveRook board (convert input) (convert output),
+if Black Rook   then validMoveRook board (convert input) (convert output)
+if White Knight then validMoveKnight board (convert input) (convert output)
+if Black Knight then validMoveKnight board (convert input) (convert output)
+if White Bishop then validMoveBishop board (convert input) (convert output)
+if Black Bishop then validMoveBishop board (convert input) (convert output)
+if White Queen  then validMoveQueen board (convert input) (convert
+if Black Queen  then validMoveQueen board (convert input) (convert output)
+if White King   then validMoveKing board (convert input) (convert output)
+if Black King   then validMoveKing board (convert input) (convert output)
+-}
 validMoveAux board input output = case onSquare board (position (convert input)) of
                                     White Pawn   -> validMovePawn board (convert input) (convert output)
                                     Black Pawn   -> validMovePawn board (convert input) (convert output)
@@ -160,7 +169,7 @@ validMoveAux board input output = case onSquare board (position (convert input))
 
 {- validMovePawn board (a, b) (c, d)
    Checks whether it is valid to move a Pawn from (a, b) to (c, d)
-   Pre: (a, b) must be a Pawn. (a, b) and (c, d) must be Squares on the board
+   Pre: a, b, c and d must be between 1 and 8
    Returns: True if the move is valid, otherwise False
    Example: validMovePawn newBoard (1, 2) (1, 3) = True
             validMovePawn newBoard (1, 2) (1, 5) = False
@@ -175,14 +184,14 @@ validMovePawn board (a, b) (c, d) | (isSameColour (onSquare board (position (a, 
 
 
 {- validMoveWhitePawn board (a, b) (c, d)
-   Checks whether it is a valid to move a White Pawn from (a, b) to (c, d)
-   Pre: (a, b) must be a White Pawn
+   Checks whether it is a valid to move a White Pawn from (a, b) to (c, d) regardless of whether (a, b) and (c, d) are on the board or not.
    Returns True if the move is valid, otherwise False
-   Example: validMovePawn newBoard (1, 2) (1, 3) = True
-            validMovePawn newBoard (1, 2) (1, 5) = False
+   Example: validMoveWhitePawn newBoard (1, 2) (1, 3) = True
+            validMoveWhitePawn newBoard (1, 2) (1, 5) = False
+            validMoveWhitePawn newBoard (9, 9) (9, 345) = False
 -}
 validMoveWhitePawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveWhitePawn board (a, b) (c, d) | a == c && ((d - b == 1) || ((d - b == 2) && b == 2)) && (onSquare board (position (c, (d-1))) == Empty) = True
+validMoveWhitePawn board (a, b) (c, d) | a == c && (d - b == 1) || ((((d - b == 2) && b == 2)) && (onSquare board (position (c, (d-1))) == Empty)) = True
                                        | (abs (a - c)) == 1 && b < d && (onSquare board (position (c, d))) /= Empty = True
                                        | otherwise = False
                                        
@@ -196,7 +205,7 @@ validMoveWhitePawn board (a, b) (c, d) | a == c && ((d - b == 1) || ((d - b == 2
             validMovePawn newBoard (1, 7) (1, 4) = False
 -}
 validMoveBlackPawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
-validMoveBlackPawn board (a, b) (c, d) | a == c && ((b - d == 1) || ((b - d == 2) && b == 7)) && (onSquare board (position (c, (d+1))) == Empty) = True
+validMoveBlackPawn board (a, b) (c, d) | a == c && (b - d == 1) || ((((b - d == 2) && b == 7)) && (onSquare board (position (c, (d+1))) == Empty)) = True
                                        | (abs (a - c)) == 1 && b > d && (onSquare board (position (c, d))) /= Empty = True
                                        | otherwise = False
 
