@@ -77,6 +77,7 @@ testKnightBoard4 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
 
 
 
+
 testPawnBoard1 = [Empty, White Pawn, Black Pawn, Empty, Empty, White Pawn, Black Pawn, Empty,
                  Empty, White Pawn, White Pawn, Empty, Empty, Black Pawn, Black Pawn, Empty,
                  Black Pawn, Empty, Black Pawn, Empty, Empty, White Pawn, Empty, White Pawn,
@@ -94,6 +95,7 @@ testPawnBoard2 = [Empty, Empty, Empty, Black Pawn, White Pawn, Empty, Empty, Emp
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn]
+
 
 
 
@@ -281,6 +283,7 @@ testvalidMovePawn32 = TestCase (assertEqual "Black Pawn tries to take like Bisho
 
 
 runPawnTests = runTestTT $ TestList [testvalidMovePawn1, testvalidMovePawn2, testvalidMovePawn3, testvalidMovePawn4, testvalidMovePawn5, testvalidMovePawn6, testvalidMovePawn7, testvalidMovePawn8, testvalidMovePawn9, testvalidMovePawn10, testvalidMovePawn11, testvalidMovePawn12, testvalidMovePawn13, testvalidMovePawn14, testvalidMovePawn15, testvalidMovePawn16, testvalidMovePawn17, testvalidMovePawn18, testvalidMovePawn19, testvalidMovePawn20, testvalidMovePawn21, testvalidMovePawn22, testvalidMovePawn23, testvalidMovePawn24, testvalidMovePawn25, testvalidMovePawn26, testvalidMovePawn27, testvalidMovePawn28, testvalidMovePawn29, testvalidMovePawn30, testvalidMovePawn31, testvalidMovePawn32]
+
 
 -- testvalidMoveKing1 = TestCase (assertEqual "King -1 +0" True (Moves.validMoveKing (1,1) (1,1)))
 
