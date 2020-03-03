@@ -257,15 +257,13 @@ validMoveKnight board (a, b) (c, d) | (isSameColour (onSquare board (position (a
 
 {- validMoveBishop board (a, b) (c, d)
    Checks whether it is a valid to move a Bishop from (a, b) to (c, d)
-   Pre:(a, b) and (c, d) must be on the board.
+   Pre: a, b, c and d must be between 1 and 8
    Returns True if the move is valid, otherwise False
    Example: validMoveBishop newBoard (3, 1) (1, 3) = False
             validMoveBishop newBoard (3, 3) (1, 6) = False
-            validMoveBishop [White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 
-            validMoveBishop newBoard 
-            validMoveBishop newBoard 
-            validMoveBishop newBoard 
-            validMoveBishop newBoard 
+            validMoveBishop [White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,Empty ,White Pawn,White Bishop ,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] (3, 3) (1, 6) = False
+            validMoveBishop [White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,Empty,White Pawn,White Bishop,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] (3, 3) (1, 5) = True
+            validMoveBishop newBoard (8, 8) (9, 9) = *** Exception: Prelude.!!: index too large
 -}
 validMoveBishop :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
@@ -275,9 +273,13 @@ validMoveBishop board (a, b) (c, d) | (isSameColour (onSquare board (position (a
 
 {- validMoveBishopAux board (a, b) (a, b)
    Checks in which direction the recusion for validMoveBishop should continue
-   Returnes: validMoveBishope board (a, b) (c, d) where (c, d) is an updated output one step closer to the input.
+   Pre: a, b, c and d must be between 1 and 8
+   Returnes: False if a == c || b == d otherwise recursive call on validMoveBishop where (c, d) will be adjusted to be one step closer to (a, b)
+   Example: validMoveBishopAux newBoard (3, 1) (1, 3) = False
+            validMoveBishopAux [White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,Empty,White Pawn,White Bishop,Empty,Empty,Empty,Black Pawn,Black Bishop,White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] (3, 3) (1, 5) = True
 -}
 validMoveBishopAux :: Board -> (Int, Int) -> (Int, Int) -> Bool
+--VARIANT: (abs (a-c)) or (abs (b-d)) which ever reaches 0 first
 validMoveBishopAux board (a, b) (c, d) | a > c && b > d && (onSquare board (position ((c+1), (d+1)))) == Empty = validMoveBishop board (a, b) ((c+1), (d+1))
                                        | a > c && b < d && (onSquare board (position ((c+1), (d-1)))) == Empty = validMoveBishop board (a, b) ((c+1), (d-1))
                                        | a < c && b < d && (onSquare board (position ((c-1), (d-1)))) == Empty = validMoveBishop board (a, b) ((c-1), (d-1))
@@ -304,5 +306,7 @@ validMoveQueen board (a,b) (c,d) = (validMoveRook board (a,b) (c,d) || validMove
 
 validMoveKing :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveKing board (a, b) (c, d) | (isSameColour (onSquare board (position (a, b))) (onSquare board (position (c, d)))) = False
-                                  | ((abs (a-c)) <= 1 || (abs (a-c)) >= 0) && ((abs(b-d)) <= 1 || (abs (b-d) <= 0)) = True
+                                  | (abs (a-c)) == 1 && (abs (b-d)) == 0 = True
+                                  | (abs (a-c)) == 0 && (abs (b-d)) == 1 = True
+                                  | (abs (a-c)) == 1 && (abs (b-d)) == 1 = True
                                   | otherwise = False
