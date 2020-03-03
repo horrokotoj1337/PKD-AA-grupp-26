@@ -77,7 +77,6 @@ testKnightBoard4 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
 
 
 
-
 testPawnBoard1 = [Empty, White Pawn, Black Pawn, Empty, Empty, White Pawn, Black Pawn, Empty,
                  Empty, White Pawn, White Pawn, Empty, Empty, Black Pawn, Black Pawn, Empty,
                  Black Pawn, Empty, Black Pawn, Empty, Empty, White Pawn, Empty, White Pawn,
@@ -94,8 +93,7 @@ testPawnBoard2 = [Empty, Empty, Empty, Black Pawn, White Pawn, Empty, Empty, Emp
                   Empty, Empty, Empty, Black Pawn, White Pawn, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                  White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn]
-
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
 
 
@@ -269,21 +267,8 @@ testvalidMovePawn25 = TestCase (assertEqual "Black Pawn tries to take White Piec
 
 testvalidMovePawn26 = TestCase (assertEqual "Black Pawn tries to take White Piece up" False (Moves.validMovePawn testPawnBoard1 (2,6) (1,6)))
 
-testvalidMovePawn27 = TestCase (assertEqual "White Pawn tries to take using -2 +2" False (Moves.validMovePawn testPawnBoard2 (3,2) (1,4)))
 
-testvalidMovePawn28 = TestCase (assertEqual "White Pawn tries to take using +2 +2" False (Moves.validMovePawn testPawnBoard2 (3,2) (5,4)))
-
-testvalidMovePawn29 = TestCase (assertEqual "Black Pawn tries to take using -2 -2" False (Moves.validMovePawn testPawnBoard2 (3,7) (1,5)))
-
-testvalidMovePawn30 = TestCase (assertEqual "Black Pawn tries to take using +2 -2" False (Moves.validMovePawn testPawnBoard2 (3,7) (5,5)))
-
-testvalidMovePawn31 = TestCase (assertEqual "White Pawn tries to take like Bishop" False (Moves.validMovePawn testPawnBoard2 (8,1) (5,4)))
-
-testvalidMovePawn32 = TestCase (assertEqual "Black Pawn tries to take like Bishop" False (Moves.validMovePawn testPawnBoard2 (8,8) (5,5)))
-
-
-runPawnTests = runTestTT $ TestList [testvalidMovePawn1, testvalidMovePawn2, testvalidMovePawn3, testvalidMovePawn4, testvalidMovePawn5, testvalidMovePawn6, testvalidMovePawn7, testvalidMovePawn8, testvalidMovePawn9, testvalidMovePawn10, testvalidMovePawn11, testvalidMovePawn12, testvalidMovePawn13, testvalidMovePawn14, testvalidMovePawn15, testvalidMovePawn16, testvalidMovePawn17, testvalidMovePawn18, testvalidMovePawn19, testvalidMovePawn20, testvalidMovePawn21, testvalidMovePawn22, testvalidMovePawn23, testvalidMovePawn24, testvalidMovePawn25, testvalidMovePawn26, testvalidMovePawn27, testvalidMovePawn28, testvalidMovePawn29, testvalidMovePawn30, testvalidMovePawn31, testvalidMovePawn32]
-
+runPawnTests = runTestTT $ TestList [testvalidMovePawn1, testvalidMovePawn2, testvalidMovePawn3, testvalidMovePawn4, testvalidMovePawn5, testvalidMovePawn6, testvalidMovePawn7, testvalidMovePawn8, testvalidMovePawn9, testvalidMovePawn10, testvalidMovePawn11, testvalidMovePawn12, testvalidMovePawn13, testvalidMovePawn14, testvalidMovePawn15, testvalidMovePawn16, testvalidMovePawn17, testvalidMovePawn18, testvalidMovePawn19, testvalidMovePawn20, testvalidMovePawn21, testvalidMovePawn22, testvalidMovePawn23, testvalidMovePawn24, testvalidMovePawn25, testvalidMovePawn26]
 
 -- testvalidMoveKing1 = TestCase (assertEqual "King -1 +0" True (Moves.validMoveKing (1,1) (1,1)))
 

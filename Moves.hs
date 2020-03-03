@@ -198,11 +198,13 @@ validMoveWhitePawn board (a, b) (c, d) | a == c && (d - b == 1) || ((((d - b == 
                                        
 
 {- validMoveBlackPawn board (a, b) (c, d)
+
    Checks whether it is a valid to move a White Pawn from (a, b) to (c, d) regardless of whether (a, b) and (c, d) are on the board or not.
    Returns True if the move is valid, otherwise False
    Example: validMoveBlackPawn newBoard (1, 7) (1, 6) = True
             validMoveBlackPawn newBoard (1, 7) (1, 4) = False
             validMoveBlackPawn newBoard (9, 9) (9, 345) = False
+
 -}
 validMoveBlackPawn :: Board -> (Int, Int) -> (Int, Int) -> Bool
 validMoveBlackPawn board (a, b) (c, d) | a == c && (b - d == 1) || ((((b - d == 2) && b == 7)) && (onSquare board (position (c, (d+1))) == Empty)) = True

@@ -64,7 +64,8 @@ turn player board = do
             "F" ++ take 24 (drop 120 board),
             "G" ++ take 24 (drop 144 board),
             "H" ++ take 24 (drop 168 board)
-   Examples: printCurrentBoard (convertBoard newBoard) =   1  2  3  4  5  6  7  8
+
+  Examples: printCurrentBoard (convertBoard newBoard) =   1  2  3  4  5  6  7  8
                                                         A ♖  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♜ 
                                                         B ♘  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♞ 
                                                         C ♗  ♙  ⬚  ⬚  ⬚  ⬚  ♟  ♝ 
