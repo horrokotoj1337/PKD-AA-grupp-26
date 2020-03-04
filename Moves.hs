@@ -99,7 +99,7 @@ position (x, y) = 8 * (x - 1) + y - 1
              
 -}
 onSquare :: Board -> Int -> Square
-onSquare boar int = board !! int
+onSquare board int = board !! int
 
 
 {- isSameColour square1 square2
