@@ -7,17 +7,17 @@ import Moves
 
 
 -- Testcases:
---testBoard :: [Square]
+testBoard :: [Square]
 testBoard = [Empty, Empty, White Rook, White Pawn, Black Pawn, Empty, Empty, Empty,
              White Knight, White Pawn, Empty, Empty, Black Pawn, Empty, Empty, Empty,
              White Bishop, Empty, White Queen, Empty, Empty, Black Rook, Empty, Empty,
              Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn, Black King, 
              White King, Empty, Empty, White Pawn, Empty, Empty, Empty, Empty, 
              Empty, Empty, Empty, Empty, Empty, Empty, Black King, Empty, 
-             Empty, Black Queen, Empty, Empty, White Knight, Black Pawn, Black Rook, 
-             Empty, Empty, Empty, White Rook, White Bishop, Empty, Empty, Empty]
+             Empty, Black Queen, Empty, Empty, White Knight, Black Pawn, Black Rook, Empty,
+             Empty, Empty, White Rook, White Bishop, Empty, Empty, Empty, Empty]
 
---testBishopBoard :: [Square]
+testBishopBoard :: [Square]
 testBishopBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
                   Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
@@ -27,7 +27,7 @@ testBishopBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
---testQueenBoard :: [Square]
+testQueenBoard :: [Square]
 testQueenBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, Black Rook, Empty, Empty,
                   Empty, Black Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty, 
@@ -37,7 +37,7 @@ testQueenBoard = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
-
+testKnightBoard1 :: [Square]
 testKnightBoard1 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, White Pawn, Empty, Empty,
                    Empty, Black Pawn, Empty, Empty, Empty, Black Pawn, Empty, Empty,
@@ -47,6 +47,7 @@ testKnightBoard1 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
+testKnightBoard2 :: [Square]
 testKnightBoard2 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, White Pawn, Black Pawn, White Pawn, Black Pawn, White Pawn, Empty, Empty,
                    Empty, Black Pawn, Empty, Empty, Empty, Black Pawn, Empty, Empty,
@@ -56,28 +57,7 @@ testKnightBoard2 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                    Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
-testKnightBoard3 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                   Empty, Black Pawn, White Pawn, Black Pawn, White Pawn, Black Pawn, Empty, Empty,
-                   Empty, White Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                   Empty, Empty, Empty, Black Knight, Empty, Empty, Empty, Empty,
-                   Empty, White Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                   Empty, Empty, White Pawn, Empty, White Pawn, Empty, Empty, Empty,
-                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
-
-testKnightBoard4 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                   Empty, Black Pawn, White Pawn, Black Pawn, White Pawn, Black Pawn, Empty, Empty,
-                   Empty, White Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                   Empty, Empty, Empty, White Knight, Empty, Empty, Empty, Empty,
-                   Empty, White Pawn, Empty, Empty, Empty, White Pawn, Empty, Empty,
-                   Empty, Empty, White Pawn, Empty, White Pawn, Empty, Empty, Empty,
-                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
-
-
-
-
-
+testPawnBoard1 :: [Square]
 testPawnBoard1 = [Empty, White Pawn, Black Pawn, Empty, Empty, White Pawn, Black Pawn, Empty,
                  Empty, White Pawn, White Pawn, Empty, Empty, Black Pawn, Black Pawn, Empty,
                  Black Pawn, Empty, Black Pawn, Empty, Empty, White Pawn, Empty, White Pawn,
@@ -87,6 +67,7 @@ testPawnBoard1 = [Empty, White Pawn, Black Pawn, Empty, Empty, White Pawn, Black
                  Empty, Black Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty,
                  Empty, White Pawn, Empty, Empty, Empty, Empty, White Pawn, Empty]
 
+testPawnBoard2 :: [Square]
 testPawnBoard2 = [Empty, Empty, Empty, Black Pawn, White Pawn, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Empty,
@@ -96,32 +77,36 @@ testPawnBoard2 = [Empty, Empty, Empty, Black Pawn, White Pawn, Empty, Empty, Emp
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   White Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Black Pawn]
 
+testKingBoard1 :: [Square]
 testKingBoard1 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, White King, Empty, Empty, Black King, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, White King, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]        
 
+testKingBoard2 :: [Square]
 testKingBoard2 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Black Pawn, Black Pawn, Black Pawn, White Pawn, White Pawn, White Pawn, Empty,
-                Empty, Black Pawn, White King, Black Pawn, White Pawn, Black King, White Pawn, Empty,
-                Empty, Black Pawn, Black Pawn, Black Pawn, White Pawn, White Pawn, White Pawn, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, White King, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
+
+testKingBoard3 :: [Square]
 testKingBoard3 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Black Pawn, Empty, Empty, White Pawn, Empty, Empty,
-                Empty, Empty, Black Pawn, Black Pawn, White Pawn, White Pawn, Empty, Empty,
-                Black Pawn, Empty, White King, Empty, Empty, Black King, Empty, White Pawn,
-                Empty, Empty, White Pawn, White Pawn, Black Pawn, Black Pawn, White Pawn, Empty,
-                Empty, Empty, Black Pawn, Empty, Empty, White Pawn, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
-                Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, Black King, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Black Pawn, Black Pawn, Black Pawn, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                  Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
 
 
@@ -306,89 +291,173 @@ testvalidMovePawn31 = TestCase (assertEqual "White Pawn tries to take like Bisho
 
 testvalidMovePawn32 = TestCase (assertEqual "Black Pawn tries to take like Bishop" False (Moves.validMovePawn testPawnBoard2 (8,8) (5,5)))
 
+testvalidMovePawn33 = TestCase (assertEqual "Black Pawn tries to take using -2 +2" False (Moves.validMovePawn testPawnBoard2 (6,2) (4,4)))
 
-runPawnTests = runTestTT $ TestList [testvalidMovePawn1, testvalidMovePawn2, testvalidMovePawn3, testvalidMovePawn4, testvalidMovePawn5, testvalidMovePawn6, testvalidMovePawn7, testvalidMovePawn8, testvalidMovePawn9, testvalidMovePawn10, testvalidMovePawn11, testvalidMovePawn12, testvalidMovePawn13, testvalidMovePawn14, testvalidMovePawn15, testvalidMovePawn16, testvalidMovePawn17, testvalidMovePawn18, testvalidMovePawn19, testvalidMovePawn20, testvalidMovePawn21, testvalidMovePawn22, testvalidMovePawn23, testvalidMovePawn24, testvalidMovePawn25, testvalidMovePawn26, testvalidMovePawn27, testvalidMovePawn28, testvalidMovePawn29, testvalidMovePawn30, testvalidMovePawn31, testvalidMovePawn32]
+testvalidMovePawn34 = TestCase (assertEqual "Black Pawn tries to take using +2 +2" False (Moves.validMovePawn testPawnBoard2 (6,2) (8,4)))
 
+testvalidMovePawn35 = TestCase (assertEqual "White Pawn tries to take using -2 -2" False (Moves.validMovePawn testPawnBoard2 (6,7) (4,5)))
 
-testvalidMoveKing1 = TestCase (assertEqual "White King move right" True (Moves.validMoveKing testKingBoard1 (4, 3) (4, 4)))
+testvalidMovePawn36 = TestCase (assertEqual "White Pawn tries to take using +2 -2" False (Moves.validMovePawn testPawnBoard2 (6,7) (8,5)))
 
-testvalidMoveKing2 = TestCase (assertEqual "White King move left" True (Moves.validMoveKing testKingBoard1 (4, 3) (4, 2)))
-
-testvalidMoveKing3 = TestCase (assertEqual "White King move up" True (Moves.validMoveKing testKingBoard1 (4, 3) (3, 3)))
-
-testvalidMoveKing4 = TestCase (assertEqual "White King move down" True (Moves.validMoveKing testKingBoard1 (4, 3) (5, 3)))
-
-testvalidMoveKing5 = TestCase (assertEqual "Black King move right" True (Moves.validMoveKing testKingBoard1 (4, 6) (4, 7)))
-
-testvalidMoveKing6 = TestCase (assertEqual "Black King move left" True (Moves.validMoveKing testKingBoard1 (4, 6) (4, 5)))
-
-testvalidMoveKing7 = TestCase (assertEqual "Black King move up" True (Moves.validMoveKing testKingBoard1 (4, 6) (3, 6)))
-
-testvalidMoveKing8 = TestCase (assertEqual "Black King move down" True (Moves.validMoveKing testKingBoard1 (4, 6) (5, 6)))
-
-testvalidMoveKing9 = TestCase (assertEqual "White King strike enemy to the right" True (Moves.validMoveKing testKingBoard2 (4, 3) (4, 4)))
-
-testvalidMoveKing10 = TestCase (assertEqual "White King strike enemy to the left" True (Moves.validMoveKing testKingBoard2 (4, 3) (4, 2)))
-
-testvalidMoveKing11 = TestCase (assertEqual "White King strike enemy to the up" True (Moves.validMoveKing testKingBoard2 (4, 3) (3, 3)))
-
-testvalidMoveKing12 = TestCase (assertEqual "White King strike enemy to the down" True (Moves.validMoveKing testKingBoard2 (4, 3) (5, 3)))
-
-testvalidMoveKing13 = TestCase (assertEqual "Black King strike enemy to the right" True (Moves.validMoveKing testKingBoard2 (4, 6) (4, 7)))
-
-testvalidMoveKing14 = TestCase (assertEqual "Black King strike enemy to the left" True (Moves.validMoveKing testKingBoard2 (4, 6) (4, 5)))
-
-testvalidMoveKing15 = TestCase (assertEqual "Black King strike enemy to the up" True (Moves.validMoveKing testKingBoard2 (4, 6) (3, 6)))
-
-testvalidMoveKing16 = TestCase (assertEqual "Black King strike enemy to the down" True (Moves.validMoveKing testKingBoard2 (4, 6) (5, 6)))
-
-testvalidMoveKing17 = TestCase (assertEqual "White King strike enemy to upper left" True (Moves.validMoveKing testKingBoard2 (4, 3) (3, 4)))
-
-testvalidMoveKing18 = TestCase (assertEqual "White King strike enemy to lower left" True (Moves.validMoveKing testKingBoard2 (4, 3) (5, 4)))
-                 
-testvalidMoveKing19 = TestCase (assertEqual "White King strike enemy to upper right" True (Moves.validMoveKing testKingBoard2 (4, 3) (3, 2)))
-                 
-testvalidMoveKing20 = TestCase (assertEqual "White King strike enemy to lower right" True (Moves.validMoveKing testKingBoard2 (4, 3) (5, 2)))
-                 
-testvalidMoveKing21 = TestCase (assertEqual "Black King strike enemy to upper left" True (Moves.validMoveKing testKingBoard2 (4, 6) (3, 7)))
-                 
-testvalidMoveKing22 = TestCase (assertEqual "Black King strike enemy to lower left" True (Moves.validMoveKing testKingBoard2 (4, 6) (5, 7)))
-                 
-testvalidMoveKing23 = TestCase (assertEqual "Black King strike enemy to upper right" True (Moves.validMoveKing testKingBoard2 (4, 6) (3, 5)))
-                 
-testvalidMoveKing24 = TestCase (assertEqual "Black King strike enemy to lower right" True (Moves.validMoveKing testKingBoard2 (4, 6) (5, 5)))
-
-testvalidMoveKing25 = TestCase (assertEqual "White King move one step when enemy at two" True (Moves.validMoveKing testKingBoard2 (4, 3) (4, 2)))
-
-testvalidMoveKing26 = TestCase (assertEqual "White King take enemy at two steps" False (Moves.validMoveKing testKingBoard3 (4, 3) (4,1)))
-
-testvalidMoveKing27 = TestCase (assertEqual "White King take own pawn" False (Moves.validMoveKing testKingBoard3 (4, 3) (5, 3)))
-
-testvalidMoveKing28 = TestCase (assertEqual "White King take own pawn diagonally" False (Moves.validMoveKing testKingBoard3 (4, 3) (5, 4)))
-
-testvalidMoveKing29 = TestCase (assertEqual "Black King move one step when enemy at two" True (Moves.validMoveKing testKingBoard2 (4, 6) (4, 7)))
-
-testvalidMoveKing30 = TestCase (assertEqual "Black King take enemy at two steps" False (Moves.validMoveKing testKingBoard3 (4, 6) (4,8)))
-
-testvalidMoveKing31 = TestCase (assertEqual "Black King take own pawn" False (Moves.validMoveKing testKingBoard3 (4, 6) (5, 6)))
-
-testvalidMoveKing32 = TestCase (assertEqual "Black King take own pawn diagonally" False (Moves.validMoveKing testKingBoard3 (4, 6) (5, 5)))
-
-testvalidMoveKing33 = TestCase (assertEqual "White King take at two steps with enemy obsticle" False (Moves.validMoveKing testKingBoard2 (4, 3) (2, 3)))
-
-testvalidMoveKing34 = TestCase (assertEqual "White King take at two steps with friendly obsticle" False (Moves.validMoveKing testKingBoard3 (4, 3) (6,3)))
-
-testvalidMoveKing35 = TestCase (assertEqual "White King move lika a Knight" False (Moves.validMoveKing testKingBoard3 (4, 3) (2, 4)))
-
-testvalidMoveKing36 = TestCase (assertEqual "White King Move lika a Bishop" False (Moves.validMoveKing testKingBoard3 (4, 3) (6, 1)))
-
-testvalidMoveKing37 = TestCase (assertEqual "Black King take at two steps with enemy obsticle" False (Moves.validMoveKing testKingBoard2 (4, 6) (2, 6)))
-
-testvalidMoveKing38 = TestCase (assertEqual "Black King take at two steps with friendly obsticle" False (Moves.validMoveKing testKingBoard3 (4, 6) (6, 6)))
-
-testvalidMoveKing39 = TestCase (assertEqual "Black King move lika a Knight" False (Moves.validMoveKing testKingBoard3 (4, 6) (6, 5)))
-
-testvalidMoveKing40 = TestCase (assertEqual "Black King take lika a Rook" False (Moves.validMoveKing testKingBoard3 (4, 6) (4, 3)))
+runPawnTests = runTestTT $ TestList [testvalidMovePawn1, testvalidMovePawn2, testvalidMovePawn3, testvalidMovePawn4, testvalidMovePawn5, testvalidMovePawn6, testvalidMovePawn7, testvalidMovePawn8, testvalidMovePawn9, testvalidMovePawn10, testvalidMovePawn11, testvalidMovePawn12, testvalidMovePawn13, testvalidMovePawn14, testvalidMovePawn15, testvalidMovePawn16, testvalidMovePawn17, testvalidMovePawn18, testvalidMovePawn19, testvalidMovePawn20, testvalidMovePawn21, testvalidMovePawn22, testvalidMovePawn23, testvalidMovePawn24, testvalidMovePawn25, testvalidMovePawn26, testvalidMovePawn27, testvalidMovePawn28, testvalidMovePawn29, testvalidMovePawn30, testvalidMovePawn31, testvalidMovePawn32, testvalidMovePawn33, testvalidMovePawn34, testvalidMovePawn35, testvalidMovePawn36]
 
 
-runKingTests = runTestTT $ TestList [testvalidMoveKing1, testvalidMoveKing2, testvalidMoveKing3, testvalidMoveKing4, testvalidMoveKing5, testvalidMoveKing6, testvalidMoveKing7, testvalidMoveKing8, testvalidMoveKing9, testvalidMoveKing10, testvalidMoveKing11, testvalidMoveKing12, testvalidMoveKing13, testvalidMoveKing14, testvalidMoveKing15, testvalidMoveKing16, testvalidMoveKing17, testvalidMoveKing18, testvalidMoveKing19, testvalidMoveKing20, testvalidMoveKing21, testvalidMoveKing22, testvalidMoveKing23, testvalidMoveKing24, testvalidMoveKing25, testvalidMoveKing26, testvalidMoveKing27, testvalidMoveKing28, testvalidMoveKing29, testvalidMoveKing30, testvalidMoveKing31, testvalidMoveKing32, testvalidMoveKing33, testvalidMoveKing34, testvalidMoveKing35, testvalidMoveKing36, testvalidMoveKing37, testvalidMoveKing38, testvalidMoveKing39, testvalidMoveKing40]
+-- TestCases for board filled with Empty
+testvalidMoveKing1 = TestCase (assertEqual "King -1 +0" True (Moves.validMoveKing testKingBoard1 (4,4) (3,4)))
+
+testvalidMoveKing2 = TestCase (assertEqual "King -1 +1" True (Moves.validMoveKing testKingBoard1 (4,4) (3,5)))
+
+testvalidMoveKing3 = TestCase (assertEqual "King +0 +1" True (Moves.validMoveKing testKingBoard1 (4,4) (4,5)))
+
+testvalidMoveKing4 = TestCase (assertEqual "King +1 +1" True (Moves.validMoveKing testKingBoard1 (4,4) (5,5)))
+
+testvalidMoveKing5 = TestCase (assertEqual "King +1 +0" True (Moves.validMoveKing testKingBoard1 (4,4) (5,4)))
+
+testvalidMoveKing6 = TestCase (assertEqual "King +1 -1" True (Moves.validMoveKing testKingBoard1 (4,4) (5,3)))
+
+testvalidMoveKing7 = TestCase (assertEqual "King +0 -1" True (Moves.validMoveKing testKingBoard1 (4,4) (4,3)))
+
+testvalidMoveKing8 = TestCase (assertEqual "King -1 -1" True (Moves.validMoveKing testKingBoard1 (4,4) (3,3)))
+
+testvalidMoveKing9 = TestCase (assertEqual "King -2 +0" False (Moves.validMoveKing testKingBoard1 (4,4) (2,4)))
+
+testvalidMoveKing10 = TestCase (assertEqual "King -2 +1" False (Moves.validMoveKing testKingBoard1 (4,4) (2,5)))
+
+testvalidMoveKing11 = TestCase (assertEqual "King -2 +2" False (Moves.validMoveKing testKingBoard1 (4,4) (2,6)))
+
+testvalidMoveKing12 = TestCase (assertEqual "King -1 +2" False (Moves.validMoveKing testKingBoard1 (4,4) (3,6)))
+
+testvalidMoveKing13 = TestCase (assertEqual "King +0 +2" False (Moves.validMoveKing testKingBoard1 (4,4) (4,6)))
+
+testvalidMoveKing14 = TestCase (assertEqual "King +1 +2" False (Moves.validMoveKing testKingBoard1 (4,4) (5,6)))
+
+testvalidMoveKing15 = TestCase (assertEqual "King +2 +2" False (Moves.validMoveKing testKingBoard1 (4,4) (6,6)))
+
+testvalidMoveKing16 = TestCase (assertEqual "King +2 +1" False (Moves.validMoveKing testKingBoard1 (4,4) (6,5)))
+
+testvalidMoveKing17 = TestCase (assertEqual "King +2 +0" False (Moves.validMoveKing testKingBoard1 (4,4) (6,4)))
+
+testvalidMoveKing18 = TestCase (assertEqual "King +2 -1" False (Moves.validMoveKing testKingBoard1 (4,4) (6,3)))
+
+testvalidMoveKing19 = TestCase (assertEqual "King +2 -2" False (Moves.validMoveKing testKingBoard1 (4,4) (6,2)))
+
+testvalidMoveKing20 = TestCase (assertEqual "King +1 -2" False (Moves.validMoveKing testKingBoard1 (4,4) (5,2)))
+
+testvalidMoveKing21 = TestCase (assertEqual "King +0 -2" False (Moves.validMoveKing testKingBoard1 (4,4) (4,2)))
+
+testvalidMoveKing22 = TestCase (assertEqual "King -1 -2" False (Moves.validMoveKing testKingBoard1 (4,4) (3,2)))
+
+testvalidMoveKing23 = TestCase (assertEqual "King -2 -2" False (Moves.validMoveKing testKingBoard1 (4,4) (2,2)))
+
+testvalidMoveKing24 = TestCase (assertEqual "King -2 -1" False (Moves.validMoveKing testKingBoard1 (4,4) (2,3)))
+
+
+-- TestCases for different Colour
+testvalidMoveKing25 = TestCase (assertEqual "King -1 +0" True (Moves.validMoveKing testKingBoard2 (4,4) (3,4)))
+
+testvalidMoveKing26 = TestCase (assertEqual "King -1 +1" True (Moves.validMoveKing testKingBoard2 (4,4) (3,5)))
+
+testvalidMoveKing27 = TestCase (assertEqual "King +0 +1" True (Moves.validMoveKing testKingBoard2 (4,4) (4,5)))
+
+testvalidMoveKing28 = TestCase (assertEqual "King +1 +1" True (Moves.validMoveKing testKingBoard2 (4,4) (5,5)))
+
+testvalidMoveKing29 = TestCase (assertEqual "King +1 +0" True (Moves.validMoveKing testKingBoard2 (4,4) (5,4)))
+
+testvalidMoveKing30 = TestCase (assertEqual "King +1 -1" True (Moves.validMoveKing testKingBoard2 (4,4) (5,3)))
+
+testvalidMoveKing31 = TestCase (assertEqual "King +0 -1" True (Moves.validMoveKing testKingBoard2 (4,4) (4,3)))
+
+testvalidMoveKing32 = TestCase (assertEqual "King -1 -1" True (Moves.validMoveKing testKingBoard2 (4,4) (3,3)))
+
+
+
+testvalidMoveKing33 = TestCase (assertEqual "King -2 +0" False (Moves.validMoveKing testKingBoard2 (4,4) (2,4)))
+
+testvalidMoveKing34 = TestCase (assertEqual "King -2 +1" False (Moves.validMoveKing testKingBoard2 (4,4) (2,5)))
+
+testvalidMoveKing35 = TestCase (assertEqual "King -2 +2" False (Moves.validMoveKing testKingBoard2 (4,4) (2,6)))
+
+testvalidMoveKing36 = TestCase (assertEqual "King -1 +2" False (Moves.validMoveKing testKingBoard2 (4,4) (3,6)))
+
+testvalidMoveKing37 = TestCase (assertEqual "King +0 +2" False (Moves.validMoveKing testKingBoard2 (4,4) (4,6)))
+
+testvalidMoveKing38 = TestCase (assertEqual "King +1 +2" False (Moves.validMoveKing testKingBoard2 (4,4) (5,6)))
+
+testvalidMoveKing39 = TestCase (assertEqual "King +2 +2" False (Moves.validMoveKing testKingBoard2 (4,4) (6,6)))
+
+testvalidMoveKing40 = TestCase (assertEqual "King +2 +1" False (Moves.validMoveKing testKingBoard2 (4,4) (6,5)))
+
+testvalidMoveKing41 = TestCase (assertEqual "King +2 +0" False (Moves.validMoveKing testKingBoard2 (4,4) (6,4)))
+
+testvalidMoveKing42 = TestCase (assertEqual "King +2 -1" False (Moves.validMoveKing testKingBoard2 (4,4) (6,3)))
+
+testvalidMoveKing43 = TestCase (assertEqual "King +2 -2" False (Moves.validMoveKing testKingBoard2 (4,4) (6,2)))
+
+testvalidMoveKing44 = TestCase (assertEqual "King +1 -2" False (Moves.validMoveKing testKingBoard2 (4,4) (5,2)))
+
+testvalidMoveKing45 = TestCase (assertEqual "King +0 -2" False (Moves.validMoveKing testKingBoard2 (4,4) (4,2)))
+
+testvalidMoveKing46 = TestCase (assertEqual "King -1 -2" False (Moves.validMoveKing testKingBoard2 (4,4) (3,2)))
+
+testvalidMoveKing47 = TestCase (assertEqual "King -2 -2" False (Moves.validMoveKing testKingBoard2 (4,4) (2,2)))
+
+testvalidMoveKing48 = TestCase (assertEqual "King -2 -1" False (Moves.validMoveKing testKingBoard2 (4,4) (2,3)))
+
+
+
+-- TestCases for Same Colour
+testvalidMoveKing49 = TestCase (assertEqual "King -1 +0" False (Moves.validMoveKing testKingBoard3 (4,4) (3,4)))
+
+testvalidMoveKing50 = TestCase (assertEqual "King -1 +1" False (Moves.validMoveKing testKingBoard3 (4,4) (3,5)))
+
+testvalidMoveKing51 = TestCase (assertEqual "King +0 +1" False (Moves.validMoveKing testKingBoard3 (4,4) (4,5)))
+
+testvalidMoveKing52 = TestCase (assertEqual "King +1 +1" False (Moves.validMoveKing testKingBoard3 (4,4) (5,5)))
+
+testvalidMoveKing53 = TestCase (assertEqual "King +1 +0" False (Moves.validMoveKing testKingBoard3 (4,4) (5,4)))
+
+testvalidMoveKing54 = TestCase (assertEqual "King +1 -1" False (Moves.validMoveKing testKingBoard3 (4,4) (5,3)))
+
+testvalidMoveKing55 = TestCase (assertEqual "King +0 -1" False (Moves.validMoveKing testKingBoard3 (4,4) (4,3)))
+
+testvalidMoveKing56 = TestCase (assertEqual "King -1 -1" False (Moves.validMoveKing testKingBoard3 (4,4) (3,3)))
+
+
+
+testvalidMoveKing57 = TestCase (assertEqual "King -2 +0" False (Moves.validMoveKing testKingBoard3 (4,4) (2,4)))
+
+testvalidMoveKing58 = TestCase (assertEqual "King -2 +1" False (Moves.validMoveKing testKingBoard3 (4,4) (2,5)))
+
+testvalidMoveKing59 = TestCase (assertEqual "King -2 +2" False (Moves.validMoveKing testKingBoard3 (4,4) (2,6)))
+
+testvalidMoveKing60 = TestCase (assertEqual "King -1 +2" False (Moves.validMoveKing testKingBoard3 (4,4) (3,6)))
+
+testvalidMoveKing61 = TestCase (assertEqual "King +0 +2" False (Moves.validMoveKing testKingBoard3 (4,4) (4,6)))
+
+testvalidMoveKing62 = TestCase (assertEqual "King +1 +2" False (Moves.validMoveKing testKingBoard3 (4,4) (5,6)))
+
+testvalidMoveKing63 = TestCase (assertEqual "King +2 +2" False (Moves.validMoveKing testKingBoard3 (4,4) (6,6)))
+
+testvalidMoveKing64 = TestCase (assertEqual "King +2 +1" False (Moves.validMoveKing testKingBoard3 (4,4) (6,5)))
+
+testvalidMoveKing65 = TestCase (assertEqual "King +2 +0" False (Moves.validMoveKing testKingBoard3 (4,4) (6,4)))
+
+testvalidMoveKing66 = TestCase (assertEqual "King +2 -1" False (Moves.validMoveKing testKingBoard3 (4,4) (6,3)))
+
+testvalidMoveKing67 = TestCase (assertEqual "King +2 -2" False (Moves.validMoveKing testKingBoard3 (4,4) (6,2)))
+
+testvalidMoveKing68 = TestCase (assertEqual "King +1 -2" False (Moves.validMoveKing testKingBoard3 (4,4) (5,2)))
+
+testvalidMoveKing69 = TestCase (assertEqual "King +0 -2" False (Moves.validMoveKing testKingBoard3 (4,4) (4,2)))
+
+testvalidMoveKing70 = TestCase (assertEqual "King -1 -2" False (Moves.validMoveKing testKingBoard3 (4,4) (3,2)))
+
+testvalidMoveKing71 = TestCase (assertEqual "King -2 -2" False (Moves.validMoveKing testKingBoard3 (4,4) (2,2)))
+
+testvalidMoveKing72 = TestCase (assertEqual "King -2 -1" False (Moves.validMoveKing testKingBoard3 (4,4) (2,3)))
+
+
+
+
+
+runKingTests = runTestTT $ TestList [testvalidMoveKing1, testvalidMoveKing2, testvalidMoveKing3, testvalidMoveKing4, testvalidMoveKing5, testvalidMoveKing6, testvalidMoveKing7, testvalidMoveKing8, testvalidMoveKing9, testvalidMoveKing10, testvalidMoveKing11, testvalidMoveKing12, testvalidMoveKing13, testvalidMoveKing14, testvalidMoveKing15, testvalidMoveKing16, testvalidMoveKing17, testvalidMoveKing18, testvalidMoveKing19, testvalidMoveKing20, testvalidMoveKing21, testvalidMoveKing22, testvalidMoveKing23, testvalidMoveKing24, testvalidMoveKing25, testvalidMoveKing26, testvalidMoveKing27, testvalidMoveKing28, testvalidMoveKing29, testvalidMoveKing30, testvalidMoveKing32, testvalidMoveKing33, testvalidMoveKing34, testvalidMoveKing35, testvalidMoveKing36, testvalidMoveKing37, testvalidMoveKing38, testvalidMoveKing39, testvalidMoveKing40, testvalidMoveKing41, testvalidMoveKing42, testvalidMoveKing43, testvalidMoveKing44, testvalidMoveKing45, testvalidMoveKing46, testvalidMoveKing47, testvalidMoveKing48, testvalidMoveKing49, testvalidMoveKing50, testvalidMoveKing51, testvalidMoveKing52, testvalidMoveKing53, testvalidMoveKing54, testvalidMoveKing55, testvalidMoveKing56, testvalidMoveKing57, testvalidMoveKing58, testvalidMoveKing59, testvalidMoveKing60, testvalidMoveKing61, testvalidMoveKing62, testvalidMoveKing63, testvalidMoveKing64, testvalidMoveKing65, testvalidMoveKing66, testvalidMoveKing67, testvalidMoveKing68, testvalidMoveKing69, testvalidMoveKing70, testvalidMoveKing71, testvalidMoveKing72]
