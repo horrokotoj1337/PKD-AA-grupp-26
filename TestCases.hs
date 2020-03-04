@@ -118,6 +118,15 @@ testBorderCrossingBoard1 = [White King, Empty, Empty, Empty, Empty, Empty, Empty
                            Empty, White Knight, Empty, Empty, Empty, Empty, Black Rook, Empty,
                            Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black King]
 
+testBorderCrossingBoard2 :: [Square]
+testBorderCrossingBoard2 = [Empty, White Pawn, White Pawn, Empty, Empty, Black Pawn, Black Pawn, Empty,
+                            Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                            Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                            Empty, Empty, Empty, Empty, Empty, Empty, Empty, White Pawn,
+                            Black Pawn, Empty, Empty, Empty, Empty, Empty, Empty, White Pawn,
+                            Black Pawn, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                            Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                            Empty, Black Pawn, Black Pawn, Empty, Empty, White Pawn, White Pawn, Empty]
 
 
 -- Change Board for Rook
@@ -496,6 +505,24 @@ testBorderCrossingBishopNorth = TestCase (assertEqual "White north" False (Moves
 
 testBorderCrossingBishopSouth = TestCase (assertEqual "Black south" False (Moves.validMove testBoard "White player" "d2" "a7"))
 
+testBorderCrossingKingWest = TestCase (assertEqual "King west" False (Moves.validMove testBorderCrossingBoard1 "White player" "a1" "a8"))
+
+testBorderCrossingKingEast = TestCase (assertEqual "King east" False (Moves.validMove testBorderCrossingBoard1 "Black player" "h8" "h1"))
+
+testBorderCrossingKingNorth = TestCase (assertEqual "King north" False (Moves.validMove testBorderCrossingBoard1 "White King" "a1" "h1"))
+
+testBorderCrossingKingSouth = TestCase (assertEqual "King south" False (Moves.validMove testBorderCrossingBoard1 "Black player" "h8" "a8"))
+
+testBorderCrossingPawnWestPassive = TestCase (assertEqual "Pawn west passive" False (Moves.validMove testBorderCrossingBoard2 "Black player" "f1" "f8"))
+
+testBorderCrossingPawnWestAggresive = TestCase (assertEqual "Pawn west aggresive" False (Moves.validMove testBorderCrossingBoard2 "Black player" "e1" "d8"))
+
+testBorderCrossingPawnEasttPassive = TestCase (assertEqual "Pawn east passive" False (Moves.validMove testBorderCrossingBoard2 "White player" "d8" "d1"))
+
+testBorderCrossingPawnEastAggresive = TestCase (assertEqual "Pawn east aggresive" False (Moves.validMove testBorderCrossingBoard2 "White player" "e8" "f1"))
 
 
-runBorderCrossingTests = runTestTT $ TestList [testBorderCrossingRookWest, testBorderCrossingRookEast, testBorderCrossingRookNorth, testBorderCrossingRookSouth, testBorderCrossingKnightWest, testBorderCrossingKnightEast, testBorderCrossingKnightSouth, testBorderCrossingKnightNorth, testBorderCrossingBishopWest, testBorderCrossingBishopEast, testBorderCrossingBishopNorth, testBorderCrossingBishopSouth]
+
+runBorderCrossingTests = runTestTT $ TestList [testBorderCrossingRookWest, testBorderCrossingRookEast, testBorderCrossingRookNorth, testBorderCrossingRookSouth, testBorderCrossingKnightWest, testBorderCrossingKnightEast, testBorderCrossingKnightSouth, testBorderCrossingKnightNorth, testBorderCrossingBishopWest, testBorderCrossingBishopEast, testBorderCrossingBishopNorth, testBorderCrossingBishopSouth, testBorderCrossingKingWest, testBorderCrossingKingEast, testBorderCrossingKingNorth, testBorderCrossingKingSouth, testBorderCrossingPawnWestPassive, testBorderCrossingPawnWestAggresive, testBorderCrossingPawnEasttPassive, testBorderCrossingPawnEastAggresive]
+
+
