@@ -108,6 +108,16 @@ testKingBoard3 = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
                   Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
 
+testBorderCrossingBoard1 :: [Square]
+testBorderCrossingBoard1 = [White King, Empty, Empty, Empty, Empty, Empty, Empty, Empty,
+                           Empty, White Rook, Empty, Empty, Empty, Empty, Black Knight, Empty,
+                           Empty, White Knight, Empty, Empty, Empty, Empty, Black Rook, Empty,
+                           Empty, White Bishop, Empty, Empty, Empty, Empty, Black Bishop, Empty,
+                           Empty, White Queen, Empty, Empty, Empty, Black Queen, Empty, Empty,
+                           Empty, White Rook, Empty, Empty, Empty, Empty, Black Knight, Empty,
+                           Empty, White Knight, Empty, Empty, Empty, Empty, Black Rook, Empty,
+                           Empty, Empty, Empty, Empty, Empty, Empty, Empty, Black King]
+
 
 
 -- Change Board for Rook
@@ -461,3 +471,31 @@ testvalidMoveKing72 = TestCase (assertEqual "King -2 -1" False (Moves.validMoveK
 
 
 runKingTests = runTestTT $ TestList [testvalidMoveKing1, testvalidMoveKing2, testvalidMoveKing3, testvalidMoveKing4, testvalidMoveKing5, testvalidMoveKing6, testvalidMoveKing7, testvalidMoveKing8, testvalidMoveKing9, testvalidMoveKing10, testvalidMoveKing11, testvalidMoveKing12, testvalidMoveKing13, testvalidMoveKing14, testvalidMoveKing15, testvalidMoveKing16, testvalidMoveKing17, testvalidMoveKing18, testvalidMoveKing19, testvalidMoveKing20, testvalidMoveKing21, testvalidMoveKing22, testvalidMoveKing23, testvalidMoveKing24, testvalidMoveKing25, testvalidMoveKing26, testvalidMoveKing27, testvalidMoveKing28, testvalidMoveKing29, testvalidMoveKing30, testvalidMoveKing32, testvalidMoveKing33, testvalidMoveKing34, testvalidMoveKing35, testvalidMoveKing36, testvalidMoveKing37, testvalidMoveKing38, testvalidMoveKing39, testvalidMoveKing40, testvalidMoveKing41, testvalidMoveKing42, testvalidMoveKing43, testvalidMoveKing44, testvalidMoveKing45, testvalidMoveKing46, testvalidMoveKing47, testvalidMoveKing48, testvalidMoveKing49, testvalidMoveKing50, testvalidMoveKing51, testvalidMoveKing52, testvalidMoveKing53, testvalidMoveKing54, testvalidMoveKing55, testvalidMoveKing56, testvalidMoveKing57, testvalidMoveKing58, testvalidMoveKing59, testvalidMoveKing60, testvalidMoveKing61, testvalidMoveKing62, testvalidMoveKing63, testvalidMoveKing64, testvalidMoveKing65, testvalidMoveKing66, testvalidMoveKing67, testvalidMoveKing68, testvalidMoveKing69, testvalidMoveKing70, testvalidMoveKing71, testvalidMoveKing72]
+
+testBorderCrossingRookWest = TestCase (assertEqual "Rook west" False (Moves.validMove testBorderCrossingBoard1 "White player" "b2" "b8"))
+
+testBorderCrossingRookEast = TestCase (assertEqual "Rook east" False (Moves.validMove testBoard "Black player" "b7" "b1"))
+
+testBorderCrossingRookNorth = TestCase (assertEqual "Rook north" False (Moves.validMove testBoard "White player" "b2" "h2"))
+
+testBorderCrossingRookSouth = TestCase (assertEqual "Rook south" False (Moves.validMove testBoard "Black player" "g7" "a7"))
+
+testBorderCrossingKnightWest = TestCase (assertEqual "Knight west" False (Moves.validMove testBoard "White player" "c3" "b8"))
+
+testBorderCrossingKnightEast = TestCase (assertEqual "Knight east" False (Moves.validMove testBoard "Black player" "f7" "g1"))
+
+testBorderCrossingKnightSouth = TestCase (assertEqual "Knight south" False (Moves.validMove testBoard "White player" "g2" "a3"))
+
+testBorderCrossingKnightNorth = TestCase (assertEqual "Knight north" False (Moves.validMove testBoard "Black player" "b7" "h6"))
+
+testBorderCrossingBishopWest = TestCase (assertEqual "White west" False (Moves.validMove testBoard "White player" "d2" "b8"))
+
+testBorderCrossingBishopEast = TestCase (assertEqual "Black west" False (Moves.validMove testBoard "Black player" "d7" "f1"))
+
+testBorderCrossingBishopNorth = TestCase (assertEqual "White north" False (Moves.validMove testBoard "White player" "d2" "h6"))
+
+testBorderCrossingBishopSouth = TestCase (assertEqual "Black south" False (Moves.validMove testBoard "White player" "d2" "a7"))
+
+
+
+runBorderCrossingTests = runTestTT $ TestList [testBorderCrossingRookWest, testBorderCrossingRookEast, testBorderCrossingRookNorth, testBorderCrossingRookSouth, testBorderCrossingKnightWest, testBorderCrossingKnightEast, testBorderCrossingKnightSouth, testBorderCrossingKnightNorth, testBorderCrossingBishopWest, testBorderCrossingBishopEast, testBorderCrossingBishopNorth, testBorderCrossingBishopSouth]
