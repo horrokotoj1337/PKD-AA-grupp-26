@@ -612,4 +612,83 @@ testOnSquare2 = TestCase (assertEqual "onSquare White Rook" (White Rook) (Moves.
 
 testOnSquare3 = TestCase (assertEqual "onSquare Black King" (Black King) (Moves.onSquare testBoard 31))
 
-runOnSquareTests = runTestTT $ TestList [testOnSquare1, testOnSquare2, testOnSquare3] 
+runOnSquareTests = runTestTT $ TestList [testOnSquare1, testOnSquare2, testOnSquare3]
+
+
+testisSameColour1 = TestCase (assertEqual "White, White" True (Moves.isSameColour (White Rook) (White King)))
+
+testisSameColour2 = TestCase (assertEqual "Black, Black" True (Moves.isSameColour (Black Pawn) (Black Bishop)))
+
+testisSameColour3 = TestCase (assertEqual "White, Black" False (Moves.isSameColour (White Rook) (Black King)))
+
+testisSameColour4 = TestCase (assertEqual "Empty, White" False (Moves.isSameColour (Empty) (White King)))
+
+testisSameColour5 = TestCase (assertEqual "Black, Empty" False (Moves.isSameColour (Black Rook) (Empty)))
+
+testisSameColour6 = TestCase (assertEqual "Empty, Empty" False (Moves.isSameColour (Empty) (Empty)))
+
+runisSameColourTests = runTestTT $ TestList [testisSameColour1, testisSameColour2, testisSameColour3, testisSameColour4, testisSameColour5, testisSameColour6]
+
+testisSameColourPlayer1 = TestCase (assertEqual "White, White" True (Moves.isSameColourPlayer "White player" (White King)))
+
+testisSameColourPlayer2 = TestCase (assertEqual "Black, Black" True (Moves.isSameColourPlayer "Black player" (Black Bishop)))
+
+testisSameColourPlayer3 = TestCase (assertEqual "White, Black" False (Moves.isSameColourPlayer "White player" (Black King)))
+
+testisSameColourPlayer4 = TestCase (assertEqual "Black, White" False (Moves.isSameColourPlayer "Black player" (White King)))
+
+testisSameColourPlayer5 = TestCase (assertEqual "Black, Empty" False (Moves.isSameColourPlayer "Black player" (Empty)))
+
+testisSameColourPlayer6 = TestCase (assertEqual "White, Empty" False (Moves.isSameColourPlayer "White player" (Empty)))
+
+
+runisSameColourPlayerTests = runTestTT $ TestList [testisSameColourPlayer1, testisSameColourPlayer2, testisSameColourPlayer3, testisSameColourPlayer4, testisSameColourPlayer5, testisSameColourPlayer6]
+
+
+
+testvalidMove1 = TestCase (assertEqual "Pawn move like Rook" False (Moves.validMove testBoard "Black player" "g6" "d6"))
+
+testvalidMove2 = TestCase (assertEqual "Pawn move like Bishop" False (Moves.validMove testBoard "Black player" "g6" "e4"))
+
+testvalidMove3 = TestCase (assertEqual "Pawn move like Knight" False (Moves.validMove testBoard "Black player" "g6" "f4"))
+
+testvalidMove4 = TestCase (assertEqual "Pawn move like Pawn" True (Moves.validMove testBoard "Black player" "b5" "b4"))
+
+
+testvalidMove5 = TestCase (assertEqual "Rook move like Rook" True (Moves.validMove testBoard "Black player" "c6" "c3"))
+
+testvalidMove6 = TestCase (assertEqual "Rook move like Bishop" False (Moves.validMove testBoard "Black player" "c6" "e4"))
+
+testvalidMove7 = TestCase (assertEqual "Rook move like Knight" False (Moves.validMove testBoard "Black player" "c6" "d4"))
+
+
+testvalidMove8 = TestCase (assertEqual "Bishop move like Rook" False (Moves.validMove testBoard "White player" "h5" "h8"))
+
+testvalidMove9 = TestCase (assertEqual "Bishop move like Bishop" True (Moves.validMove testBoard "White player" "h4" "f2"))
+
+testvalidMove10 = TestCase (assertEqual "Bishop move like Knight" False (Moves.validMove testBoard "White player" "h5" "g7"))
+
+
+testvalidMove11 = TestCase (assertEqual "Knight move like Rook" False (Moves.validMove testBoard "White player" "g5" "c5"))
+
+testvalidMove12 = TestCase (assertEqual "Knight move like Bishop" False (Moves.validMove testBoard "White player" "g5" "d8"))
+
+testvalidMove13 = TestCase (assertEqual "Knight move like Knight" True (Moves.validMove testBoard "White player" "g5" "f7"))
+
+
+testvalidMove14 = TestCase (assertEqual "Queen move like Rook" True (Moves.validMove testBoard "White player" "c3" "c6"))
+
+testvalidMove15 = TestCase (assertEqual "Queen move like Bishop" True (Moves.validMove testBoard "White player" "c3" "g7"))
+
+testvalidMove16 = TestCase (assertEqual "Queen move like Knight" False (Moves.validMove testBoard "White player" "c3" "d5"))
+
+
+testvalidMove17 = TestCase (assertEqual "King move like Rook" False (Moves.validMove testBoard "Black player" "d8" "h8"))
+
+testvalidMove18 = TestCase (assertEqual "King move like Bishop" False (Moves.validMove testBoard "Black player" "d8" "b6"))
+
+testvalidMove19 = TestCase (assertEqual "King move like Knight" False (Moves.validMove testBoard "Black player" "d8" "e6"))
+
+testvalidMove20 = TestCase (assertEqual "King move like King" True (Moves.validMove testBoard "Black player" "d8" "e8"))
+
+runvalidMoveTests = runTestTT $ TestList [testvalidMove1, testvalidMove2, testvalidMove3, testvalidMove4, testvalidMove5, testvalidMove6, testvalidMove7, testvalidMove8, testvalidMove9, testvalidMove10, testvalidMove11, testvalidMove12, testvalidMove13, testvalidMove14, testvalidMove15, testvalidMove16, testvalidMove17, testvalidMove18, testvalidMove19, testvalidMove20]
