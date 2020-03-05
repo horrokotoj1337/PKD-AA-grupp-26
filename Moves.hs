@@ -18,45 +18,6 @@ data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
 
-{- move board from to 
-   moves a Square from one position to another
-   PRE: from must be between 0 and ((length board)-1)
-   RETURNS: a board where the Square on from has replaced to and from is now Empty. 
-   EXAMPLES: move newBoard 1 2 = [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,
-                                  White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                                  White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                                  White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
-                                  White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
-                                  White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                                  White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                                  White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
-             move [White Rook,Empty,Empty,White Pawn] 0 0 = [White Rook,Empty,Empty,White Pawn]
-             move [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,
-                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                   White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
-                   White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
-                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                   White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 2 3 =
-                  [White Rook,Empty,Empty,White Pawn,Empty,Empty,Black Pawn,Black Rook,
-                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                   White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
-                   White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
-                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
-                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
-                   White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
-             move [White Rook,Empty,Empty,White Pawn] 1 2 = [White Rook,Empty,Empty,White Pawn]
-             move [White Rook,Empty,Empty,White Pawn] 10 15 = [White Rook,Empty,Empty,White Pawn,Empty,*** Exception: Prelude.!!: index too large
-             move [] 1 2 = [Empty,*** Exception: Prelude.!!: index too large
--}
-move :: Board -> Int -> Int -> Board
-move board from to = let
-                     removed
-                      = (take from board) ++ [Empty] ++ (drop (from + 1) board)
-                     in (take to removed) ++ ((onSquare board from) : (drop (to + 1) removed))
-
 {- convert input
    converts an input String into a pair of two Int's 
    Returns: (9, 9) if map toUpper input = "CASTLING" or (x, y) where x is an Int from 1 to 8 intead of a Char from 'a' to 'h' and y = digitToInt of y if x and y are positions on a chess board. Otherwise (10, 10)
@@ -145,6 +106,46 @@ isSameColourPlayer :: Contester -> Square -> Bool
 isSameColourPlayer "White player" (White _) = True
 isSameColourPlayer "Black player" (Black _) = True
 isSameColourPlayer player square            = False
+
+{- move board from to 
+   moves a Square from one position to another
+   PRE: from must be between 0 and ((length board)-1)
+   RETURNS: a board where the Square on from has replaced to and from is now Empty. 
+   EXAMPLES: move newBoard 1 2 = [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,
+                                  White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                                  White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                                  White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
+                                  White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
+                                  White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                                  White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                                  White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
+             move [White Rook,Empty,Empty,White Pawn] 0 0 = [White Rook,Empty,Empty,White Pawn]
+             move [White Rook,Empty,White Pawn,Empty,Empty,Empty,Black Pawn,Black Rook,
+                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                   White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
+                   White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
+                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                   White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook] 2 3 =
+                  [White Rook,Empty,Empty,White Pawn,Empty,Empty,Black Pawn,Black Rook,
+                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                   White Queen,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Queen,
+                   White King,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black King,
+                   White Bishop,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Bishop,
+                   White Knight,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Knight,
+                   White Rook,White Pawn,Empty,Empty,Empty,Empty,Black Pawn,Black Rook]
+             move [White Rook,Empty,Empty,White Pawn] 1 2 = [White Rook,Empty,Empty,White Pawn]
+             move [White Rook,Empty,Empty,White Pawn] 10 15 = [White Rook,Empty,Empty,White Pawn,Empty,*** Exception: Prelude.!!: index too large
+             move [] 1 2 = [Empty,*** Exception: Prelude.!!: index too large
+-}
+move :: Board -> Int -> Int -> Board
+move board from to = let
+                     removed
+                      = (take from board) ++ [Empty] ++ (drop (from + 1) board)
+                     in (take to removed) ++ ((onSquare board from) : (drop (to + 1) removed))
+
 
 {- validMove board player from to
    Checks whether a move is valid for the player
