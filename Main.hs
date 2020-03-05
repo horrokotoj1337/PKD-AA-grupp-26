@@ -1,3 +1,6 @@
+
+--Let Chess In Haskell by Albin Ekroth, Johan Norén, Leo Arnholm and Rickard Forsberg
+
 import Data.Char
 import Moves
 import TestCases
@@ -89,12 +92,10 @@ printCurrentBoard board = do
 
 {- convertPieces piece
    converts a Piece into a String with the appropriate chess symbol
-   Returns: A string containing the appropriate chess symbor för piece
+   Returns: A string containing the appropriate chess symbol for piece
    Example: convertPieces (White Rook) = " ♖ "
             convertPieces (Black Rook) = " ♜ "
             convertPieces (Empty) = " ⬚ "
-            convertPieces "hej" = error
-            convertPieces (Green King) = Error
 -}
 convertPieces :: Square -> String
 convertPieces (White Rook) = " ♖ "
@@ -115,7 +116,6 @@ convertPieces (Empty) = " ⬚ "
 {- convertBoard board
    represents a Board as a String where every Square in board will be converted into it's chess symbol
    Returns: a String where every element is the appropriate chess symbol of every Square in board
-   Sideeffect: the function will not print the chess symbols when called on it's own.
    Example: convertBoard newBoard = " \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820
    \9816  \9817  \11034  \11034  \11034  \11034  \9823  \9822  \9815  \9817  \11034  \11034  \11034  \11034  \9823  \9821
    \9813  \9817  \11034  \11034  \11034  \11034  \9823  \9819  \9812  \9817  \11034  \11034  \11034  \11034  \9823  \9818
@@ -123,7 +123,7 @@ convertPieces (Empty) = " ⬚ "
    \9814  \9817  \11034  \11034  \11034  \11034  \9823  \9820 "
 -}
 convertBoard :: Board -> String
---VARIANT: length if (x:xs)
+--VARIANT: length board
 convertBoard [] = []
 convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
 
@@ -136,7 +136,7 @@ convertBoard (x:xs) = (convertPieces x) ++ (convertBoard xs)
             eliminatedPieces [] = [Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black Pawn,Black King,Black Queen,Black Bishop,Black Bishop,Black Knight,Black Knight,Black Rook,Black Rook,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White Pawn,White King,White Queen,White Bishop,White Bishop,White Knight,White Knight,White Rook,White Rook]
 -}
 eliminatedPieces :: Board -> Board
---VARIANT: Lenght of templatePieces
+--VARIANT: length  templatePieces
 eliminatedPieces board = let noEmpty = filter (/=Empty) board
                           in eliminatedPieces_acc [] noEmpty templatePieces
   where
@@ -145,20 +145,20 @@ eliminatedPieces board = let noEmpty = filter (/=Empty) board
                                                  | otherwise = eliminatedPieces_acc (x:acc) noEmpty ((x, (y-1)):xs)
 
   
-{- makeMove player board input
-   moves the square on the position corresponding to (a, b) to (c, d) if the move is valid and runs checkWinner (nextPlayer player) currentBoard else runs turn player board
-   Side effects: prints "Choose where to move". Then prompts for an output, if output gives a valid move then
-   let currentBoard = move board (position (convert input)) (position (convert output))
+{- makeMove player board from
+   makes a move if next input makes for a valid move
+   Side effects: prints "Choose where to move". Then prompts for an input, if input gives a valid move then
+   let currentBoard = move board (position (convert 'from')) (position (convert 'to'))  --where 'to' is the given input
    in checkWinner (nextPlayer player) currentBoard,
    else prints "Invalid move, try again" and runs turn player board
-   Returns: checkWinner (nextPlayer player) currentBoard of output gives a valid move, else turn player board
+   Returns: checkWinner (nextPlayer player) currentBoard of input gives a valid move, else turn player board
 -}
 makeMove :: Contester -> Board -> Move -> IO ()
-makeMove player board input = do 
+makeMove player board from = do 
   putStrLn "Choose where to move"
-  output <- getLine
-  if validMove board player input output then do
-    let currentBoard = move board (position (convert input)) (position (convert output))
+  to <- getLine
+  if validMove board player from to then do
+    let currentBoard = move board (position (convert from)) (position (convert to))
      in checkWinner (nextPlayer player) currentBoard
   else do
     putStrLn "Invalid move, try again"
@@ -182,7 +182,7 @@ checkWinner player board = do
 
     
 {- nextPlayer player
-   Swithces to the other player
+   Switches to the other player
    PRE: player must be "White player" or "Black player"
    Returns: "Black player" if player == "White player". "white player" if player == "Black player"
    Examples: nextPlayer "White player" = "Black player"

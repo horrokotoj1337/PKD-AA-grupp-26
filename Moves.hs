@@ -1,19 +1,38 @@
+
+--Let Chess In Haskell by Albin Ekroth, Johan Norén, Leo Arnholm and Rickard Forsberg
+
 module Moves
   where
 
 import Data.Char
 import Test.HUnit
 
-
+{- Board
+   Represents a chess board that is a list of Square
+   INVARIANT: Only one White King and Black King can reside on the board
+-}
 type Board = [Square]
 
+{- Contester
+   Differentiates between two players
+   INVARIANT: Must be "White player" or "Black player"
+-}
 type Contester = String
 
+{- Move
+   Representes input for a Square on a Board
+-}
 type Move = String
 
+{- Square
+   Represents a Black Piece, a White Piece or no piece at all (Empty)
+-}
 data Square = Empty | White Piece | Black Piece
    deriving (Eq, Show)
 
+{- Piece
+   Represents different types of chess pieces
+-}
 data Piece = Pawn | Knight | Bishop | Rook | Queen | King
    deriving (Eq, Show)
 
