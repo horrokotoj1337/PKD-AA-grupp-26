@@ -541,3 +541,75 @@ testBorderCrossingBlackPawnSouthAggresive = TestCase (assertEqual "Pawn south ag
 runBorderCrossingTests = runTestTT $ TestList [testBorderCrossingRookWest, testBorderCrossingRookEast, testBorderCrossingRookNorth, testBorderCrossingRookSouth, testBorderCrossingKnightWest, testBorderCrossingKnightEast, testBorderCrossingKnightSouth, testBorderCrossingKnightNorth, testBorderCrossingBishopWest, testBorderCrossingBishopEast, testBorderCrossingBishopNorth, testBorderCrossingBishopSouth, testBorderCrossingKingWest, testBorderCrossingKingEast, testBorderCrossingKingNorth, testBorderCrossingKingSouth, testBorderCrossingPawnWestPassive, testBorderCrossingPawnWestAggresive, testBorderCrossingPawnEasttPassive, testBorderCrossingPawnEastAggresive]
 
 
+
+testConvertcastling = TestCase (assertEqual "convert castling" (9, 9) (Moves.convert "castling"))
+
+testConvertrandom = TestCase (assertEqual "convert random string" (10, 10) (Moves.convert "random string"))
+
+testConverta = TestCase (assertEqual "convert a" (10, 10) (Moves.convert "a"))
+
+testConvertaa = TestCase (assertEqual "convert aa" (10, 10) (Moves.convert "aa"))
+
+testConvertaaa = TestCase (assertEqual "convert aaa" (10, 10) (Moves.convert "aaa"))
+
+testConverta1 = TestCase (assertEqual "convert a1" (1, 1) (Moves.convert "a1"))
+
+testConvert1a = TestCase (assertEqual "convert 1a" (10, 10) (Moves.convert "1a"))
+
+
+
+runConvertTests = runTestTT $ TestList [testConvertcastling, testConvertrandom, testConverta, testConvertaa, testConvertaaa, testConverta1, testConvert1a]
+
+testPosition11 = TestCase (assertEqual "position (1, 1)" 0 (Moves.position (1, 1)))
+
+testPosition12 = TestCase (assertEqual "position (1, 2)" 1 (Moves.position (1, 2)))
+
+testPosition13 = TestCase (assertEqual "position (1, 3)" 2 (Moves.position (1, 3)))
+
+testPosition14 = TestCase (assertEqual "position (1, 4)" 3 (Moves.position (1, 4)))
+
+testPosition15 = TestCase (assertEqual "position (1, 5)" 4 (Moves.position (1, 5)))
+
+testPosition16 = TestCase (assertEqual "position (1, 6)" 5 (Moves.position (1, 6)))
+
+testPosition17 = TestCase (assertEqual "position (1, 7)" 6 (Moves.position (1, 7)))
+
+testPosition18 = TestCase (assertEqual "position (1, 8)" 7 (Moves.position (1, 8)))
+
+testPosition21 = TestCase (assertEqual "position (2, 1)" 8 (Moves.position (2, 1)))
+
+testPosition22 = TestCase (assertEqual "position (2, 2)" 9 (Moves.position (2, 2)))
+
+testPosition23 = TestCase (assertEqual "position (2, 3)" 10 (Moves.position (2, 3)))
+
+testPosition24 = TestCase (assertEqual "position (2, 4)" 11 (Moves.position (2, 4)))
+
+testPosition25 = TestCase (assertEqual "position (2, 5)" 12 (Moves.position (2, 5)))
+
+testPosition26 = TestCase (assertEqual "position (2, 6)" 13 (Moves.position (2, 6)))
+
+testPosition27 = TestCase (assertEqual "position (2, 7)" 14 (Moves.position (2, 7)))
+
+testPosition28 = TestCase (assertEqual "position (2, 8)" 15 (Moves.position (2, 8)))
+
+testPosition34 = TestCase (assertEqual "position (3, 4)" 19 (Moves.position (3, 4)))
+
+testPosition46 = TestCase (assertEqual "position (4, 6)" 29 (Moves.position (4, 6)))
+
+testPosition55 = TestCase (assertEqual "position (5, 5)" 36 (Moves.position (5, 5)))
+
+testPosition63 = TestCase (assertEqual "position (6, 3)" 42 (Moves.position (6, 3)))
+
+testPosition71 = TestCase (assertEqual "position (7, 1)" 48 (Moves.position (7, 1)))
+
+testPosition88 = TestCase (assertEqual "position (8, 8)" 63 (Moves.position (8, 8)))
+
+runPositionTests = runTestTT $ TestList [testPosition11, testPosition12, testPosition13, testPosition14, testPosition15, testPosition16, testPosition17, testPosition18, testPosition21, testPosition22, testPosition23, testPosition24, testPosition25, testPosition26, testPosition27, testPosition28, testPosition34, testPosition46, testPosition55, testPosition63, testPosition71, testPosition88] 
+
+testOnSquare1 = TestCase (assertEqual "onSquare Empty" Empty (Moves.onSquare testBoard 0))
+
+testOnSquare2 = TestCase (assertEqual "onSquare White Rook" (White Rook) (Moves.onSquare testBoard 2))
+
+testOnSquare3 = TestCase (assertEqual "onSquare Black King" (Black King) (Moves.onSquare testBoard 31))
+
+runOnSquareTests = runTestTT $ TestList [testOnSquare1, testOnSquare2, testOnSquare3] 
