@@ -1,3 +1,6 @@
+
+--Let Chess In Haskell by Albin Ekroth, Johan Norén, Leo Arnholm and Rickard Forsberg
+
 module TestCases
   where
 
