@@ -40,6 +40,8 @@ turn player board = do
   if (map toUpper input) == "FORFEIT" then do
     putStrLn ((nextPlayer player) ++ " wins!")
     main
+  else if (map toUpper input) == "DRAW" then do
+    checkDraw player board
   else if convert input == (9, 9) then do
     putStrLn "Castling not available."
     turn player board
@@ -157,11 +159,30 @@ makeMove :: Contester -> Board -> Move -> IO ()
 makeMove player board from = do 
   putStrLn "Choose where to move"
   to <- getLine
-  if validMove board player from to then do
+  if validMove board player (convert from) (convert to) then do
     let currentBoard = move board (position (convert from)) (position (convert to))
-     in checkWinner (nextPlayer player) currentBoard
+     in if isCheck (nextPlayer player) currentBoard then do
+          putStrLn ("Move places " ++ player ++ " in check, try again.")
+          turn player board
+          else
+            checkWinner player currentBoard
   else do
     putStrLn "Invalid move, try again"
+    turn player board
+
+{- checkDraw player board
+   Checks if the opponent will accept a draw
+   Side effects: prints nextPlayer ++ "will you accept a draw?" if input = yes then main otherwise turn player board
+   Returns: if input = yes then main otherwise turn player board
+-}
+checkDraw :: Contester -> Board -> IO ()
+checkDraw player board = do
+  putStrLn ((nextPlayer player) ++ " will you accept a draw?")
+  input <- getLine
+  if (map toUpper input) == "YES" then do
+    putStrLn "It's a draw!!"
+    main
+  else
     turn player board
 
 {- checkWinner player board
@@ -178,9 +199,20 @@ checkWinner player board = do
     putStrLn "White player wins!"
     main
     else
-      turn player board
+      checkCheck player board
+{- checkCheck :: Contester -> Board -> IO ()
+   checks if player is in check
+   Side effects: prints "Check!" if the player is in check"
+   Returns: turn player board
+-}
+checkCheck :: Contester -> Board -> IO ()
+checkCheck player board = do
+  if isCheck player board then do
+    putStrLn "Check!"
+    turn (nextPlayer player) board
+  else
+    turn (nextPlayer player) board
 
-    
 {- nextPlayer player
    Switches to the other player
    PRE: player must be "White player" or "Black player"
@@ -207,4 +239,3 @@ newBoard = [White Rook, White Pawn, Empty, Empty, Empty, Empty, Black Pawn, Blac
 -}
 templatePieces :: [(Square, Int)]
 templatePieces = [(White Rook, 2), (White Knight, 2), (White Bishop, 2), (White Queen, 1), (White King, 1), (White Pawn, 8), (Black Rook, 2), (Black Knight, 2), (Black Bishop, 2), (Black Queen, 1), (Black King, 1), (Black Pawn, 8)]
-

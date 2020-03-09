@@ -87,6 +87,14 @@ convertAux x | (toUpper x) == 'A' = 1
 position :: (Int, Int) -> Int
 position (x, y) = 8 * (x - 1) + y - 1
 
+{- positionReverse int
+   converts a positon into pair of integers
+   Returns: a pair where the first int of the pair is (div int 8) + 1 and the second int of the pair is (mod int 8) + 1
+   Example: positionReverse 0 == (1, 1)
+-}
+positionReverse :: Int -> (Int, Int)
+positionReverse int = ((div int 8) + 1, (mod int 8) + 1)
+
 {- onSquare board position
    finds the Square on a given position
    PRE: board cannot be empty and position < (length board)
@@ -125,6 +133,29 @@ isSameColourPlayer :: Contester -> Square -> Bool
 isSameColourPlayer "White player" (White _) = True
 isSameColourPlayer "Black player" (Black _) = True
 isSameColourPlayer player square            = False
+
+{- isCheck player board
+   check if player is in check
+   Returnes: True if player is in check otherwise False
+   Example: isCheck "White player" [White King, Empty, Black Rook, Black King]
+-}
+isCheck :: Contester -> Board -> Bool
+isCheck player board = isCheckAux player board 0
+  where
+    isCheckAux player board 64 = False
+    isCheckAux player board n | (validMove board player (positionReverse n) (positionReverse (whereIsTheOpposingKing player board))) == True = True
+                              | otherwise = isCheckAux player board (n+1)
+
+{- whereIsTheOpposingKing player board
+   checks where the oppising players King is
+   Returns: the position of the opposing players king
+   Example: whereIsTheOpposingKing "White player" [Black King] = 0
+-}
+whereIsTheOpposingKing :: Contester -> Board -> Int
+whereIsTheOpposingKing "White player" (x:xs) | x == (Black King) = 0
+                                     | otherwise = 1 + (whereIsTheOpposingKing "White player" xs)
+whereIsTheOpposingKing "Black player" (x:xs) | x == (White King) = 0
+                                     | otherwise = 1 + (whereIsTheOpposingKing "Black player" xs)
 
 {- move board from to 
    moves a Square from one position to another
@@ -166,34 +197,35 @@ move board from to = let
                      in (take to removed) ++ ((onSquare board from) : (drop (to + 1) removed))
 
 
-{- validMove board player from to
+{- validMove board player (a, b) (c, d)
    Checks whether a move is valid for the player
-   RETURNS: True if a move is valid from "from" to "to" for "player" on "board" otherwise False
-   EXAMPLES: validMove newBoard "White player" "a2" "a3" = True
-             validMove newBoard "White player" "a2" "a6" = False
-             validMove newBoard "Black player" "a7" "a5" = True
-             validMove newBoard "White player" "Castling" "b1" = False
+   PRE: ((position (a, b) < (length board))
+   RETURNS: True if a move is valid from "(a, b)" to "(c, d)" for "player" on "board" otherwise False
+   EXAMPLES: validMove newBoard "White player" (1, 2) (1, 3) = True
+             validMove newBoard "White player" (1, 2) (1, 6) = False
+             validMove newBoard "Black player" (1, 7) (1, 5) = True
+             validMove newBoard "White player" (9, 9) (2, 1) = False
 -}
-validMove :: Board -> Contester -> Move -> Move -> Bool
-validMove board player from to | convert from == (9, 9) || convert from == (10, 10) || convert to == (9, 9) || convert to  == (10, 10) = False
-                               | isSameColourPlayer player (onSquare board (position (convert from))) == True = validMoveAux board from to
-                               | otherwise = False
+validMove :: Board -> Contester -> (Int, Int) -> (Int, Int) -> Bool
+validMove board player (a, b) (c, d) | (a, b) == (9, 9) || (a, b) == (10, 10) || (c, d) == (9, 9) || (c, d)  == (10, 10) = False
+                                     | isSameColourPlayer player (onSquare board (position (a, b))) == True = validMoveAux board (a, b) (c, d)
+                                     | otherwise = False
         --finds the appropriate validMove funciton for the piece on the Square you are trying to move from
         --Returns: True if a move is valid from "from" to "to" for "player" on "board" otherwise False
   where 
-    validMoveAux board from to = case onSquare board (position (convert from)) of
-                                     White Pawn   -> validMovePawn board (convert from) (convert to)
-                                     Black Pawn   -> validMovePawn board (convert from) (convert to)
-                                     White Rook   -> validMoveRook board (convert from) (convert to)
-                                     Black Rook   -> validMoveRook board (convert from) (convert to)
-                                     White Knight -> validMoveKnight board (convert from) (convert to)
-                                     Black Knight -> validMoveKnight board (convert from) (convert to)
-                                     White Bishop -> validMoveBishop board (convert from) (convert to)
-                                     Black Bishop -> validMoveBishop board (convert from) (convert to)
-                                     White Queen  -> validMoveQueen board (convert from) (convert to)
-                                     Black Queen  -> validMoveQueen board (convert from) (convert to)
-                                     White King   -> validMoveKing board (convert from) (convert to)
-                                     Black King   -> validMoveKing board (convert from) (convert to)
+    validMoveAux board (a, b) (c, d) = case onSquare board (position (a, b)) of
+                                     White Pawn   -> validMovePawn board (a, b) (c, d)
+                                     Black Pawn   -> validMovePawn board (a, b) (c, d)
+                                     White Rook   -> validMoveRook board (a, b) (c, d)
+                                     Black Rook   -> validMoveRook board (a, b) (c, d)
+                                     White Knight -> validMoveKnight board (a, b) (c, d)
+                                     Black Knight -> validMoveKnight board (a, b) (c, d)
+                                     White Bishop -> validMoveBishop board (a, b) (c, d)
+                                     Black Bishop -> validMoveBishop board (a, b) (c, d)
+                                     White Queen  -> validMoveQueen board (a, b) (c, d)
+                                     Black Queen  -> validMoveQueen board (a, b) (c, d)
+                                     White King   -> validMoveKing board (a, b) (c, d)
+                                     Black King   -> validMoveKing board (a, b) (c, d)
                                      
 {- validMovePawn board (a, b) (c, d)
    Checks whether it is valid to move a Square from one position to another
