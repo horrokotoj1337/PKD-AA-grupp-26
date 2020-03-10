@@ -266,9 +266,9 @@ validMoveRook board (a, b) (c, d) | isSameColour (onSquare board (position (a, b
 validMoveRookAux :: Board -> Int -> Int -> Int -> Square -> Bool -- tuple might be best if changed to their index in Board.
 validMoveRookAux b ic 0 ab sq = ((onSquare b ab) == Empty) || (isSameColour (onSquare b ab) sq == False) 
 validMoveRookAux b ic n ab sq | (abs n > 1 && n<0) && ((onSquare b (ab-ic)) /= Empty) = False 
-                                 | (abs n > 1 && n>0) && ((onSquare b (ab+ic)) /= Empty) = False
-                                 | n>0       = validMoveRookAux b ic (n-1) (ab+ic) sq
-                                 | otherwise = validMoveRookAux b ic (n+1) (ab-ic) sq 
+                              | (abs n > 1 && n>0) && ((onSquare b (ab+ic)) /= Empty) = False
+                              | n>0       = validMoveRookAux b ic (n-1) (ab+ic) sq
+                              | otherwise = validMoveRookAux b ic (n+1) (ab-ic) sq 
 
 {- validMoveKnight board (a, b) (c, d)
    Checks whether it is valid to move a Square like a Knight from one position to another
